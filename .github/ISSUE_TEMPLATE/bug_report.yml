@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a reproducible problem in an example, model, or doc.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping keep these examples runnable.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the failure and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Run ...
+        2. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Python version, Databricks runtime/warehouse type if relevant, and command output.
+      placeholder: |
+        OS:
+        Python:
+        Command:
+        Error:
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links, screenshots, logs, or relevant config snippets with secrets removed.

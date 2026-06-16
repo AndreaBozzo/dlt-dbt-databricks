@@ -1,0 +1,26 @@
+name: Update radar request
+description: Ask for the dlt/dbt/Databricks update radar to be refreshed.
+title: "[Radar]: "
+labels: ["documentation", "update-radar"]
+body:
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - All tools
+        - dlt
+        - dbt / dbt-databricks
+        - Databricks
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources or releases to check
+      description: Link any release notes, docs, issues, or announcements that prompted the request.
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should be captured?
+      description: Summarize the change or question you want the radar to answer.

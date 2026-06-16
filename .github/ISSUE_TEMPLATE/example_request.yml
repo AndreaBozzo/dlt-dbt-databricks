@@ -1,0 +1,34 @@
+name: Example request
+description: Suggest a new runnable dlt/dbt/Databricks example.
+title: "[Example]: "
+labels: ["enhancement", "example"]
+body:
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: What workflow or pattern should the example demonstrate?
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Data source or Databricks feature
+      description: Prefer public, reproducible sources when possible.
+    validations:
+      required: true
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: Area
+      options:
+        - label: dlt ingestion
+        - label: dbt transformation
+        - label: Databricks Asset Bundle / orchestration
+        - label: Unity Catalog / table formats
+        - label: data quality / contracts
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any links, constraints, or examples from upstream docs.

@@ -3,7 +3,7 @@ name = "dlt-dbt-databricks"
 version = "0.1.0"
 description = "Advanced, runnable examples of dlt (dlthub) ingestion + dbt transformation on Databricks, plus an on-demand update radar."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [{ name = "Andrea Bozzo", email = "andreabozzo92@gmail.com" }]
 
 dependencies = [

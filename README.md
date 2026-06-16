@@ -100,6 +100,19 @@ Example questions the dbt layer is set up to answer:
 | How much do reversals and missing charge values affect quality checks? | `stg_claims`, `int_claims` |
 | Did the latest dlt run produce the raw tables dbt expects? | `sources.yml` + dbt source tests |
 
+## Known limitations
+
+- A live Databricks workspace, Unity Catalog catalog, and SQL warehouse are required for end-to-end
+  runs.
+- `dbt parse` works offline, but `dbt build` needs warehouse connectivity and permissions to create
+  schemas/tables.
+- The Databricks Asset Bundle requires the Databricks CLI; local CI-style checks cannot validate it
+  unless `databricks` is installed and authenticated.
+- The SQL example uses a public read-only Postgres source by default. Swap the DSN before adapting it
+  to a private operational database.
+- Generated images in `docs/assets/` are project branding/docs assets, not architectural source of
+  truth; the Mermaid/ASCII-style docs remain the precise implementation reference.
+
 ## Keeping up to date
 
 [`updates/`](updates/) is a manual knowledge base. Ask the maintainer (or an agent) to "refresh the
