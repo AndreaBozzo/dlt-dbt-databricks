@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: int_claims
+    description: "One row per claim (line detail rolled up). Header + summed money."
+    columns:
+      - name: claim_id
+        data_tests: [not_null, unique]
+      - name: total_allowed
+        description: "Sum of allowed across lines. Can be negative for net-reversal claims."
+        # WARN: a handful of claims net negative due to reversals — expected, surface for review.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                strictly: false
+              config:
+                severity: warn
+
+  - name: mart_claims_by_payer
+    description: "Claim & cost metrics by payer_type, state, claim_type."
+    columns:
+      - name: claims
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+      - name: allowed_ratio
+        description: "Allowed / charged. Usually 0..1; can exceed 1 in edge cases."
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 5
+
+  - name: mart_member_summary
+    description: "One row per insured member (hvid) with utilization + cost."
+    columns:
+      - name: hvid
+        data_tests: [not_null, unique]
+      - name: claim_count
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1

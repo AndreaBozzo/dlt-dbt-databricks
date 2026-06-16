@@ -28,8 +28,13 @@ load/
 **/logs/
 .user.yml
 
+# --- Databricks Asset Bundle ---
+.databricks/
+
 # --- OS / editor ---
 .DS_Store
 Thumbs.db
 .idea/
-.vscode/
+# Commit shared extension recommendations, ignore personal VSCode settings.
+.vscode/*
+!.vscode/extensions.json

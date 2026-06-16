@@ -16,7 +16,7 @@ ingestion/
 ├── _common.py                 # shared: load .env + build the Databricks-destination pipeline
 ├── pipelines/
 │   ├── rest_api_to_databricks.py     # declarative rest_api source, parent→child, merge
-│   └── sql_database_to_databricks.py # sql_database source, incremental cursor + merge
+│   └── sql_database_to_databricks.py # real public Postgres → custom SQL resource, incremental + merge
 └── advanced/
     ├── merge_incremental.py   # write_disposition="merge" + incremental cursor (upsert/CDC)
     ├── iceberg_table_format.py# table_format="iceberg" on Unity Catalog
@@ -45,6 +45,7 @@ vars in the root `.env`** (`_common.py` calls `load_dotenv`). See
 ## Extending
 
 - New REST API: copy `rest_api_to_databricks.py`, change `base_url`/`resources`.
-- New DB: set `SOURCES__SQL_DATABASE__CREDENTIALS` and the `TABLES` list; `uv sync --extra postgres`
-  (or add the driver you need).
+- New DB: set `SOURCES__SQL_DATABASE__CREDENTIALS` and edit the `SOURCE_QUERY` / table; `uv sync
+  --extra postgres` (or add the driver you need). The custom-resource pattern avoids schema
+  reflection, so it works even against restricted read replicas.
 - Keep every pipeline pointed at the same `dataset_name` (`raw`) so the dbt sources stay valid.

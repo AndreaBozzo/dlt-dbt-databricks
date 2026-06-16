@@ -7,13 +7,22 @@ dbt project using the `dbt-databricks` adapter. It reads the `raw` schema that d
 
 ```
 models/
-├── sources.yml                       # declares the dlt-owned `raw` schema (the handoff)
-├── staging/      stg_rest_posts.sql, stg_rest_comments.sql (+ _staging.yml tests)
-├── intermediate/ int_post_comment_counts.sql
-└── marts/        mart_post_engagement.sql  (incremental, merge) (+ _marts.yml tests)
+├── sources.yml                       # dlt-owned `raw` schema + samples.healthverity (the handoffs)
+├── staging/      stg_rest_posts, stg_rest_comments, stg_claims        (+ tests)
+├── intermediate/ int_post_comment_counts, int_claims
+└── marts/        mart_post_engagement (incremental merge),
+                  mart_claims_by_payer, mart_member_summary            (+ tests)
 macros/    cents_to_dollars.sql        # example reusable macro
 snapshots/ snap_customers.sql          # SCD2 example (disabled until raw.customers exists)
 ```
+
+### Two domains
+
+- **jsonplaceholder** (`*_rest_*`, `*_post_*`) — models on the dlt REST API output.
+- **insurance** (`*_claims`, `mart_claims_by_payer`, `mart_member_summary`) — a real analytics layer
+  on `samples.healthverity` synthetic claims (~410k rows). Shows type casting from all-string source
+  data, surrogate keys, payer/member metrics, and `warn`-severity DQ tests for claim reversals
+  (negative/NULL money is expected in real claims data).
 
 Materializations (set in `dbt_project.yml`): staging/intermediate = `view`, marts = `table`;
 `mart_post_engagement` overrides to `incremental` + `merge`.

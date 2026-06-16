@@ -1,0 +1,69 @@
+# Databricks Asset Bundle (DAB) — packages the dlt → dbt pipeline as a deployable Databricks Job.
+# The job runs dlt ingestion, then (on success) dbt build, mirroring orchestration/run_e2e.py but
+# as production-grade, version-controlled infrastructure.
+#
+#   databricks bundle validate                 # check this file
+#   databricks bundle deploy -t dev            # deploy the job to the workspace
+#   databricks bundle run dlt_dbt_pipeline -t dev
+#
+# See orchestration/README.md for the rationale.
+
+bundle:
+  name: dlt_dbt_databricks
+
+variables:
+  warehouse_id:
+    description: "SQL warehouse id used by the dbt task."
+    default: b8e5ba2ff75d1ce5
+  catalog:
+    description: "Unity Catalog catalog for outputs."
+    default: workspace
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-c84d97b3-2142.cloud.databricks.com
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-c84d97b3-2142.cloud.databricks.com
+
+resources:
+  jobs:
+    dlt_dbt_pipeline:
+      name: "dlt-dbt-databricks [${bundle.target}]"
+      job_clusters:
+        - job_cluster_key: compute
+          new_cluster:
+            spark_version: "15.4.x-scala2.12"
+            node_type_id: m5d.large
+            num_workers: 1
+            data_security_mode: SINGLE_USER
+      tasks:
+        # 1) dlt ingestion. Inside a Databricks job, dlt can resolve credentials from the runtime
+        #    (zero-config) — no PAT in the bundle.
+        - task_key: dlt_ingest
+          job_cluster_key: compute
+          spark_python_task:
+            python_file: ingestion/pipelines/rest_api_to_databricks.py
+          libraries:
+            - pypi:
+                package: "dlt[databricks]>=1.6.0"
+        # 2) dbt build — only after ingestion succeeds. Runs against the SQL warehouse.
+        - task_key: dbt_build
+          depends_on:
+            - task_key: dlt_ingest
+          job_cluster_key: compute
+          dbt_task:
+            project_directory: transformation/dbt_databricks
+            catalog: ${var.catalog}
+            schema: analytics
+            warehouse_id: ${var.warehouse_id}
+            commands:
+              - "dbt deps"
+              - "dbt build"
+          libraries:
+            - pypi:
+                package: "dbt-databricks>=1.11,<2"

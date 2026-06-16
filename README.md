@@ -1,70 +1,85 @@
 # dlt + dbt on Databricks
 
+[![CI](https://github.com/AndreaBozzo/dlt-dbt-databricks/actions/workflows/ci.yml/badge.svg)](https://github.com/AndreaBozzo/dlt-dbt-databricks/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](.python-version)
+
 Advanced, **runnable** examples of [**dlt** (dlthub)](https://dlthub.com) ingestion and
 [**dbt**](https://www.getdbt.com) transformation on **Databricks** (Unity Catalog + a SQL warehouse),
-plus an on-demand **update radar** that tracks new releases and ideas across all three tools.
+plus an on-demand **update radar** that tracks new releases across all three tools.
 
-> ⚠️ **Naming: `dlt` is not Databricks "DLT".**
+Every example here is validated against a real Databricks workspace — no dead demos.
+
+> ⚠️ **`dlt` is not Databricks "DLT".**
 > This repo uses **`dlt`** = the lowercase **dlthub** Python data-load library.
 > Databricks' old **DLT / Delta Live Tables** is a *different* product, renamed in 2026 to
-> **Lakeflow Spark Declarative Pipelines (SDP)**. See [docs/glossary.md](docs/glossary.md).
+> **Lakeflow Spark Declarative Pipelines**. See [docs/glossary.md](docs/glossary.md).
 
 ## What's here
 
-| Area | Path | Purpose |
+| Area | Path | Highlights |
 | --- | --- | --- |
-| Ingestion (dlt) | [`ingestion/`](ingestion/) | dlt pipelines loading into Databricks + advanced patterns |
-| Transformation (dbt) | [`transformation/dbt_databricks/`](transformation/dbt_databricks/) | dbt project on the `dbt-databricks` adapter |
-| Orchestration | [`orchestration/`](orchestration/) | run dlt → dbt end-to-end in one process |
+| Ingestion (dlt) | [`ingestion/`](ingestion/) | REST API + **real Postgres** → Databricks; merge/incremental, Iceberg, data contracts |
+| Transformation (dbt) | [`transformation/dbt_databricks/`](transformation/dbt_databricks/) | staging→marts on dlt output **and** a real **insurance-claims** analytics layer |
+| Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml)) |
+| Notebooks | [`notebooks/`](notebooks/) | Databricks notebook: dlt **zero-config** ingestion + claims-mart exploration |
 | Update radar | [`updates/`](updates/) | dated, sourced notes on dlt / dbt / Databricks changes |
 | Docs | [`docs/`](docs/) | Databricks setup, architecture, glossary |
 
 ## Architecture in one line
 
-`dlt` extracts from a source (REST API, SQL DB, files) and **loads raw tables into a Unity Catalog
-schema** → **dbt** reads exactly that schema as its `source` and builds `staging → intermediate →
-marts` models on the same warehouse. Full picture: [docs/architecture.md](docs/architecture.md).
+`dlt` extracts from a source (REST API, SQL DB) and **loads raw tables into a Unity Catalog schema**
+→ **dbt** reads that schema as a `source` and builds `staging → intermediate → marts`. Full picture:
+[docs/architecture.md](docs/architecture.md).
 
 ## Quickstart
 
-Prereqs: [uv](https://docs.astral.sh/uv/), Python 3.12, and a Databricks workspace with Unity Catalog
-and a running SQL warehouse. Full setup: [docs/setup-databricks.md](docs/setup-databricks.md).
+Prereqs: [uv](https://docs.astral.sh/uv/), Python 3.12, a Databricks workspace with Unity Catalog and
+a running SQL warehouse, and the [Databricks CLI](https://docs.databricks.com/dev-tools/cli/). Full
+setup: [docs/setup-databricks.md](docs/setup-databricks.md).
 
 ```bash
-# 1. Install everything (creates .venv, installs deps + dbt packages)
-make setup            # or: uv sync && cd transformation/dbt_databricks && uv run dbt deps
+# 1. Install (venv + deps + dbt packages)
+make setup                  # or: uv sync --extra postgres && (cd transformation/dbt_databricks && uv run dbt deps)
 
-# 2. Configure credentials
-cp .env.example .env  # then fill in DATABRICKS_HOST / HTTP_PATH / TOKEN / CATALOG
+# 2. Auth
+databricks auth login --host https://YOUR_HOST.cloud.databricks.com   # OAuth for dbt (no PAT)
+cp .env.example .env        # add a PAT for dlt + your host/http_path
 cp transformation/dbt_databricks/profiles.yml.example transformation/dbt_databricks/profiles.yml
 
 # 3. Ingest with dlt, then transform with dbt
-make dlt-rest         # REST API -> Databricks (Unity Catalog)
-make dbt-build        # staging -> marts on top of the dlt output
+make dlt-rest               # REST API → Unity Catalog (raw)
+make dbt-build              # staging → marts (incl. the insurance-claims models)
 
-# ...or do both at once
+# ...or both at once
 make e2e
 ```
 
-No `make` on Windows? Each target maps to a `uv run ...` command — see the
-[`Makefile`](Makefile), or run the scripts directly with `uv run python <path>`.
+No `make` on Windows? Each target is a `uv run …` command — see the [`Makefile`](Makefile).
 
-## Examples at a glance
+## Highlight examples
 
-**dlt** ([`ingestion/`](ingestion/)) — REST API and SQL-database loads; advanced: `merge`/incremental
-with primary keys, **Iceberg** `table_format` on Unity Catalog, and **schema contracts** + PK/FK hints.
+**dlt** ([`ingestion/`](ingestion/))
+- `rest_api_to_databricks.py` — declarative REST API source, parent→child, merge.
+- `sql_database_to_databricks.py` — replicate a **real public Postgres** table (incremental + merge),
+  via a custom SQL resource that works even against locked-down read replicas.
+- `advanced/` — `merge` upserts, **Iceberg** `table_format`, schema **contracts** + PK/FK hints.
 
-**dbt** ([`transformation/dbt_databricks/`](transformation/dbt_databricks/)) — staging/intermediate/marts
-layering on the dlt output, an **incremental merge** mart, tests via `dbt_utils` + `dbt_expectations`,
-and notes on the **dbt Fusion** engine and Databricks Asset Bundles.
+**dbt** ([`transformation/dbt_databricks/`](transformation/dbt_databricks/))
+- `stg_/int_/mart_` on the dlt output, with an **incremental merge** mart and tests.
+- **Insurance analytics** on `samples.healthverity` (real synthetic claims, ~410k rows):
+  `stg_claims → int_claims → mart_claims_by_payer / mart_member_summary`, with realistic
+  data-quality handling of reversals (negative/NULL amounts) as `warn`-severity tests.
+
+**Orchestration** — [`databricks.yml`](databricks.yml) is a `databricks bundle validate`-clean Asset
+Bundle running dlt then dbt as a dependent Databricks Job (dev/prod targets).
 
 ## Keeping up to date
 
-[`updates/`](updates/) is a manual knowledge base. Ask me to "refresh the update radar" and I'll
-web-fetch the canonical release-note sources in [`updates/sources.md`](updates/sources.md) and append
-dated entries to [`updates/radar.md`](updates/radar.md) and the per-tool files.
+[`updates/`](updates/) is a manual knowledge base. Ask the maintainer (or an agent) to "refresh the
+update radar" to web-fetch the sources in [`updates/sources.md`](updates/sources.md) and append dated
+entries.
 
-## Status
+## License
 
-Scaffolded and ready to wire to your workspace. Examples are written to be correct and runnable;
-validate them against your own Databricks workspace and fill in `.env` / `profiles.yml` first.
+[Apache 2.0](LICENSE). Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).

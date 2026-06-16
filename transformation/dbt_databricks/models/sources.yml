@@ -26,3 +26,18 @@ sources:
         description: "Customers replicated by the sql_database dlt pipeline."
       - name: orders
         description: "Orders replicated by the sql_database dlt pipeline."
+
+  # Real insurance dataset shipped in every Databricks workspace (samples catalog).
+  # `database` overrides the catalog (default profile catalog is `workspace`).
+  - name: healthverity
+    database: samples
+    schema: healthverity
+    description: "Synthetic healthcare insurance claims (line-detail grain). ~410k rows."
+    tables:
+      - name: claims_sample_synthetic
+        description: "One row per claim service line detail. Not unique on (claim_id, service_line_number)."
+        columns:
+          - name: claim_id
+            description: "Claim identifier (a claim has many service lines)."
+          - name: hvid
+            description: "De-identified member id."

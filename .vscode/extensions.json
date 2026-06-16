@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "charliermarsh.ruff",
+    "innoverio.vscode-dbt-power-user",
+    "databricks.databricks",
+    "tamasfe.even-better-toml"
+  ]
+}

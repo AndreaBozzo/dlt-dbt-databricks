@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_claims
+    description: "Typed, cleaned claim service-line detail from samples.healthverity."
+    columns:
+      - name: claim_line_sk
+        description: "Surrogate key over the claim-line business columns."
+        data_tests: [not_null]
+      - name: claim_id
+        data_tests: [not_null]
+      - name: claim_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["professional", "institutional", "unknown"]
+      - name: payer_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["MEDICAID", "COMMERCIAL", "MEDICARE", "UNSPECIFIED", "MEDICARE SUPPLEMENT"]
+      - name: line_charge
+        description: "Provider-charged amount. NULL when not reported; negative = reversal."
+        # WARN (not error): negative charges are legitimate reversals in real claims data.
+        # This surfaces them for review without failing the build — realistic DQ monitoring.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                strictly: false
+              config:
+                severity: warn
+      - name: is_reversal
+        description: "True when line_charge < 0 (claim reversal/adjustment)."
