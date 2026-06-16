@@ -4,7 +4,7 @@ What you need before running anything in this repo, and how to wire credentials.
 
 ## 1. Prerequisites in the workspace
 
-- **Unity Catalog** enabled, with a catalog you can write to (default in examples: `main`).
+- **Unity Catalog** enabled, with a catalog you can write to (default in examples: `workspace`).
 - A **SQL warehouse** (Serverless or Pro). Both dlt and dbt connect through it via its HTTP path.
 - Permission to **create schemas and tables** in your catalog. dlt creates the *raw* schema
   (default `raw`); dbt creates the *analytics* schema (default `analytics`).

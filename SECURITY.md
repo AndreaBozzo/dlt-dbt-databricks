@@ -9,8 +9,10 @@ This repository is designed to keep credentials **out of version control**:
 - Local dev auth uses the **Databricks CLI OAuth** token in `~/.databrickscfg` (run
   `databricks auth login`) — no PAT in files for dbt.
 
-The one public credential committed on purpose is EBI's **read-only** RNAcentral Postgres connection
-string in `.env.example` (a widely published, intentionally-public dataset endpoint).
+The one public credential-shaped value committed on purpose is EBI's **read-only** RNAcentral
+Postgres connection string in `.env.example` (a widely published, intentionally-public dataset
+endpoint). Secret scanners may still flag it because it looks like a password. Treat that as a
+review item, not as proof that a private secret leaked.
 
 ### Before you push
 

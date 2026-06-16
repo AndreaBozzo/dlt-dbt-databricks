@@ -2,6 +2,8 @@
 
 How the pieces fit together, and where each one runs.
 
+![Architecture diagram](assets/architecture-diagram.png)
+
 ```
 ┌──────────────┐   extract    ┌──────────────────────────────────────────────┐
 │   Sources    │ ───────────► │                  dlt (dlthub)                  │

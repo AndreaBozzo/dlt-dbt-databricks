@@ -10,6 +10,8 @@ plus an on-demand **update radar** that tracks new releases across all three too
 
 Every example here is validated against a real Databricks workspace — no dead demos.
 
+![Project logo](docs/assets/dlt-dbt-databricks-logo.png)
+
 > ⚠️ **`dlt` is not Databricks "DLT".**
 > This repo uses **`dlt`** = the lowercase **dlthub** Python data-load library.
 > Databricks' old **DLT / Delta Live Tables** is a *different* product, renamed in 2026 to
@@ -31,6 +33,8 @@ Every example here is validated against a real Databricks workspace — no dead 
 `dlt` extracts from a source (REST API, SQL DB) and **loads raw tables into a Unity Catalog schema**
 → **dbt** reads that schema as a `source` and builds `staging → intermediate → marts`. Full picture:
 [docs/architecture.md](docs/architecture.md).
+
+![Architecture diagram](docs/assets/architecture-diagram.png)
 
 ## Quickstart
 
@@ -73,6 +77,28 @@ No `make` on Windows? Each target is a `uv run …` command — see the [`Makefi
 
 **Orchestration** — [`databricks.yml`](databricks.yml) is a `databricks bundle validate`-clean Asset
 Bundle running dlt then dbt as a dependent Databricks Job (dev/prod targets).
+
+## What you learn
+
+This repo is meant to surface the practical seams between the tools, not just prove that they can
+run together:
+
+- **The dlt/dbt contract**: dlt owns `raw`; dbt owns `analytics`; Unity Catalog is the stable handoff.
+- **Operational ingestion patterns**: incremental SQL extraction without reflection, REST parent-child
+  loading, merge upserts, schema contracts, and table-format choices.
+- **Databricks deployment reality**: local OAuth for dbt, PAT/service-principal options for dlt,
+  SQL warehouse compute boundaries, and Asset Bundle orchestration.
+- **Analytics beyond toy data**: the claims models show how to handle reversals, null/negative money,
+  line-detail grain, and warn-severity data quality checks without pretending real data is clean.
+
+Example questions the dbt layer is set up to answer:
+
+| Question | Model |
+| --- | --- |
+| Which payer/state/type combinations drive the most allowed amount? | `mart_claims_by_payer` |
+| Which members have the highest utilization and cost? | `mart_member_summary` |
+| How much do reversals and missing charge values affect quality checks? | `stg_claims`, `int_claims` |
+| Did the latest dlt run produce the raw tables dbt expects? | `sources.yml` + dbt source tests |
 
 ## Keeping up to date
 

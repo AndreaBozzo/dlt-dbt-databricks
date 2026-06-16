@@ -12,7 +12,7 @@ dlt_dbt_databricks:
   outputs:
     dev:
       type: databricks
-      host: YOUR_HOST.cloud.databricks.com   # e.g. dbc-c84d97b3-2142.cloud.databricks.com
+      host: YOUR_HOST.cloud.databricks.com
       http_path: /sql/1.0/warehouses/YOUR_WAREHOUSE_ID
       auth_type: oauth                        # uses ~/.databrickscfg — run `databricks auth login` once
       catalog: workspace                      # your Unity Catalog managed catalog name

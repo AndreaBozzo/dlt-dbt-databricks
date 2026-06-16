@@ -12,9 +12,12 @@ bundle:
   name: dlt_dbt_databricks
 
 variables:
+  workspace_host:
+    description: "Databricks workspace URL, e.g. https://YOUR_HOST.cloud.databricks.com."
+    default: https://YOUR_HOST.cloud.databricks.com
   warehouse_id:
     description: "SQL warehouse id used by the dbt task."
-    default: b8e5ba2ff75d1ce5
+    default: YOUR_WAREHOUSE_ID
   catalog:
     description: "Unity Catalog catalog for outputs."
     default: workspace
@@ -24,11 +27,11 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://dbc-c84d97b3-2142.cloud.databricks.com
+      host: ${var.workspace_host}
   prod:
     mode: production
     workspace:
-      host: https://dbc-c84d97b3-2142.cloud.databricks.com
+      host: ${var.workspace_host}
 
 resources:
   jobs:
