@@ -16,18 +16,31 @@ SQL Warehouses → select your warehouse → **Connection details**:
 
 ## 2. Authentication
 
-### Now: Personal Access Token (PAT)
+### Local dev: Databricks CLI OAuth (recommended)
+
+One-time setup — no PAT, no secrets in files:
+
+```bash
+databricks auth login --host https://YOUR_HOST.cloud.databricks.com
+# browser opens → login → done. Credentials saved to ~/.databrickscfg.
+```
+
+- **dbt**: `auth_type: oauth` in `profiles.yml` reads `~/.databrickscfg` automatically.
+  Run `uv run dbt debug` — no env vars, no browser popup after first login.
+- **dlt**: still needs a PAT (see below). dlt doesn't yet read `~/.databrickscfg`.
+
+### dlt: Personal Access Token (PAT)
 User Settings → **Developer** → **Access tokens** → *Generate new token*. Put it in
-`DATABRICKS_TOKEN`. Quickest path to a runnable demo.
+`.env` as `DATABRICKS_TOKEN` and `DESTINATION__DATABRICKS__CREDENTIALS__ACCESS_TOKEN`.
+dlt loads `.env` automatically via `python-dotenv`.
 
-### Production: OAuth machine-to-machine (service principal)
-Prefer a **service principal** with OAuth M2M over a personal PAT for anything beyond local dev.
+### Production: OAuth machine-to-machine (M2M / service principal)
+Replace the PAT/U2M token with a service principal for any non-local workload:
 
-- **dlt**: set `client_id` / `client_secret` instead of `access_token` in
-  `ingestion/.dlt/secrets.toml` (see `DESTINATION__DATABRICKS__CREDENTIALS__CLIENT_ID` /
-  `__CLIENT_SECRET` env vars).
-- **dbt**: in `profiles.yml`, replace `token:` with
-  `auth_type: oauth`, `client_id:`, `client_secret:` (`dbt-databricks` supports OAuth M2M).
+- **dlt**: set `client_id` / `client_secret` in `ingestion/.dlt/secrets.toml` (env vars:
+  `DESTINATION__DATABRICKS__CREDENTIALS__CLIENT_ID` / `__CLIENT_SECRET`).
+- **dbt**: add `client_id:` / `client_secret:` env vars to `profiles.yml` prod target
+  (see the `prod:` block in `profiles.yml.example`).
 
 ## 3. Configure this repo
 

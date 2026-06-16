@@ -4,8 +4,8 @@
 
 DBT_DIR := transformation/dbt_databricks
 # dbt looks for profiles.yml in --profiles-dir; we keep it next to the project.
-# --env-file loads .env so env_var('DATABRICKS_TOKEN') in profiles.yml resolves.
-DBT := uv run --env-file .env dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
+# auth_type: oauth in profiles.yml reads ~/.databrickscfg (CLI login) — no env-file needed for dbt.
+DBT := uv run dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
 
 .DEFAULT_GOAL := help
 

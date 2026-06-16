@@ -1,18 +1,32 @@
-# Copy to `profiles.yml` (gitignored, same dir) — values are read from environment variables,
-# so you usually don't need to edit anything after copying. Populate the repo-root `.env` first.
+# Copy to `profiles.yml` (gitignored, same dir) and fill in host/http_path.
 #
-# Auth shown here = Personal Access Token. For production prefer OAuth M2M (service principal):
-# replace `token:` with `auth_type: oauth`, `client_id:`, `client_secret:`.
-# See ../../docs/setup-databricks.md.
+# Auth strategy:
+#   LOCAL DEV  → auth_type: oauth   — reads ~/.databrickscfg (set up once with `databricks auth login`)
+#                No PAT, no env vars, no browser popup after first login.
+#   PRODUCTION → auth_type: oauth   + client_id / client_secret env vars (M2M service principal)
+#
+# See ../../docs/setup-databricks.md for workspace setup.
 
 dlt_dbt_databricks:
   target: dev
   outputs:
     dev:
       type: databricks
-      host: "{{ env_var('DATABRICKS_HOST') }}"
-      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
-      token: "{{ env_var('DATABRICKS_TOKEN') }}"
-      catalog: "{{ env_var('DATABRICKS_CATALOG', 'main') }}"
-      schema: "{{ env_var('DATABRICKS_SCHEMA', 'analytics') }}"
+      host: YOUR_HOST.cloud.databricks.com   # e.g. dbc-c84d97b3-2142.cloud.databricks.com
+      http_path: /sql/1.0/warehouses/YOUR_WAREHOUSE_ID
+      auth_type: oauth                        # uses ~/.databrickscfg — run `databricks auth login` once
+      catalog: workspace                      # your Unity Catalog managed catalog name
+      schema: analytics                       # dbt builds models here
       threads: 4
+
+    # --- Production: M2M OAuth (service principal) ---
+    # prod:
+    #   type: databricks
+    #   host: YOUR_HOST.cloud.databricks.com
+    #   http_path: /sql/1.0/warehouses/YOUR_WAREHOUSE_ID
+    #   auth_type: oauth
+    #   client_id: "{{ env_var('DATABRICKS_CLIENT_ID') }}"
+    #   client_secret: "{{ env_var('DATABRICKS_CLIENT_SECRET') }}"
+    #   catalog: workspace
+    #   schema: analytics
+    #   threads: 8
