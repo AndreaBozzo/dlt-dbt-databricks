@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: mart_post_engagement
+    description: "One row per post with comment-engagement metrics. Incremental (merge) on post_id."
+    columns:
+      - name: post_id
+        description: "Primary key."
+        data_tests: [not_null, unique]
+      - name: comment_count
+        description: "Number of comments on the post."
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+      - name: distinct_commenters
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0

@@ -1,0 +1,29 @@
+name: "dlt_dbt_databricks"
+version: "0.1.0"
+config-version: 2
+
+# This profile name must match an entry in profiles.yml.
+profile: "dlt_dbt_databricks"
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+analysis-paths: ["analyses"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dlt_dbt_databricks:
+    # Default everything to Delta on Databricks; override per-folder/model as needed.
+    +file_format: delta
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

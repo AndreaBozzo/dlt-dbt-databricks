@@ -1,0 +1,19 @@
+# Non-secret dlt configuration. Secrets live in secrets.toml (gitignored) or env vars.
+# Docs: https://dlthub.com/docs/general-usage/credentials
+
+[runtime]
+# Bump to "DEBUG" when troubleshooting a load.
+log_level = "INFO"
+
+[destination.databricks]
+# Default table format. The advanced/iceberg_table_format.py example overrides this to "iceberg".
+# table_format = "delta"
+
+[destination.databricks.credentials]
+# The Unity Catalog catalog dlt writes into. Overridden by env var
+# DESTINATION__DATABRICKS__CREDENTIALS__CATALOG when set.
+catalog = "workspace"
+
+# Optional: staging via a Unity Catalog Volume for bulk/file loads (see docs/setup-databricks.md).
+# [destination.databricks]
+# staging_volume_name = "main.raw.dlt_staging"

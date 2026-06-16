@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+  # The `raw` schema is owned by dlt (DLT_DATASET_NAME). dbt only READS from it.
+  # `schema` resolves from the same env var the dlt pipelines use, so the two stay in sync.
+  - name: raw
+    schema: "{{ env_var('DLT_DATASET_NAME', 'raw') }}"
+    description: "Raw tables landed by the dlt pipelines (see ingestion/)."
+    # Surface freshness/volume issues early; tune or remove if a table isn't loaded yet.
+    tables:
+      - name: rest_posts
+        description: "Posts from the rest_api_to_databricks dlt pipeline."
+        columns:
+          - name: id
+            description: "Post id (dlt primary key)."
+            data_tests: [not_null, unique]
+      - name: rest_comments
+        description: "Comments, child resource of rest_posts."
+        columns:
+          - name: id
+            data_tests: [not_null, unique]
+          - name: post_id
+            description: "FK to rest_posts.id."
+      # --- From the sql_database_to_databricks example (optional; may not exist yet). ---
+      - name: customers
+        description: "Customers replicated by the sql_database dlt pipeline."
+      - name: orders
+        description: "Orders replicated by the sql_database dlt pipeline."

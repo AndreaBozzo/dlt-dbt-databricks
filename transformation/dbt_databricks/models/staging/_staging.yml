@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_rest_posts
+    description: "Cleaned posts, one row per post."
+    columns:
+      - name: post_id
+        description: "Primary key."
+        data_tests: [not_null, unique]
+      - name: user_id
+        data_tests: [not_null]
+
+  - name: stg_rest_comments
+    description: "Cleaned comments, one row per comment."
+    columns:
+      - name: comment_id
+        description: "Primary key."
+        data_tests: [not_null, unique]
+      - name: post_id
+        description: "FK to stg_rest_posts.post_id."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_rest_posts')
+                field: post_id
+      - name: commenter_email
+        data_tests:
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: "^[^@]+@[^@]+\\.[^@]+$"

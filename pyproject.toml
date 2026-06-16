@@ -1,0 +1,43 @@
+[project]
+name = "dlt-dbt-databricks"
+version = "0.1.0"
+description = "Advanced, runnable examples of dlt (dlthub) ingestion + dbt transformation on Databricks, plus an on-demand update radar."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Andrea Bozzo", email = "andreabozzo92@gmail.com" }]
+
+dependencies = [
+    # dlt with the Databricks destination extra (pulls databricks-sql-connector etc.)
+    "dlt[databricks]>=1.6.0",
+    # dlt verified sources used by the examples
+    "dlt[sql_database]>=1.6.0",
+    # dbt + the Databricks adapter (pins dbt-core transitively)
+    "dbt-databricks>=1.11,<2",
+    # Used by examples/orchestration that talk to the workspace directly
+    "databricks-sdk>=0.40",
+    # Load .env into the process so dlt/dbt env vars resolve in local runs
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+# `sql_database_to_databricks.py` needs a driver. Postgres by default; swap as needed.
+postgres = ["psycopg2-binary>=2.9"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "pytest>=8",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+# dbt's compiled target/ and dlt pipeline working dirs are generated, never lint them.
+extend-exclude = ["**/target/", "**/dbt_packages/", ".dlt/", "**/_pipeline_state/"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.uv]
+# Keep the lockfile authoritative; `uv sync` installs the dev group by default.
+package = false

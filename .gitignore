@@ -1,0 +1,35 @@
+# --- Secrets / local config ---
+.env
+.env.*
+!.env.example
+ingestion/.dlt/secrets.toml
+transformation/dbt_databricks/profiles.yml
+**/secrets.toml
+
+# --- Python / uv ---
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# --- dlt working state & artifacts ---
+# dlt keeps pipeline working dirs under ~/.dlt by default, but local runs and
+# load packages can land here; never commit them.
+**/_pipeline_state/
+*.duckdb
+*.duckdb.wal
+load/
+.dlt/pipelines/
+
+# --- dbt artifacts ---
+**/target/
+**/dbt_packages/
+**/logs/
+.user.yml
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
