@@ -4,6 +4,25 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-17 — serverless bundle task behavior from live deployment
+
+- **Serverless-only workspace:** bundle deployment failed until job clusters/libraries were replaced
+  with serverless task `environment_key` plus a shared `environments` specification.
+- **Run-output workflow:** multi-task parent run output is not supported; use
+  `databricks jobs get-run <parent-run-id> --output json` to find each `tasks[].run_id`, then call
+  `databricks jobs get-run-output <task-run-id> --output json`.
+- **Successful run:** the dev bundle reached `TERMINATED SUCCESS` after landing `workspace.raw`
+  demo tables via Spark and running the Databricks dbt task against warehouse `b8e5ba2ff75d1ce5`.
+- **Upstream opportunity:** Databricks docs/examples could better connect Asset Bundle serverless
+  `environment_key`, dbt tasks, Python task logs, and the parent-vs-task run-output CLI pattern.
+
+Sources:
+- https://docs.databricks.com/api/workspace/jobs/create
+- https://docs.databricks.com/api/workspace/jobs/getrunoutput
+- https://docs.databricks.com/aws/en/compute/serverless/dependencies
+
+---
+
 ## 2026-06-17 — bundle host rule + SDK refresh
 
 - **Asset Bundle host configuration**: current Databricks CLI validation rejects variable

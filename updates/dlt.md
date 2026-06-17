@@ -4,6 +4,28 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-17 — Databricks serverless compatibility findings from live bundle run
+
+- **Import collision:** Databricks serverless can preload built-in Delta Live Tables (`dlt`) hooks
+  that collide with dlthub's `dlt` package. The live job log showed:
+  `Unexpected internal error when monkey patching dlt module: cannot import name 'overrides' from partially initialized module 'dlt'`.
+  dlt's Databricks destination docs now call out removing Databricks post-import hooks / partially
+  initialized DLT modules, but also warn that `sys.meta_path` / `sys.modules` workarounds are fragile.
+- **Unity Catalog Volume staging:** dlt's Databricks destination reached load, then failed while
+  uploading parquet through SQL connector staging to
+  `/Volumes/workspace/raw_staging/_dlt_staging_load_volume/...`, with
+  `LoadClientJobRetry` wrapping a `Connection refused` to the Databricks storage host.
+- **Repo workaround:** the bundle now uses a Spark landing mode for the minimal REST demo tables in
+  Databricks serverless, while preserving the normal dlt destination path for local/direct dlt runs.
+- **Upstream opportunity:** turn this into a focused dlt issue or docs PR: "Databricks serverless
+  job task + Unity Catalog volume staging failure / DLT import hook collision", including sanitized
+  task run ids, dlt/dbt/databricks versions, and the exact workaround.
+
+Sources:
+- https://dlthub.com/docs/dlt-ecosystem/destinations/databricks
+
+---
+
 ## 2026-06-17 — latest release check: 1.28.0
 
 - **Latest release is 1.28.0**, published on 2026-06-15.

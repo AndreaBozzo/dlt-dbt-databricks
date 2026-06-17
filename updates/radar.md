@@ -4,6 +4,29 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-06-17 — live Databricks bundle run green + upstream findings
+
+**Outcome** — the dev Databricks Asset Bundle now runs end-to-end successfully: Spark Python ingest
+lands `workspace.raw.rest_posts` and `workspace.raw.rest_comments`, then the Databricks dbt task
+builds the analytics models. → [databricks.md](databricks.md)
+
+**dlt** — live serverless testing exposed two upstream-worthy issues: Databricks' built-in Delta Live
+Tables import hook can collide with dlthub `dlt`, and dlt's Databricks destination failed during
+Unity Catalog Volume staging to `_dlt_staging_load_volume`. The repo uses a Spark landing fallback
+for the serverless demo while preserving the dlt path. → [dlt.md](dlt.md)
+
+**dbt** — dbt task logs made the remaining failures straightforward: the fallback loader had to match
+dlt's raw contract (`user_id`, `post_id`, `_dlt_load_id`) before staging models and incremental marts
+could build. → [dbt.md](dbt.md)
+
+**Codex workflow** — added a personal `databricks-cli-debug` skill to make future Databricks CLI
+log triage repeatable, including parent-run/task-run handling and upstream evidence capture.
+
+**Watch / opportunities** — prepare sanitized upstream issues/docs PRs for dlt Databricks serverless
+staging, dlt/DLT import-hook collision, Databricks CLI run-output docs, and dbt raw-contract examples.
+
+---
+
 ## 2026-06-17 — dependency and bundle validation refresh
 
 **dlt (dlthub)** — latest PyPI/GitHub release is **1.28.0** (released 2026-06-15). The repo's

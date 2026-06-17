@@ -4,6 +4,25 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-17 — Databricks dbt task contract findings from live bundle run
+
+- **dbt task logs are high signal:** `dbt_output.logs` from the task run clearly showed dbt
+  `1.11.11`, adapter `databricks=1.12.1`, failing model names, SQLSTATEs, and final
+  `PASS/WARN/ERROR/SKIP` totals.
+- **Raw landing contract matters:** the Spark fallback initially wrote JSONPlaceholder camelCase
+  fields (`userId`, `postId`) and omitted dlt metadata. The dbt staging models expected dlt-style
+  `user_id`, `post_id`, and `_dlt_load_id`. Normalizing the fallback to that contract made the
+  end-to-end Databricks bundle run succeed.
+- **Upstream opportunity:** add a small "raw contract" note/example for dbt-on-Databricks demos that
+  are fed by dlt: preserve dlt's column normalization and `_dlt_load_id` when using fallback loaders
+  or seed data.
+
+Sources:
+- https://docs.getdbt.com/reference/dbt-commands
+- https://docs.databricks.com/aws/en/dev-tools/bundles/job-task-types
+
+---
+
 ## 2026-06-17 — dbt-databricks 1.12.1 in June compatible track
 
 - **`dbt-databricks` 1.12.1** is now listed in dbt's June 2026 compatible track and is the version
