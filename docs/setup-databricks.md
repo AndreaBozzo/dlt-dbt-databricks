@@ -69,6 +69,7 @@ consistent across `.env` and `profiles.yml`.
 ```bash
 uv sync
 uv run python -c "import dlt, dbt; print('imports ok')"
+make doctor           # offline readiness check for env, dbt parse, CLI, and bundle config
 make dbt-parse        # parses dbt project; needs profiles.yml but does not write tables
 make dlt-rest         # first real write: loads a small REST API dataset into <catalog>.raw
 ```

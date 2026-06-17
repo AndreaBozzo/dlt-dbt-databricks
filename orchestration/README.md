@@ -15,6 +15,9 @@ It runs dbt through the same Python environment that launched the script, so `uv
 orchestration/run_e2e.py` uses the repo-managed dbt install and the same env/credentials used
 everywhere else.
 
+Use `make doctor` before the first run to check the local environment, dbt parse readiness, dbt Power
+User manifest generation, Databricks CLI availability, and bundle host/auth configuration.
+
 ## Production: Databricks Workflows / Asset Bundles
 
 Don't ship the local script to prod. Instead model the two steps as a **Databricks Job (Lakeflow

@@ -45,6 +45,7 @@ setup: [docs/setup-databricks.md](docs/setup-databricks.md).
 ```bash
 # 1. Install (venv + deps + dbt packages)
 make setup                  # or: uv sync --extra postgres && (cd transformation/dbt_databricks && uv run dbt deps)
+make doctor                 # offline readiness check for env, dbt parse, CLI, and bundle config
 
 # 2. Auth
 databricks auth login --host https://YOUR_HOST.cloud.databricks.com   # OAuth for dbt (no PAT)
