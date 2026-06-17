@@ -16,6 +16,7 @@ import inspect
 import json
 import os
 import sys
+import time
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -94,12 +95,14 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
     from pyspark.sql import SparkSession
 
     spark = SparkSession.builder.getOrCreate()
+    load_id = str(time.time())
     posts = [
         {
             "id": row["id"],
             "user_id": row["userId"],
             "title": row["title"],
             "body": row["body"],
+            "_dlt_load_id": load_id,
         }
         for row in fetch_json("posts")
     ]
@@ -110,6 +113,7 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
             "name": row["name"],
             "email": row["email"],
             "body": row["body"],
+            "_dlt_load_id": load_id,
         }
         for row in fetch_json("comments")
     ]
