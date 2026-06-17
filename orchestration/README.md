@@ -11,8 +11,9 @@ enough to demo and test the full handoff locally.
 make e2e        # or: uv run python orchestration/run_e2e.py
 ```
 
-It shells out to `dbt` (installed in the uv venv) and to the dlt example script, so the same env/
-credentials used everywhere else apply.
+It runs dbt through the same Python environment that launched the script, so `uv run python
+orchestration/run_e2e.py` uses the repo-managed dbt install and the same env/credentials used
+everywhere else.
 
 ## Production: Databricks Workflows / Asset Bundles
 
@@ -43,6 +44,15 @@ resources:
             warehouse_id: ${var.warehouse_id}
 ```
 
-Deploy with the Databricks CLI: `databricks bundle deploy` / `databricks bundle run dlt_dbt_pipeline`.
+Set `DATABRICKS_HOST` or use a Databricks CLI profile before validating/deploying; Asset Bundles do
+not support variable interpolation in `workspace.host`.
+
+```bash
+export DATABRICKS_HOST=https://YOUR_HOST.cloud.databricks.com
+databricks bundle validate
+databricks bundle deploy -t dev --var warehouse_id=YOUR_WAREHOUSE_ID
+databricks bundle run dlt_dbt_pipeline -t dev
+```
+
 Other schedulers (Airflow, Dagster, Prefect) work too — the only contract is *dlt finishes before dbt
 starts*.

@@ -30,7 +30,7 @@ dev = [
 ]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 line-length = 100
 # dbt's compiled target/ and dlt pipeline working dirs are generated, never lint them.
 # notebooks/ are Databricks notebooks: they use runtime-injected globals (spark, dbutils, display).

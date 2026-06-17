@@ -16,7 +16,7 @@ Run twice to see the merge in action:
 from __future__ import annotations
 
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # make ingestion/_common importable
@@ -35,7 +35,7 @@ def customers(
     updated_at=dlt.sources.incremental("updated_at", initial_value="2026-01-01T00:00:00Z"),  # noqa: B008
 ):
     """Yield customers. `incremental` filters to rows newer than the last stored cursor."""
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     # In a real source these rows come from a DB/API query bounded by `updated_at.last_value`.
     yield from [
         {"id": 1, "name": "Ada Lovelace", "tier": "gold", "updated_at": now},

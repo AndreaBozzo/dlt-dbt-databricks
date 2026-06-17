@@ -76,6 +76,17 @@ make dlt-rest         # first real write: loads a small REST API dataset into <c
 If `dlt-rest` succeeds you'll see the new tables under your catalog's `raw` schema in the
 Databricks **Catalog** explorer.
 
+### Verify the Asset Bundle
+
+Asset Bundles read the workspace host from Databricks CLI auth, `DATABRICKS_HOST`, or an explicit
+profile. Do not put `${var.workspace_host}` in `workspace.host`; the CLI treats that field as
+authentication configuration and does not support variable interpolation there.
+
+```bash
+export DATABRICKS_HOST=https://YOUR_HOST.cloud.databricks.com
+databricks bundle validate --var warehouse_id=YOUR_WAREHOUSE_ID
+```
+
 ## 5. Staging for large/file loads (optional)
 
 For file or bulk loads dlt stages data before `COPY INTO`. On Databricks the simplest staging is a

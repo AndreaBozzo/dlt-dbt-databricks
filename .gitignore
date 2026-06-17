@@ -35,6 +35,7 @@ load/
 .DS_Store
 Thumbs.db
 .idea/
-# Commit shared extension recommendations, ignore personal VSCode settings.
+# Commit shared VSCode extension recommendations and project-local workspace settings.
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json

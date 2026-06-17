@@ -21,11 +21,11 @@ sources:
             data_tests: [not_null, unique]
           - name: post_id
             description: "FK to rest_posts.id."
-      # --- From the sql_database_to_databricks example (optional; may not exist yet). ---
+      # --- From optional dlt examples; may not exist until you run those pipelines. ---
+      - name: rnc_database
+        description: "Reference table replicated by the sql_database_to_databricks dlt pipeline."
       - name: customers
-        description: "Customers replicated by the sql_database dlt pipeline."
-      - name: orders
-        description: "Orders replicated by the sql_database dlt pipeline."
+        description: "Customers loaded by the advanced merge/incremental dlt pipeline."
 
   # Real insurance dataset shipped in every Databricks workspace (samples catalog).
   # `database` overrides the catalog (default profile catalog is `workspace`).

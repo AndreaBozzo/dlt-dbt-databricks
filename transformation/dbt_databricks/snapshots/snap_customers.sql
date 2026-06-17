@@ -1,6 +1,6 @@
 {#
   Example snapshot: track row changes over time (SCD type 2) on a dlt-loaded table.
-  Disabled by default because it needs raw.customers (from the sql_database example).
+  Disabled by default because it needs raw.customers (from the advanced merge example).
   Enable by removing `enabled=false` once that table exists.
 #}
 {% snapshot snap_customers %}

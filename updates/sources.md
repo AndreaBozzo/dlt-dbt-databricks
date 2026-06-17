@@ -21,6 +21,10 @@ The URLs the update radar fetches on each refresh. Keep this list curated.
 - "What happened to Delta Live Tables (DLT)?":
   https://docs.databricks.com/aws/en/ldp/where-is-dlt
 - Platform release notes: https://docs.databricks.com/aws/en/release-notes/
+- Asset Bundle variables/auth config:
+  https://docs.databricks.com/aws/en/dev-tools/bundles/variables
+- Databricks SDK for Python releases:
+  https://github.com/databricks/databricks-sdk-py/releases
 - Databricks blog: https://www.databricks.com/blog
 
 > Swap `aws` for `azure`/`gcp` in docs.databricks.com paths to match your cloud.

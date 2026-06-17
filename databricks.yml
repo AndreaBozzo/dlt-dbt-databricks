@@ -2,7 +2,8 @@
 # The job runs dlt ingestion, then (on success) dbt build, mirroring orchestration/run_e2e.py but
 # as production-grade, version-controlled infrastructure.
 #
-#   databricks bundle validate                 # check this file
+#   DATABRICKS_HOST=https://YOUR_HOST.cloud.databricks.com databricks bundle validate
+#                                               # check this file
 #   databricks bundle deploy -t dev            # deploy the job to the workspace
 #   databricks bundle run dlt_dbt_pipeline -t dev
 #
@@ -12,9 +13,6 @@ bundle:
   name: dlt_dbt_databricks
 
 variables:
-  workspace_host:
-    description: "Databricks workspace URL, e.g. https://YOUR_HOST.cloud.databricks.com."
-    default: https://YOUR_HOST.cloud.databricks.com
   warehouse_id:
     description: "SQL warehouse id used by the dbt task."
     default: YOUR_WAREHOUSE_ID
@@ -26,12 +24,8 @@ targets:
   dev:
     mode: development
     default: true
-    workspace:
-      host: ${var.workspace_host}
   prod:
     mode: production
-    workspace:
-      host: ${var.workspace_host}
 
 resources:
   jobs:

@@ -9,12 +9,19 @@ Run:  uv run python orchestration/run_e2e.py
 
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DBT_DIR = REPO_ROOT / "transformation" / "dbt_databricks"
+
+
+def dbt_executable() -> str:
+    """Return the dbt console script from the active Python environment."""
+    executable = Path(sys.executable).with_name("dbt.exe" if sys.platform == "win32" else "dbt")
+    return str(executable) if executable.exists() else shutil.which("dbt") or "dbt"
 
 
 def run_dlt() -> None:
@@ -29,7 +36,7 @@ def run_dbt() -> None:
     print("\n=== [2/2] dbt build ===")
     subprocess.run(
         [
-            "dbt",
+            dbt_executable(),
             "build",
             "--project-dir",
             str(DBT_DIR),

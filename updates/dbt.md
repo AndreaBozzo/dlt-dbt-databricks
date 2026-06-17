@@ -4,6 +4,22 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-17 — dbt-databricks 1.12.1 in June compatible track
+
+- **`dbt-databricks` 1.12.1** is now listed in dbt's June 2026 compatible track and is the version
+  resolved by this repo.
+- Local parse still runs with `dbt-core` **1.11.11** plus the Databricks adapter **1.12.1**; the
+  project parses cleanly with the existing SQL/model layout.
+- The old "~1.11.x" radar wording is stale; treat **1.12.x** as the current adapter line for this
+  repo unless a future release note says otherwise.
+
+Sources:
+- https://docs.getdbt.com/docs/dbt-versions/compatible-track-changelog
+- https://pypi.org/project/dbt-databricks/
+- https://github.com/databricks/dbt-databricks/releases
+
+---
+
 ## 2026-06-16 — seed: adapter 1.11.x + Fusion beta on Databricks
 
 - **`dbt-databricks` ~1.11.x** is the current adapter line in 2026. Design defaults: Delta format,

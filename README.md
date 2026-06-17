@@ -106,8 +106,8 @@ Example questions the dbt layer is set up to answer:
   runs.
 - `dbt parse` works offline, but `dbt build` needs warehouse connectivity and permissions to create
   schemas/tables.
-- The Databricks Asset Bundle requires the Databricks CLI; local CI-style checks cannot validate it
-  unless `databricks` is installed and authenticated.
+- The Databricks Asset Bundle requires the Databricks CLI plus `DATABRICKS_HOST` or a configured CLI
+  profile for validation/deploys.
 - The SQL example uses a public read-only Postgres source by default. Swap the DSN before adapting it
   to a private operational database.
 - Generated images in `docs/assets/` are project branding/docs assets, not architectural source of

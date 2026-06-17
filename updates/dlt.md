@@ -4,6 +4,19 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-17 — latest release check: 1.28.0
+
+- **Latest release is 1.28.0**, published on 2026-06-15.
+- The repo's dependency range (`dlt[databricks]>=1.6.0` and `dlt[sql_database]>=1.6.0`) already
+  resolves to this release in the current lockfile.
+- No example changes required from this refresh.
+
+Sources:
+- https://pypi.org/project/dlt/
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-06-16 — seed: Databricks destination capabilities
 
 State of the Databricks destination as of seeding:
