@@ -2,9 +2,8 @@
 # The job runs dlt ingestion, then (on success) dbt build, mirroring orchestration/run_e2e.py but
 # as production-grade, version-controlled infrastructure.
 #
-#   DATABRICKS_HOST=https://YOUR_HOST.cloud.databricks.com databricks bundle validate
-#                                               # check this file
-#   databricks bundle deploy -t dev            # deploy the job to the workspace
+#   databricks bundle validate --var warehouse_id=YOUR_WAREHOUSE_ID
+#   databricks bundle deploy -t dev --var warehouse_id=YOUR_WAREHOUSE_ID
 #   databricks bundle run dlt_dbt_pipeline -t dev
 #
 # See orchestration/README.md for the rationale.
@@ -19,6 +18,9 @@ variables:
   catalog:
     description: "Unity Catalog catalog for outputs."
     default: workspace
+  schema:
+    description: "Unity Catalog schema where dbt builds models."
+    default: analytics
 
 targets:
   dev:
@@ -56,7 +58,7 @@ resources:
           dbt_task:
             project_directory: transformation/dbt_databricks
             catalog: ${var.catalog}
-            schema: analytics
+            schema: ${var.schema}
             warehouse_id: ${var.warehouse_id}
             commands:
               - "dbt deps"

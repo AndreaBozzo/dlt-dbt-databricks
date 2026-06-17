@@ -9,7 +9,7 @@ DBT := uv run dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup doctor lint fmt \
+.PHONY: help setup doctor doctor-online lint fmt \
         dlt-rest dlt-sql dlt-merge dlt-iceberg dlt-contracts \
         dbt-deps dbt-parse dbt-build dbt-test e2e
 
@@ -23,6 +23,9 @@ setup: ## Create the venv and install all deps (incl. dev group)
 
 doctor: ## Check local readiness for dlt, dbt, Databricks CLI, and bundle config
 	uv run python orchestration/doctor.py
+
+doctor-online: ## Run doctor plus authenticated Databricks bundle validation
+	uv run python orchestration/doctor.py --online
 
 lint: ## Ruff lint
 	uv run ruff check .

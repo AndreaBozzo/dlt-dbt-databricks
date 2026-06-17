@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -77,6 +78,43 @@ def env_value(values: dict[str, str | None], key: str) -> str | None:
     return os.getenv(key) or values.get(key)
 
 
+def load_env_values() -> dict[str, str | None]:
+    env_path = REPO_ROOT / ".env"
+    return dotenv_values(env_path) if env_path.exists() else {}
+
+
+def warehouse_id_from_values(values: dict[str, str | None]) -> str | None:
+    warehouse_id = env_value(values, "DATABRICKS_WAREHOUSE_ID")
+    if not is_placeholder(warehouse_id):
+        return warehouse_id
+
+    http_path = env_value(values, "DATABRICKS_HTTP_PATH") or env_value(
+        values, "DESTINATION__DATABRICKS__CREDENTIALS__HTTP_PATH"
+    )
+    if not http_path:
+        return None
+
+    match = re.search(r"/warehouses/([^/?#]+)", http_path)
+    return match.group(1) if match else None
+
+
+def bundle_vars(values: dict[str, str | None]) -> dict[str, str]:
+    vars_: dict[str, str] = {}
+    warehouse_id = warehouse_id_from_values(values)
+    if warehouse_id:
+        vars_["warehouse_id"] = warehouse_id
+    vars_["catalog"] = env_value(values, "DATABRICKS_CATALOG") or "workspace"
+    vars_["schema"] = env_value(values, "DATABRICKS_SCHEMA") or "analytics"
+    return vars_
+
+
+def bundle_var_args(values: dict[str, str | None]) -> list[str]:
+    args: list[str] = []
+    for key, value in bundle_vars(values).items():
+        args.extend(["--var", f"{key}={value}"])
+    return args
+
+
 def check_files(reporter: Reporter) -> None:
     print("\nFiles")
     required = [
@@ -135,8 +173,7 @@ def check_tools(reporter: Reporter) -> None:
 
 def check_environment(reporter: Reporter) -> None:
     print("\nEnvironment")
-    env_path = REPO_ROOT / ".env"
-    values = dotenv_values(env_path) if env_path.exists() else {}
+    values = load_env_values()
 
     required_for_dlt = [
         "DATABRICKS_HOST",
@@ -161,6 +198,14 @@ def check_environment(reporter: Reporter) -> None:
         f"catalog={catalog}, raw_schema={dlt_dataset}, dbt_schema={schema}"
     )
 
+    warehouse_id = warehouse_id_from_values(values)
+    if warehouse_id:
+        reporter.ok(f"bundle warehouse_id resolved: {warehouse_id}")
+    else:
+        reporter.warn(
+            "bundle warehouse_id not found; set DATABRICKS_WAREHOUSE_ID or DATABRICKS_HTTP_PATH"
+        )
+
 
 def check_dbt(reporter: Reporter) -> None:
     print("\ndbt")
@@ -168,22 +213,7 @@ def check_dbt(reporter: Reporter) -> None:
         reporter.warn("Skipping dbt parse because profiles.yml is missing")
         return
 
-    deps = run_command(
-        [
-            "uv",
-            "run",
-            "dbt",
-            "deps",
-            "--project-dir",
-            str(DBT_DIR),
-            "--profiles-dir",
-            str(DBT_DIR),
-        ]
-    )
-    if deps.returncode == 0:
-        reporter.ok("dbt deps succeeded")
-    else:
-        reporter.fail(f"dbt deps failed: {first_line(deps.stdout)}")
+    if not run_dbt_deps_if_needed(reporter):
         return
 
     parse = run_command(
@@ -208,6 +238,47 @@ def check_dbt(reporter: Reporter) -> None:
         reporter.fail(f"dbt parse failed:\n      {output_tail(parse.stdout)}")
 
 
+def default_databricks_profile() -> str | None:
+    result = run_command(["databricks", "auth", "profiles"])
+    if result.returncode != 0:
+        return None
+
+    for line in result.stdout.splitlines():
+        if "(Default)" in line and line.rstrip().endswith("YES"):
+            return line.split("(Default)", maxsplit=1)[0].strip()
+    return None
+
+
+def dbt_packages_installed() -> bool:
+    package_dir = DBT_DIR / "dbt_packages"
+    return package_dir.exists() and any(path.is_dir() for path in package_dir.iterdir())
+
+
+def run_dbt_deps_if_needed(reporter: Reporter) -> bool:
+    if dbt_packages_installed():
+        reporter.ok("dbt packages are installed")
+        return True
+
+    deps = run_command(
+        [
+            "uv",
+            "run",
+            "dbt",
+            "deps",
+            "--project-dir",
+            str(DBT_DIR),
+            "--profiles-dir",
+            str(DBT_DIR),
+        ]
+    )
+    if deps.returncode == 0:
+        reporter.ok("dbt deps succeeded")
+        return True
+
+    reporter.fail(f"dbt deps failed:\n      {output_tail(deps.stdout)}")
+    return False
+
+
 def check_bundle(reporter: Reporter, online: bool) -> None:
     print("\nDatabricks Asset Bundle")
     if not shutil.which("databricks"):
@@ -215,10 +286,16 @@ def check_bundle(reporter: Reporter, online: bool) -> None:
         return
 
     host = os.getenv("DATABRICKS_HOST")
-    if is_placeholder(host):
-        reporter.warn("DATABRICKS_HOST is not set in the shell; bundle validate needs host/auth")
-    else:
+    profile = default_databricks_profile()
+    if not is_placeholder(host):
         reporter.ok("DATABRICKS_HOST is set in the shell")
+    elif profile:
+        reporter.ok(f"Databricks CLI default profile is valid: {profile}")
+    else:
+        reporter.warn(
+            "No shell DATABRICKS_HOST or valid default Databricks CLI profile found; "
+            "bundle validate/deploy needs one of them"
+        )
 
     if not online:
         reporter.ok(
@@ -226,9 +303,14 @@ def check_bundle(reporter: Reporter, online: bool) -> None:
         )
         return
 
-    result = run_command(
-        ["databricks", "bundle", "validate", "--var", "warehouse_id=YOUR_WAREHOUSE_ID"]
-    )
+    values = load_env_values()
+    warehouse_id = warehouse_id_from_values(values)
+    if not warehouse_id:
+        reporter.fail("Cannot run online bundle validation without a warehouse_id")
+        return
+
+    command = ["databricks", "bundle", "validate", *bundle_var_args(values)]
+    result = run_command(command)
     if result.returncode == 0:
         reporter.ok("databricks bundle validate succeeded")
     else:

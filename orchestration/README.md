@@ -59,3 +59,6 @@ databricks bundle run dlt_dbt_pipeline -t dev
 
 Other schedulers (Airflow, Dagster, Prefect) work too — the only contract is *dlt finishes before dbt
 starts*.
+
+For step-by-step bundle validation, deployment, production auth notes, and troubleshooting, see
+[`docs/deploy-databricks-bundle.md`](../docs/deploy-databricks-bundle.md).

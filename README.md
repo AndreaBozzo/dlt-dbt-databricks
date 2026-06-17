@@ -23,7 +23,7 @@ Every example here is validated against a real Databricks workspace — no dead 
 | --- | --- | --- |
 | Ingestion (dlt) | [`ingestion/`](ingestion/) | REST API + **real Postgres** → Databricks; merge/incremental, Iceberg, data contracts |
 | Transformation (dbt) | [`transformation/dbt_databricks/`](transformation/dbt_databricks/) | staging→marts on dlt output **and** a real **insurance-claims** analytics layer |
-| Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml)) |
+| Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml), [deploy guide](docs/deploy-databricks-bundle.md)) |
 | Notebooks | [`notebooks/`](notebooks/) | Databricks notebook: dlt **zero-config** ingestion + claims-mart exploration |
 | Update radar | [`updates/`](updates/) | dated, sourced notes on dlt / dbt / Databricks changes |
 | Docs | [`docs/`](docs/) | Databricks setup, architecture, glossary |

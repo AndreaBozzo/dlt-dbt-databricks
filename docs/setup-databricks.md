@@ -88,6 +88,8 @@ export DATABRICKS_HOST=https://YOUR_HOST.cloud.databricks.com
 databricks bundle validate --var warehouse_id=YOUR_WAREHOUSE_ID
 ```
 
+For the full deploy path, see [deploy-databricks-bundle.md](deploy-databricks-bundle.md).
+
 ## 5. Staging for large/file loads (optional)
 
 For file or bulk loads dlt stages data before `COPY INTO`. On Databricks the simplest staging is a
