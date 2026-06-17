@@ -45,6 +45,8 @@ resources:
               - "${var.catalog}"
               - "--dataset-name"
               - "raw"
+              - "--load-mode"
+              - "spark"
         # 2) dbt build — only after ingestion succeeds. Runs against the SQL warehouse.
         - task_key: dbt_build
           depends_on:

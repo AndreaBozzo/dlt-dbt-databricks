@@ -9,12 +9,28 @@ Scripts under ingestion/pipelines/ and ingestion/advanced/ import this by adding
 
 from __future__ import annotations
 
-import os
 import inspect
+import os
+import sys
 from pathlib import Path
 
-import dlt
 from dotenv import load_dotenv
+
+
+def import_dlt():
+    """Import dltHub's dlt package in Databricks serverless despite the built-in DLT hook."""
+    metas = list(sys.meta_path)
+    if os.getenv("DATABRICKS_RUNTIME_VERSION") and metas:
+        sys.meta_path = metas[1:]
+    try:
+        import dlt
+
+        return dlt
+    finally:
+        sys.meta_path = metas
+
+
+dlt = import_dlt()
 
 # Load repo-root .env so DESTINATION__DATABRICKS__CREDENTIALS__* etc. are available to dlt.
 # (dlt also reads ingestion/.dlt/secrets.toml directly if you prefer that.)
