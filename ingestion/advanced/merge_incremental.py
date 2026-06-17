@@ -15,11 +15,13 @@ Run twice to see the merge in action:
 
 from __future__ import annotations
 
+import inspect
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # make ingestion/_common importable
+_THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_filename)).resolve()
+sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
 import dlt  # noqa: E402
 from _common import databricks_pipeline  # noqa: E402

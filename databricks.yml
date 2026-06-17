@@ -33,28 +33,23 @@ resources:
   jobs:
     dlt_dbt_pipeline:
       name: "dlt-dbt-databricks [${bundle.target}]"
-      job_clusters:
-        - job_cluster_key: compute
-          new_cluster:
-            spark_version: "15.4.x-scala2.12"
-            node_type_id: m5d.large
-            num_workers: 1
-            data_security_mode: SINGLE_USER
       tasks:
         # 1) dlt ingestion. Inside a Databricks job, dlt can resolve credentials from the runtime
         #    (zero-config) — no PAT in the bundle.
         - task_key: dlt_ingest
-          job_cluster_key: compute
+          environment_key: default
           spark_python_task:
             python_file: ingestion/pipelines/rest_api_to_databricks.py
-          libraries:
-            - pypi:
-                package: "dlt[databricks]>=1.6.0"
+            parameters:
+              - "--catalog"
+              - "${var.catalog}"
+              - "--dataset-name"
+              - "raw"
         # 2) dbt build — only after ingestion succeeds. Runs against the SQL warehouse.
         - task_key: dbt_build
           depends_on:
             - task_key: dlt_ingest
-          job_cluster_key: compute
+          environment_key: default
           dbt_task:
             project_directory: transformation/dbt_databricks
             catalog: ${var.catalog}
@@ -63,6 +58,11 @@ resources:
             commands:
               - "dbt deps"
               - "dbt build"
-          libraries:
-            - pypi:
-                package: "dbt-databricks>=1.11,<2"
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "2"
+            dependencies:
+              - "dlt[databricks]>=1.6.0"
+              - "dbt-databricks>=1.11,<2"
+              - "python-dotenv>=1.0"

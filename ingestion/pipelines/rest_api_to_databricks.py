@@ -11,13 +11,31 @@ Run:  uv run python ingestion/pipelines/rest_api_to_databricks.py
 
 from __future__ import annotations
 
+import argparse
+import inspect
+import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # make ingestion/_common importable
+_THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_filename)).resolve()
+sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
 from _common import databricks_pipeline  # noqa: E402
 from dlt.sources.rest_api import rest_api_source  # noqa: E402
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Load the REST API demo source into Databricks.")
+    parser.add_argument(
+        "--catalog",
+        help="Unity Catalog catalog for dlt destination credentials.",
+    )
+    parser.add_argument(
+        "--dataset-name",
+        default="raw",
+        help="Unity Catalog schema where dlt lands raw tables.",
+    )
+    return parser.parse_args()
 
 
 def build_source():
@@ -58,7 +76,11 @@ def build_source():
 
 
 def main() -> None:
-    pipeline = databricks_pipeline("rest_api_demo")
+    args = parse_args()
+    if args.catalog:
+        os.environ["DESTINATION__DATABRICKS__CREDENTIALS__CATALOG"] = args.catalog
+
+    pipeline = databricks_pipeline("rest_api_demo", dataset_name=args.dataset_name)
     load_info = pipeline.run(build_source())
     print(load_info)
 

@@ -10,6 +10,7 @@ Scripts under ingestion/pipelines/ and ingestion/advanced/ import this by adding
 from __future__ import annotations
 
 import os
+import inspect
 from pathlib import Path
 
 import dlt
@@ -17,7 +18,8 @@ from dotenv import load_dotenv
 
 # Load repo-root .env so DESTINATION__DATABRICKS__CREDENTIALS__* etc. are available to dlt.
 # (dlt also reads ingestion/.dlt/secrets.toml directly if you prefer that.)
-_REPO_ROOT = Path(__file__).resolve().parents[1]
+_THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_filename)).resolve()
+_REPO_ROOT = _THIS_FILE.parents[1]
 load_dotenv(_REPO_ROOT / ".env")
 
 # The Unity Catalog schema dlt lands raw data into. dbt's sources.yml must point at the same name.
