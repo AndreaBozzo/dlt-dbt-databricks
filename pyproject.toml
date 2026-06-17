@@ -42,3 +42,8 @@ select = ["E", "F", "I", "UP", "B"]
 [tool.uv]
 # Keep the lockfile authoritative; `uv sync` installs the dev group by default.
 package = false
+
+[tool.pytest.ini_options]
+# The example scripts aren't a package; expose them on sys.path for import in tests.
+pythonpath = ["ingestion/pipelines", "orchestration"]
+testpaths = ["tests"]

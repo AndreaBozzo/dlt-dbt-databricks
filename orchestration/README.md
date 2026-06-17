@@ -31,20 +31,22 @@ Jobs / Workflows)** with a task dependency, or package them as a **Databricks As
 Sketch of a bundle (`databricks.yml`) job:
 
 ```yaml
+# Schematic only — databricks.yml at the repo root is the validated, deployable version.
 resources:
   jobs:
     dlt_dbt_pipeline:
-      name: dlt_dbt_pipeline
       tasks:
         - task_key: dlt_ingest
           spark_python_task:
-            python_file: ../ingestion/pipelines/rest_api_to_databricks.py
+            python_file: ingestion/pipelines/rest_api_to_databricks.py
+            # On serverless, land via Spark to sidestep dlt-destination volume staging:
+            parameters: ["--catalog", "${var.catalog}", "--dataset-name", "raw", "--load-mode", "spark"]
         - task_key: dbt_build
           depends_on: [{ task_key: dlt_ingest }]
           dbt_task:
-            project_directory: ../transformation/dbt_databricks
-            commands: ["dbt build"]
+            project_directory: transformation/dbt_databricks
             warehouse_id: ${var.warehouse_id}
+            commands: ["dbt deps", "dbt build"]
 ```
 
 Set `DATABRICKS_HOST` or use a Databricks CLI profile before validating/deploying; Asset Bundles do

@@ -34,6 +34,9 @@ jobs:
       - name: Ruff format check
         run: uv run ruff format --check .
 
+      - name: Unit tests
+        run: uv run pytest
+
       - name: dbt deps + parse
         working-directory: transformation/dbt_databricks
         run: |

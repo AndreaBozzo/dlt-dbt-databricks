@@ -36,7 +36,7 @@ This is the part worth being precise about, because it's the whole point of pair
    (`_dlt_loads`, `_dlt_pipeline_state`, `_dlt_version`) there — leave them alone.
 2. **dbt reads `raw` as a `source`, never as a hardcoded table.**
    [`models/sources.yml`](../transformation/dbt_databricks/models/sources.yml) declares the `raw`
-   schema and its tables; staging models select from `{{ source('raw', 'rest_users') }}`.
+   schema and its tables; staging models select from `{{ source('raw', 'rest_posts') }}`.
 3. **dbt owns the `analytics` schema.** Models materialize into `<catalog>.<DATABRICKS_SCHEMA>`
    (default `analytics`). Nothing writes back into `raw`.
 

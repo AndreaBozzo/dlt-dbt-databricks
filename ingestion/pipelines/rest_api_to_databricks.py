@@ -91,12 +91,13 @@ def fetch_json(path: str) -> list[dict[str, object]]:
         return json.loads(response.read().decode("utf-8"))
 
 
-def run_with_spark(catalog: str, dataset_name: str) -> None:
-    from pyspark.sql import SparkSession
+def shape_posts(rows: list[dict[str, object]], load_id: str) -> list[dict[str, object]]:
+    """Map raw API posts to the dlt "raw contract" that dbt's stg_rest_posts reads.
 
-    spark = SparkSession.builder.getOrCreate()
-    load_id = str(time.time())
-    posts = [
+    The Spark landing fallback must emit the same snake_case columns (+ _dlt_load_id) dlt would,
+    so serverless landing and the dlt destination stay schema-compatible downstream.
+    """
+    return [
         {
             "id": row["id"],
             "user_id": row["userId"],
@@ -104,9 +105,13 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
             "body": row["body"],
             "_dlt_load_id": load_id,
         }
-        for row in fetch_json("posts")
+        for row in rows
     ]
-    comments = [
+
+
+def shape_comments(rows: list[dict[str, object]], load_id: str) -> list[dict[str, object]]:
+    """Map raw API comments to the dlt "raw contract" that dbt's stg_rest_comments reads."""
+    return [
         {
             "id": row["id"],
             "post_id": row["postId"],
@@ -115,8 +120,17 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
             "body": row["body"],
             "_dlt_load_id": load_id,
         }
-        for row in fetch_json("comments")
+        for row in rows
     ]
+
+
+def run_with_spark(catalog: str, dataset_name: str) -> None:
+    from pyspark.sql import SparkSession
+
+    spark = SparkSession.builder.getOrCreate()
+    load_id = str(time.time())
+    posts = shape_posts(fetch_json("posts"), load_id)
+    comments = shape_comments(fetch_json("comments"), load_id)
 
     spark.sql(f"CREATE SCHEMA IF NOT EXISTS `{catalog}`.`{dataset_name}`")
     for table_name, rows in (("rest_posts", posts), ("rest_comments", comments)):
