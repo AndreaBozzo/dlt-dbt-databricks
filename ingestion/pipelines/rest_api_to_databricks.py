@@ -94,8 +94,25 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
     from pyspark.sql import SparkSession
 
     spark = SparkSession.builder.getOrCreate()
-    posts = fetch_json("posts")
-    comments = fetch_json("comments")
+    posts = [
+        {
+            "id": row["id"],
+            "user_id": row["userId"],
+            "title": row["title"],
+            "body": row["body"],
+        }
+        for row in fetch_json("posts")
+    ]
+    comments = [
+        {
+            "id": row["id"],
+            "post_id": row["postId"],
+            "name": row["name"],
+            "email": row["email"],
+            "body": row["body"],
+        }
+        for row in fetch_json("comments")
+    ]
 
     spark.sql(f"CREATE SCHEMA IF NOT EXISTS `{catalog}`.`{dataset_name}`")
     for table_name, rows in (("rest_posts", posts), ("rest_comments", comments)):
