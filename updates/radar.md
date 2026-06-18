@@ -4,6 +4,28 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-06-18 — release-check refresh: only the Databricks SDK moved
+
+**dlt** — **1.28.0** (2026-06-15) is still latest; no change for the repo. Two Databricks-relevant
+details surfaced on a closer read: 1.28.0's *refreshable* default credentials may mitigate
+`ExpiredToken`-class staging failures (retest before filing upstream), and 1.27.0's **Zerobus** insert
+API (`databricks_adapter`) is an alternative to the current Spark landing fallback. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.1** (2026-06-10) is still latest. Flag for this repo: 1.12.1 made
+column-level constraints require `contract.enforced: true` explicitly. Runtime correlation IDs
+(`job_id`/`job_run_id`/`task_run_id`) pair well with the task run-output CLI pattern. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.118.0** shipped **today (2026-06-18)**; 0.117.0 landed 2026-06-11.
+Both remain out of reach: `dbt-databricks 1.12.1` pins `databricks-sdk<0.105.0`, so the repo stays on
+**0.104.0** until the adapter relaxes the cap. No new SDP/platform notes since 2026-06-17.
+→ [databricks.md](databricks.md)
+
+**Watch / opportunities** — track dbt-databricks releases for the SDK cap bump (the gate on every SDK
+update); retest the dlt Databricks staging failure on 1.28.0's refreshable creds before opening the
+upstream issue.
+
+---
+
 ## 2026-06-17 — live Databricks bundle run green + upstream findings
 
 **Outcome** — the dev Databricks Asset Bundle now runs end-to-end successfully: Spark Python ingest

@@ -4,6 +4,23 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-18 — release check: 1.12.1 still latest; contract.enforced detail
+
+- **No new `dbt-databricks` release** since 1.12.1 (2026-06-10); it remains the current adapter line.
+- **Detail worth flagging for this repo:** 1.12.1 made column-level constraints require
+  `contract.enforced: true` explicitly (a breaking change vs. earlier behavior). The marts here lean
+  on dbt contracts, so if column constraints are ever added, set `contract.enforced: true` or they'll
+  be silently ignored.
+- 1.12.1's runtime correlation IDs (`job_id`, `job_run_id`, `task_run_id`) line up with the
+  parent-vs-task run-output CLI pattern logged under databricks.md — handy for tracing dbt-task runs.
+- Adapter floor is `databricks-sql-connector>=4.2.6` and `databricks-sdk>=0.76.0`; the SDK upper cap
+  (`<0.105.0`) is what keeps the repo on SDK 0.104.0. → [databricks.md](databricks.md)
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases
+
+---
+
 ## 2026-06-17 — Databricks dbt task contract findings from live bundle run
 
 - **dbt task logs are high signal:** `dbt_output.logs` from the task run clearly showed dbt

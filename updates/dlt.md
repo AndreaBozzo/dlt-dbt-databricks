@@ -4,6 +4,21 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-18 — release check: 1.28.0 still latest; Databricks-relevant 1.27/1.28 detail
+
+- **No new `dlt` release** since 1.28.0 (2026-06-15); it remains latest. No example change needed.
+- **Relevant to the staging workaround logged on 2026-06-17:**
+  - **1.28.0** made default credentials pass to external consumers as *refreshable*, fixing
+    `ExpiredToken` failures on long-running loads — a plausible mitigation for some Databricks
+    destination staging failures, worth a focused retest before filing the upstream issue.
+  - **1.27.0** added a **Databricks Zerobus** insert API option via `databricks_adapter` for Delta
+    loading — an alternative ingestion path to evaluate against the current Spark landing fallback.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-06-17 — Databricks serverless compatibility findings from live bundle run
 
 - **Import collision:** Databricks serverless can preload built-in Delta Live Tables (`dlt`) hooks

@@ -4,6 +4,22 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-18 — databricks-sdk 0.118.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.118.0** shipped **2026-06-18** (today). Highlights: data API methods
+  for the PostgreSQL service, an Azure capacity-reservation-group attribute, and serverless compute
+  support for pipelines. (0.117.0 on 2026-06-11 added OIDC token caching and made
+  `WorkspaceClient.dbutils` lazy.)
+- **No repo change:** `dbt-databricks 1.12.1` still pins `databricks-sdk<0.105.0`, so the resolved
+  environment stays on **0.104.0**. 0.117.x/0.118.0 are out of reach until the adapter relaxes the
+  cap — keep watching dbt-databricks releases for that bump rather than the SDK side.
+- **No new SDP / platform release notes** to fold in since the 2026-06-17 entry.
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-06-17 — serverless bundle task behavior from live deployment
 
 - **Serverless-only workspace:** bundle deployment failed until job clusters/libraries were replaced
