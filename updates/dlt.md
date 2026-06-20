@@ -4,6 +4,30 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-20 — 1.28.1 patch released (2026-06-19); no Databricks impact
+
+- **dlt 1.28.1** shipped **2026-06-19** — a patch release on top of 1.28.0.
+- **Python 3.9 dropped**: 3.9 reached EOL 2025-10-31; dlt now tests 3.10+ only. *Not relevant for
+  this repo* — `pyproject.toml` already requires `>=3.12`.
+- **Dataset browser**: dashboard now opens directly on the dataset browser and auto-selects the most
+  recently used pipeline (UI improvement, no code impact).
+- **connectorx temporal columns**: fixes nanosecond-precision timestamps returned by newer connectorx
+  versions being mis-normalised. Does not affect this repo's `sql_database_to_databricks.py`, which
+  uses a plain SQLAlchemy query resource (not connectorx).
+- **ISO week cursor fix**: week-date format `YYYY-Www` was mis-detected as `%Y-W%W`, causing
+  round-trip errors at year boundaries. Fix ensures incremental cursors using ISO week dates are
+  stored and re-parsed correctly.
+- **PostgreSQL NULL-char removal**: INSERT statements now strip 0x0 characters. Low impact for this
+  repo's Postgres example (RNAcentral read replica is clean data).
+- **SQL metadata caching**: user-provided metadata now correctly consulted in both eager and deferred
+  reflection modes — relevant if you pass a pre-built `MetaData` object to `sql_database`.
+- **No Databricks-specific changes** in this release.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-06-18 — release check: 1.28.0 still latest; Databricks-relevant 1.27/1.28 detail
 
 - **No new `dlt` release** since 1.28.0 (2026-06-15); it remains latest. No example change needed.
