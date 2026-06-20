@@ -4,6 +4,26 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-06-20 — release-check refresh: dlt 1.28.1 patch; dbt and SDK unchanged
+
+**dlt** — **1.28.1** released **2026-06-19** (patch on 1.28.0). Changes are housekeeping: Python 3.9
+dropped (irrelevant — this repo requires ≥3.12), a dataset-browser UX tweak, connectorx temporal
+precision fix, ISO week cursor fix, and a PostgreSQL NULL-char cleanup. No Databricks-specific
+changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.1** (2026-06-10) remains latest. No change.
+Adapter cap (`databricks-sdk<0.105.0`) still holds. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.118.0** (2026-06-18) remains latest. No change. The repo stays on
+**0.104.0** because of the adapter pin. Databricks and dbt platform blogs were unreachable (403)
+during this run; no new SDP/platform notes confirmed. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — dbt-databricks release remains the gate on every SDK upgrade. dlt 1.28.x
+Databricks staging issue (Volume + serverless `Connection refused`) still open; retest on 1.28.1
+refreshable-credentials fix before filing upstream.
+
+---
+
 ## 2026-06-18 — release-check refresh: only the Databricks SDK moved
 
 **dlt** — **1.28.0** (2026-06-15) is still latest; no change for the repo. Two Databricks-relevant
