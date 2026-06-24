@@ -116,9 +116,14 @@ Example questions the dbt layer is set up to answer:
 
 ## Keeping up to date
 
-[`updates/`](updates/) is a manual knowledge base. Ask the maintainer (or an agent) to "refresh the
-update radar" to web-fetch the sources in [`updates/sources.md`](updates/sources.md) and append dated
-entries.
+[`updates/`](updates/) is a dated, sourced knowledge base on dlt / dbt / Databricks changes. It refreshes
+two ways:
+
+- **Automatically, daily** — a Claude Code cloud routine (`0 6 * * *`, 08:00 Europe/Rome) re-checks the
+  release sources and opens a `radar/auto-YYYY-MM-DD` PR **only when something changed** (silent no-op
+  otherwise). Details and how to manage it: [`updates/README.md`](updates/README.md#automated-daily-refresh-cloud-routine).
+- **On demand** — ask the maintainer (or an agent) to "refresh the update radar" to web-fetch
+  [`updates/sources.md`](updates/sources.md) and append dated entries.
 
 ## License
 
