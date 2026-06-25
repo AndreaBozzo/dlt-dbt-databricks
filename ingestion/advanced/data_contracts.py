@@ -8,7 +8,9 @@ Two governance features that matter when raw data feeds a modeled warehouse:
 
 2. **Key hints** — `primary_key` and `references` (foreign keys). The Databricks destination emits
    PRIMARY KEY / FOREIGN KEY constraints on the created tables, which document the model and help
-   downstream tools (and dbt tests) reason about relationships.
+   downstream tools (and dbt tests) reason about relationships. Note: since dlt 1.28.0 these
+   constraints are only emitted when the destination is configured with `create_indexes=True`
+   (the default is `False`) — see `main()` below.
 
 The `freeze` contract makes this example *intentionally* fail if you add an unexpected column to the
 data below — that's the contract doing its job.
@@ -26,7 +28,7 @@ _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_fil
 sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
 import dlt  # noqa: E402
-from _common import databricks_pipeline  # noqa: E402
+from _common import DATASET_NAME  # noqa: E402
 
 
 @dlt.resource(name="dim_product", primary_key="product_id", write_disposition="merge")
@@ -63,7 +65,15 @@ def catalog_source():
 
 
 def main() -> None:
-    pipeline = databricks_pipeline("contracts_demo")
+    # create_indexes=True is required (since dlt 1.28.0) for FK constraints to be emitted.
+    # Without it, references= hints are silently ignored on the Databricks destination.
+    destination = dlt.destinations.databricks(create_indexes=True)
+    pipeline = dlt.pipeline(
+        pipeline_name="contracts_demo",
+        destination=destination,
+        dataset_name=DATASET_NAME,
+        progress="log",
+    )
     # Freeze columns: reject unexpected columns; allow brand-new tables to be created.
     load_info = pipeline.run(
         catalog_source(),

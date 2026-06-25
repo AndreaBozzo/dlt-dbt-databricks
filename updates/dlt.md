@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-25 — release check: still 1.28.1; retroactive FK/create_indexes finding affects example
+
+- **No new dlt release** since 1.28.1 (2026-06-19).
+- **Retroactive finding from 1.28.0 (missed in prior checks):** PR #4011 fixed the Databricks
+  destination to emit PRIMARY/FOREIGN KEY constraints **only when `create_indexes=True`** is set
+  (default is `False`). Previously FK hints were emitted unconditionally, triggering Unity Catalog
+  `UC_REFERENTIAL_CONSTRAINT_DOES_NOT_EXIST` errors when the matching primary key constraint was
+  absent.
+- **Impact on this repo:** `ingestion/advanced/data_contracts.py` documents FK emission via
+  `references=[...]` hints but called `databricks_pipeline()`, which uses `destination="databricks"`
+  with `create_indexes` at its default (`False`). As of 1.28.0+ the FK constraints were silently
+  skipped, making the example incorrect.
+- **Fix applied:** `data_contracts.py` now constructs an explicit destination object with
+  `create_indexes=True`, so FK constraints are actually emitted as the docstring describes.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases
+- https://github.com/dlt-hub/dlt/pull/4011
+
+---
+
 ## 2026-06-20 — 1.28.1 patch released (2026-06-19); no Databricks impact
 
 - **dlt 1.28.1** shipped **2026-06-19** — a patch release on top of 1.28.0.

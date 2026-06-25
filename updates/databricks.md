@@ -4,6 +4,22 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-06-25 — databricks-sdk 0.119.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.119.0** shipped **2026-06-24**. Highlights: meta-harness user-agent
+  detection via `OMNIGENT` env var; new `cancel_pending_cluster_enforcement()` for workspace policy
+  compliance; `ai_runtime_task` and `ai_runtime_task_output` fields in the jobs service; `xlarge`
+  compute sizing option; breaking change — `replicate_workspace_assets` is now optional (was
+  required) in workspace-set disaster recovery configurations.
+- **No repo change:** `dbt-databricks 1.12.1` still pins `databricks-sdk<0.105.0`, so the resolved
+  environment stays on **0.104.0**. Watch dbt-databricks releases for the cap bump.
+- **SDP / platform release notes** returned HTTP 403 this run — no new Lakeflow/SDP entries confirmed.
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-06-18 — databricks-sdk 0.118.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.118.0** shipped **2026-06-18** (today). Highlights: data API methods
