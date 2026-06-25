@@ -26,7 +26,7 @@ _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_fil
 sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
 import dlt  # noqa: E402
-from _common import databricks_pipeline  # noqa: E402
+from _common import DATASET_NAME  # noqa: E402
 
 
 @dlt.resource(name="dim_product", primary_key="product_id", write_disposition="merge")
@@ -63,7 +63,15 @@ def catalog_source():
 
 
 def main() -> None:
-    pipeline = databricks_pipeline("contracts_demo")
+    # create_indexes=True is required (since dlt 1.28.0) for FK constraints to be emitted.
+    # Without it, references= hints are silently ignored on the Databricks destination.
+    destination = dlt.destinations.databricks(create_indexes=True)
+    pipeline = dlt.pipeline(
+        pipeline_name="contracts_demo",
+        destination=destination,
+        dataset_name=DATASET_NAME,
+        progress="log",
+    )
     # Freeze columns: reject unexpected columns; allow brand-new tables to be created.
     load_info = pipeline.run(
         catalog_source(),

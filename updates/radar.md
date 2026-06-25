@@ -4,6 +4,27 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-06-25 — SDK 0.119.0 new; dlt FK bug fixed in data_contracts.py example
+
+**dlt** — **1.28.1** still latest (no new release). Retroactive finding from 1.28.0 (PR #4011,
+missed in prior checks): the Databricks destination now emits FK constraints **only when
+`create_indexes=True`** (default is `False`). The `ingestion/advanced/data_contracts.py` example
+was silently skipping the FK it described — fixed by switching to an explicit
+`dlt.destinations.databricks(create_indexes=True)` call. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.1** (2026-06-10) unchanged. Adapter cap
+(`databricks-sdk<0.105.0`) still holds. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.119.0** shipped **2026-06-24** (new since 2026-06-20 check).
+Still out of reach: adapter pins `<0.105.0`, repo stays on **0.104.0**. SDP / platform release
+notes returned HTTP 403 this run — no new Lakeflow entries confirmed. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — dbt-databricks release remains the gate on every SDK upgrade. Zerobus
+ingestion path (dlt 1.27+) still candidate for a focused example once the serverless staging issue
+(`Connection refused` to Unity Catalog Volume) is resolved upstream.
+
+---
+
 ## 2026-06-20 — release-check refresh: dlt 1.28.1 patch; dbt and SDK unchanged
 
 **dlt** — **1.28.1** released **2026-06-19** (patch on 1.28.0). Changes are housekeeping: Python 3.9
