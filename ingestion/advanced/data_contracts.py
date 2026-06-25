@@ -8,7 +8,9 @@ Two governance features that matter when raw data feeds a modeled warehouse:
 
 2. **Key hints** — `primary_key` and `references` (foreign keys). The Databricks destination emits
    PRIMARY KEY / FOREIGN KEY constraints on the created tables, which document the model and help
-   downstream tools (and dbt tests) reason about relationships.
+   downstream tools (and dbt tests) reason about relationships. Note: since dlt 1.28.0 these
+   constraints are only emitted when the destination is configured with `create_indexes=True`
+   (the default is `False`) — see `main()` below.
 
 The `freeze` contract makes this example *intentionally* fail if you add an unexpected column to the
 data below — that's the contract doing its job.
