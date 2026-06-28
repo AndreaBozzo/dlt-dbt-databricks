@@ -2,6 +2,7 @@ from agentic_quality_gate import (
     SAMPLE_METRICS,
     DbtResult,
     evaluate_gate,
+    load_metrics,
     sample_dbt_results,
 )
 
@@ -12,6 +13,21 @@ def test_sample_claims_warnings_are_promotable() -> None:
     assert report.decision == "promote"
     assert report.score == 100
     assert "known claims-domain reversals" in report.summary
+    assert any("line_charge" in item for item in report.evidence)
+    assert any("total_allowed" in item for item in report.evidence)
+
+
+def test_load_metrics_without_path_returns_no_defaults() -> None:
+    assert load_metrics(None) == {}
+
+
+def test_real_run_without_metrics_blocks_conservatively() -> None:
+    results = [DbtResult("model.dbt_databricks.stg_claims", "success")]
+
+    report = evaluate_gate(results, {})
+
+    assert report.decision == "block"
+    assert any("claim_service_lines=0" in item for item in report.evidence)
 
 
 def test_blocks_on_failed_dbt_result() -> None:

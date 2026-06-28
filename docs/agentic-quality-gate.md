@@ -39,7 +39,9 @@ uv run python orchestration/agentic_quality_gate.py \
   --output reports/claims-quality-gate.md
 ```
 
-You can also pass a small metrics JSON file:
+For real runs, missing metrics stay missing so the gate blocks or reviews
+conservatively instead of borrowing sample values. Pass a small metrics JSON file
+when you want promotion decisions to include mart-level signals:
 
 ```json
 {

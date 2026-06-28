@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -176,7 +177,7 @@ def load_dbt_results(path: Path) -> list[DbtResult]:
 
 def load_metrics(path: Path | None) -> dict[str, int | float | str]:
     if path is None:
-        return dict(SAMPLE_METRICS)
+        return {}
 
     payload = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
@@ -209,6 +210,10 @@ def evaluate_gate(
         f"expected claims warnings: {len(expected_warnings)}",
         f"unexpected warnings: {len(unexpected_warnings)}",
     ]
+    if expected_warnings:
+        evidence.extend(
+            f"expected warning: {format_result(result)}" for result in expected_warnings[:4]
+        )
     actions: list[str] = []
     score = 100
     decision: Decision = "promote"
@@ -394,9 +399,20 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    sample_mode = args.sample or not args.run_results.exists()
-    results = sample_dbt_results() if sample_mode else load_dbt_results(args.run_results)
-    metrics = load_metrics(args.metrics)
+    sample_mode = args.sample
+    if sample_mode:
+        results = sample_dbt_results()
+        metrics = load_metrics(args.metrics) if args.metrics else dict(SAMPLE_METRICS)
+    else:
+        if not args.run_results.exists():
+            print(
+                f"Missing dbt run results: {args.run_results}\n"
+                "Run dbt build first, pass --run-results, or use --sample for the offline demo.",
+                file=sys.stderr,
+            )
+            return 2
+        results = load_dbt_results(args.run_results)
+        metrics = load_metrics(args.metrics)
     report = evaluate_gate(results, metrics, sample_mode=sample_mode)
 
     if args.json:
