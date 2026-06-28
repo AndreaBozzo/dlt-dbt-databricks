@@ -25,6 +25,7 @@ Every example here is validated against a real Databricks workspace — no dead 
 | Transformation (dbt) | [`transformation/dbt_databricks/`](transformation/dbt_databricks/) | staging→marts on dlt output **and** a real **insurance-claims** analytics layer |
 | Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml), [deploy guide](docs/deploy-databricks-bundle.md)) |
 | Notebooks | [`notebooks/`](notebooks/) | Databricks notebook: dlt **zero-config** ingestion + claims-mart exploration |
+| Agentic scenario | [`orchestration/agentic_quality_gate.py`](orchestration/agentic_quality_gate.py), [`docs/agentic-quality-gate.md`](docs/agentic-quality-gate.md) | AI-ready claims quality gate: promote / review / block with deterministic evidence |
 | Update radar | [`updates/`](updates/) | dated, sourced notes on dlt / dbt / Databricks changes |
 | Docs | [`docs/`](docs/) | Databricks setup, architecture, glossary |
 
@@ -78,6 +79,14 @@ No `make` on Windows? Each target is a `uv run …` command — see the [`Makefi
 
 **Orchestration** — [`databricks.yml`](databricks.yml) is a `databricks bundle validate`-clean Asset
 Bundle running dlt then dbt as a dependent Databricks Job (dev/prod targets).
+
+**Agentic quality gate** — [`agentic_quality_gate.py`](orchestration/agentic_quality_gate.py) turns
+dbt results + claims mart signals into a `promote` / `review` / `block` packet for an AI reviewer or
+human owner. It runs offline with sample evidence:
+
+```bash
+make agent-gate
+```
 
 ## What you learn
 
