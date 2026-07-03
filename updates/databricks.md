@@ -4,6 +4,17 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-03 — databricks-sdk 0.120.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.120.0** shipped **2026-07-02**. Highlights: `download_message_attachment_visualization()` added to the Genie workspace service; new `sql_condition` fields across job trigger-related classes; `full_name` field added to IAM User (paired with breaking change below); `excluded_schemas` for `CatalogConfig`; `telemetry_config` across serving endpoint classes; `status_message` for `AiRuntimeTaskOutput`; PostgreSQL service additions (`replace_existing`, pooled host options, autoscaling limits). Breaking change — **`name` field removed from `databricks.sdk.service.iamv2.User`** (replaced by `full_name`); code calling `.name` on an IAM User object will break on 0.120.0+.
+- **No repo change:** `dbt-databricks 1.12.1` still pins `databricks-sdk<0.105.0`, so the resolved environment stays on **0.104.0**. The `iamv2.User.name` breaking change is therefore irrelevant to this repo until the adapter cap is lifted.
+- **SDP / platform release notes** returned HTTP 403 this run — no new Lakeflow/SDP entries confirmed.
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.120.0
+
+---
+
 ## 2026-06-25 — databricks-sdk 0.119.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.119.0** shipped **2026-06-24**. Highlights: meta-harness user-agent

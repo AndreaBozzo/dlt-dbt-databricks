@@ -4,6 +4,18 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-03 — SDK 0.120.0 released; dlt and dbt-databricks unchanged
+
+**dlt** — **1.28.1** still latest (no change since 2026-06-19). No Databricks-specific fixes or example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.1** (2026-06-10) still latest. SDK cap (`databricks-sdk<0.105.0`) unchanged — this remains the gate on every SDK upgrade. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.120.0** shipped **2026-07-02**. Key additions: `sql_condition` job triggers, `full_name` for IAM User (breaking: `name` field removed), Genie visualization APIs, `telemetry_config` for serving endpoints, PostgreSQL service extensions. Still out of reach for this repo: adapter pins `<0.105.0`, environment stays on **0.104.0**. SDP / platform release notes returned HTTP 403 again — no new Lakeflow entries confirmed. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — dbt-databricks release remains the gate on every SDK upgrade. Zerobus ingestion path (dlt 1.27+) still a candidate for a focused example once the Unity Catalog Volume serverless staging issue (`Connection refused`) is resolved upstream.
+
+---
+
 ## 2026-06-25 — SDK 0.119.0 new; dlt FK bug fixed in data_contracts.py example
 
 **dlt** — **1.28.1** still latest (no new release). Retroactive finding from 1.28.0 (PR #4011,
