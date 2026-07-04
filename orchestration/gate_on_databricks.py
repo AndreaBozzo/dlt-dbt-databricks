@@ -36,9 +36,7 @@ def collect_metrics(spark, catalog: str, schema: str, raw_schema: str) -> dict[s
         f"select max(_dlt_load_id) from `{catalog}`.`{raw_schema}`.rest_posts"
     ).first()[0]
 
-    freshness_minutes = (
-        (time.time() - float(last_load_id)) / 60 if last_load_id else float("inf")
-    )
+    freshness_minutes = (time.time() - float(last_load_id)) / 60 if last_load_id else float("inf")
     return {
         "claim_service_lines": int(claim_lines),
         "max_allowed_ratio": round(float(max_ratio), 4),
