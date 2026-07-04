@@ -12,7 +12,7 @@ DBT := uv run dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
 .PHONY: help setup doctor doctor-online lint fmt \
         agent-gate \
         dlt-rest dlt-sql dlt-merge dlt-iceberg dlt-contracts \
-        dbt-deps dbt-parse dbt-build dbt-test e2e
+        dbt-deps dbt-parse dbt-build dbt-test e2e e2e-duckdb
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -60,5 +60,8 @@ dbt-test: ## Run dbt tests only
 	$(DBT) test
 
 # --- end to end ---
-e2e: ## Run dlt ingestion then dbt build in one process
+e2e: ## Run dlt ingestion then dbt build in one process (Databricks)
 	uv run python orchestration/run_e2e.py
+
+e2e-duckdb: ## Warehouse-free lane: dlt -> DuckDB -> dbt -> quality gate (what CI runs)
+	uv run python orchestration/run_e2e.py --lane duckdb

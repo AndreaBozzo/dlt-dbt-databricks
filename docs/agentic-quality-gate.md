@@ -53,6 +53,19 @@ when you want promotion decisions to include mart-level signals:
 }
 ```
 
+On the DuckDB lane the metrics file is produced automatically:
+`orchestration/collect_gate_metrics.py` queries the built marts and
+`orchestration/run_e2e.py --lane duckdb` chains it into the gate with
+`--fail-on-block`, so CI fails on a `block` decision.
+
+Two more flags:
+
+- `--fail-on-block` — exit non-zero on `block`, so pipelines and CI stop.
+- `--llm` — send the packet's prompt to Claude (`claude-opus-4-8`) and append the
+  review to the packet. Needs `uv sync --extra llm` plus Anthropic credentials;
+  degrades to a stderr note when either is missing. The LLM never owns the
+  decision — it reviews the deterministic packet.
+
 ## Agent behavior
 
 The gate returns one of three decisions:
@@ -66,15 +79,21 @@ Expected claims warnings are treated differently from generic failures. For
 example, negative charge or allowed amounts can represent reversals, so the gate
 records them as evidence instead of pretending real data is perfectly clean.
 
-## Production sketch
+## Production: the gate is a job task
 
-In a Databricks Workflow or Asset Bundle:
+[`databricks.yml`](../databricks.yml) wires this in for real — the bundle job is now
+three dependent tasks:
 
-1. Run dlt ingestion into the raw Unity Catalog schema.
-2. Run dbt build against the analytics schema.
-3. Run the quality gate against `target/run_results.json` and a metrics snapshot.
-4. Send the Markdown packet to a reviewer, ticket, Slack channel, or LLM summary.
-5. Promote downstream dashboards only when the decision is `promote`.
+1. `dlt_ingest` — dlt lands raw data in Unity Catalog.
+2. `dbt_build` — dbt builds and tests the analytics schema (test failures already
+   fail the job here).
+3. `quality_gate` — [`orchestration/gate_on_databricks.py`](../orchestration/gate_on_databricks.py)
+   re-collects the mart metrics via Spark (dbt artifacts don't cross job-task
+   boundaries), evaluates the same deterministic policy, prints the packet, and
+   **fails the job on `block`**.
+
+Send the Markdown packet to a reviewer, ticket, Slack channel, or LLM summary, and
+promote downstream dashboards only when the decision is `promote`.
 
 This is intentionally "AI with receipts": the model can summarize risk and next
 actions, but the policy decision is traceable to deterministic evidence.

@@ -41,15 +41,27 @@ load_dotenv(_REPO_ROOT / ".env")
 # The Unity Catalog schema dlt lands raw data into. dbt's sources.yml must point at the same name.
 DATASET_NAME = os.getenv("DLT_DATASET_NAME", "raw")
 
+# Destination lane. "databricks" needs a workspace + credentials; "duckdb" runs anywhere (used by
+# CI and local smoke runs) and lands the same raw tables in a local file that dbt's `duckdb`
+# profile target reads. Same pipelines, same schema — only the destination differs.
+DESTINATION_NAME = os.getenv("DLT_DESTINATION", "databricks")
+DUCKDB_PATH = Path(os.getenv("DUCKDB_PATH", str(_REPO_ROOT / "local" / "dlt_dbt.duckdb")))
 
-def databricks_pipeline(name: str, dataset_name: str = DATASET_NAME) -> dlt.Pipeline:
-    """Return a dlt pipeline configured for the Databricks destination.
 
-    Credentials are resolved by dlt from env vars / .dlt/secrets.toml — nothing secret here.
+def demo_pipeline(name: str, dataset_name: str = DATASET_NAME) -> dlt.Pipeline:
+    """Return a dlt pipeline for the destination selected by DLT_DESTINATION.
+
+    Credentials (for Databricks) are resolved by dlt from env vars / .dlt/secrets.toml — nothing
+    secret here. For DuckDB there are no credentials; the file lives at DUCKDB_PATH.
     """
+    if DESTINATION_NAME == "duckdb":
+        DUCKDB_PATH.parent.mkdir(parents=True, exist_ok=True)
+        destination = dlt.destinations.duckdb(str(DUCKDB_PATH))
+    else:
+        destination = DESTINATION_NAME
     return dlt.pipeline(
         pipeline_name=name,
-        destination="databricks",
+        destination=destination,
         dataset_name=dataset_name,
         progress="log",
     )

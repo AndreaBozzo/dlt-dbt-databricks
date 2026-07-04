@@ -21,6 +21,8 @@ __pycache__/
 *.duckdb.wal
 load/
 .dlt/pipelines/
+# DuckDB lane working dir (warehouse file, gate metrics/packets)
+local/
 
 # --- dbt artifacts ---
 **/target/

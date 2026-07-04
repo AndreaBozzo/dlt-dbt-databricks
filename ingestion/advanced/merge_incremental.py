@@ -24,7 +24,7 @@ _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_fil
 sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
 import dlt  # noqa: E402
-from _common import databricks_pipeline  # noqa: E402
+from _common import demo_pipeline  # noqa: E402
 
 
 @dlt.resource(
@@ -47,7 +47,7 @@ def customers(
 
 
 def main() -> None:
-    pipeline = databricks_pipeline("merge_demo")
+    pipeline = demo_pipeline("merge_demo")
     load_info = pipeline.run(customers())
     print(load_info)
 

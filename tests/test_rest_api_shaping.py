@@ -11,23 +11,24 @@ from rest_api_to_databricks import shape_comments, shape_posts
 
 def test_shape_posts_maps_to_raw_contract():
     raw = [{"id": 1, "userId": 7, "title": "t", "body": "b", "ignored": "x"}]
-    assert shape_posts(raw, load_id="123.45") == [
-        {"id": 1, "user_id": 7, "title": "t", "body": "b", "_dlt_load_id": "123.45"}
-    ]
+    (shaped,) = shape_posts(raw, load_id="123.45")
+    row_id = shaped.pop("_dlt_id")
+    assert row_id  # dlt bookkeeping column must exist so dlt-lane MERGEs stay compatible
+    assert shaped == {"id": 1, "user_id": 7, "title": "t", "body": "b", "_dlt_load_id": "123.45"}
 
 
 def test_shape_comments_maps_to_raw_contract():
     raw = [{"id": 2, "postId": 1, "name": "n", "email": "e@x.com", "body": "b"}]
-    assert shape_comments(raw, load_id="123.45") == [
-        {
-            "id": 2,
-            "post_id": 1,
-            "name": "n",
-            "email": "e@x.com",
-            "body": "b",
-            "_dlt_load_id": "123.45",
-        }
-    ]
+    (shaped,) = shape_comments(raw, load_id="123.45")
+    assert shaped.pop("_dlt_id")
+    assert shaped == {
+        "id": 2,
+        "post_id": 1,
+        "name": "n",
+        "email": "e@x.com",
+        "body": "b",
+        "_dlt_load_id": "123.45",
+    }
 
 
 def test_shaping_is_empty_for_empty_input():

@@ -8,7 +8,9 @@ Advanced, **runnable** examples of [**dlt** (dlthub)](https://dlthub.com) ingest
 [**dbt**](https://www.getdbt.com) transformation on **Databricks** (Unity Catalog + a SQL warehouse),
 plus an on-demand **update radar** that tracks new releases across all three tools.
 
-Every example here is validated against a real Databricks workspace — no dead demos.
+Every example here is validated against a real Databricks workspace — no dead demos. And the whole
+dlt → dbt → quality-gate flow **also runs warehouse-free** (same pipelines and models, against
+DuckDB) in CI on every PR: `make e2e-duckdb`.
 
 ![Project logo](docs/assets/dlt-dbt-databricks-logo.png)
 
@@ -23,7 +25,7 @@ Every example here is validated against a real Databricks workspace — no dead 
 | --- | --- | --- |
 | Ingestion (dlt) | [`ingestion/`](ingestion/) | REST API + **real Postgres** → Databricks; merge/incremental, Iceberg, data contracts |
 | Transformation (dbt) | [`transformation/dbt_databricks/`](transformation/dbt_databricks/) | staging→marts on dlt output **and** a real **insurance-claims** analytics layer |
-| Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml), [deploy guide](docs/deploy-databricks-bundle.md)) |
+| Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner with a **warehouse-free DuckDB lane** (what CI runs) + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml), [deploy guide](docs/deploy-databricks-bundle.md)) |
 | Notebooks | [`notebooks/`](notebooks/) | Databricks notebook: dlt **zero-config** ingestion + claims-mart exploration |
 | Agentic scenario | [`orchestration/agentic_quality_gate.py`](orchestration/agentic_quality_gate.py), [`docs/agentic-quality-gate.md`](docs/agentic-quality-gate.md) | AI-ready claims quality gate: promote / review / block with deterministic evidence |
 | Update radar | [`updates/`](updates/) | dated, sourced notes on dlt / dbt / Databricks changes |
@@ -59,6 +61,14 @@ make dbt-build              # staging → marts (incl. the insurance-claims mode
 
 # ...or both at once
 make e2e
+```
+
+**No workspace yet?** Run the entire stack warehouse-free — the same dlt pipelines and dbt models
+against a local DuckDB file, ending with the quality gate on the real dbt artifacts:
+
+```bash
+uv sync --extra duckdb
+make e2e-duckdb             # dlt → DuckDB → dbt build → agentic quality gate
 ```
 
 No `make` on Windows? Each target is a `uv run …` command — see the [`Makefile`](Makefile).
@@ -112,10 +122,12 @@ Example questions the dbt layer is set up to answer:
 
 ## Known limitations
 
-- A live Databricks workspace, Unity Catalog catalog, and SQL warehouse are required for end-to-end
-  runs.
-- `dbt parse` works offline, but `dbt build` needs warehouse connectivity and permissions to create
-  schemas/tables.
+- A live Databricks workspace, Unity Catalog catalog, and SQL warehouse are required for
+  Databricks-lane end-to-end runs (`make e2e`). The DuckDB lane (`make e2e-duckdb`) needs neither,
+  but swaps `samples.healthverity` for a small checked-in sample CSV and skips the two
+  Databricks-only dlt examples (Iceberg, UC constraints).
+- `dbt parse` works offline, but `dbt build` on the default target needs warehouse connectivity and
+  permissions to create schemas/tables.
 - The Databricks Asset Bundle requires the Databricks CLI plus `DATABRICKS_HOST` or a configured CLI
   profile for validation/deploys.
 - The SQL example uses a public read-only Postgres source by default. Swap the DSN before adapting it

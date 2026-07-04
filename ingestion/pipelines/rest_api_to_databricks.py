@@ -17,6 +17,7 @@ import json
 import os
 import sys
 import time
+import uuid
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -94,8 +95,10 @@ def fetch_json(path: str) -> list[dict[str, object]]:
 def shape_posts(rows: list[dict[str, object]], load_id: str) -> list[dict[str, object]]:
     """Map raw API posts to the dlt "raw contract" that dbt's stg_rest_posts reads.
 
-    The Spark landing fallback must emit the same snake_case columns (+ _dlt_load_id) dlt would,
-    so serverless landing and the dlt destination stay schema-compatible downstream.
+    The Spark landing fallback must emit the same snake_case columns plus dlt's bookkeeping
+    columns (_dlt_load_id AND _dlt_id) that the dlt destination would. Omitting _dlt_id once
+    broke the other lane: dlt's later MERGE into the Spark-created table failed on the
+    missing column.
     """
     return [
         {
@@ -104,6 +107,7 @@ def shape_posts(rows: list[dict[str, object]], load_id: str) -> list[dict[str, o
             "title": row["title"],
             "body": row["body"],
             "_dlt_load_id": load_id,
+            "_dlt_id": uuid.uuid4().hex[:14],
         }
         for row in rows
     ]
@@ -119,6 +123,7 @@ def shape_comments(rows: list[dict[str, object]], load_id: str) -> list[dict[str
             "email": row["email"],
             "body": row["body"],
             "_dlt_load_id": load_id,
+            "_dlt_id": uuid.uuid4().hex[:14],
         }
         for row in rows
     ]
@@ -145,11 +150,11 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
 
 
 def run_with_dlt(catalog: str | None, dataset_name: str) -> None:
-    from _common import databricks_pipeline
+    from _common import demo_pipeline
 
     if catalog:
         os.environ["DESTINATION__DATABRICKS__CREDENTIALS__CATALOG"] = catalog
-    pipeline = databricks_pipeline("rest_api_demo", dataset_name=dataset_name)
+    pipeline = demo_pipeline("rest_api_demo", dataset_name=dataset_name)
     load_info = pipeline.run(build_source())
     print(load_info)
 

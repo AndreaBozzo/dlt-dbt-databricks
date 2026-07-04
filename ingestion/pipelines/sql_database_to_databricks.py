@@ -29,7 +29,7 @@ _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_fil
 sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
 import dlt  # noqa: E402
-from _common import databricks_pipeline  # noqa: E402
+from _common import demo_pipeline  # noqa: E402
 from sqlalchemy import create_engine, text  # noqa: E402
 
 # A real source table: which databases RNAcentral imports from. Swap for your own.
@@ -62,7 +62,7 @@ def rnc_database(
 
 
 def main() -> None:
-    pipeline = databricks_pipeline("sql_database_demo")
+    pipeline = demo_pipeline("sql_database_demo")
     load_info = pipeline.run(rnc_database())
     print(load_info)
 

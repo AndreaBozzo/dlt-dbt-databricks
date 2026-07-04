@@ -19,6 +19,15 @@ dlt_dbt_databricks:
       schema: analytics                       # dbt builds models here
       threads: 4
 
+    # --- Local/CI lane: DuckDB, no workspace needed ---
+    # Reads the same file the dlt pipelines write when DLT_DESTINATION=duckdb.
+    # Path is resolved from the process working dir — run from the repo root (make / CI do).
+    duckdb:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', 'local/dlt_dbt.duckdb') }}"
+      schema: analytics
+      threads: 4
+
     # --- Production: M2M OAuth (service principal) ---
     # prod:
     #   type: databricks

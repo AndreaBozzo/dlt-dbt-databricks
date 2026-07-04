@@ -338,6 +338,48 @@ def build_llm_prompt(report: GateReport) -> str:
     )
 
 
+def run_llm_review(report: GateReport) -> str | None:
+    """Send the packet's prompt to Claude and return its review, or None if unavailable.
+
+    The deterministic gate decision is already made — the LLM adds a grounded narrative
+    (business impact, risk, next action) on top of it, never authority over it. Degrades
+    gracefully: missing SDK or credentials produce a note on stderr, not a failure.
+    """
+    try:
+        import anthropic
+    except ImportError:
+        print(
+            "LLM review skipped: anthropic SDK not installed (uv sync --extra llm).",
+            file=sys.stderr,
+        )
+        return None
+
+    client = anthropic.Anthropic()  # resolves ANTHROPIC_API_KEY / CLI login profile
+    try:
+        response = client.messages.create(
+            model="claude-opus-4-8",
+            max_tokens=1024,
+            system=(
+                "You are reviewing data-quality gate packets for an insurance claims "
+                "analytics pipeline (dlt ingestion -> dbt models on Databricks)."
+            ),
+            messages=[{"role": "user", "content": build_llm_prompt(report)}],
+        )
+    except (anthropic.AuthenticationError, TypeError):
+        # TypeError is the SDK's "no credential source at all" failure mode.
+        print(
+            "LLM review skipped: no Anthropic credentials (set ANTHROPIC_API_KEY).",
+            file=sys.stderr,
+        )
+        return None
+    except (anthropic.APIStatusError, anthropic.APIConnectionError) as error:
+        print(f"LLM review skipped: API error ({error}).", file=sys.stderr)
+        return None
+
+    text = "".join(block.text for block in response.content if block.type == "text")
+    return text.strip() or None
+
+
 def format_result(result: DbtResult) -> str:
     failures = "" if result.failures is None else f", failures={result.failures}"
     message = "" if not result.message else f": {result.message}"
@@ -394,6 +436,19 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output", type=Path, help="Write the Markdown packet to this path.")
     parser.add_argument("--json", action="store_true", help="Print a compact JSON decision.")
+    parser.add_argument(
+        "--fail-on-block",
+        action="store_true",
+        help="Exit non-zero when the decision is 'block', so pipelines/CI stop on bad runs.",
+    )
+    parser.add_argument(
+        "--llm",
+        action="store_true",
+        help=(
+            "Also send the packet's prompt to Claude and append the review "
+            "(needs `uv sync --extra llm` and Anthropic credentials)."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -414,29 +469,34 @@ def main() -> int:
         results = load_dbt_results(args.run_results)
         metrics = load_metrics(args.metrics)
     report = evaluate_gate(results, metrics, sample_mode=sample_mode)
+    llm_review = run_llm_review(report) if args.llm else None
 
     if args.json:
-        print(
-            json.dumps(
-                {
-                    "decision": report.decision,
-                    "score": report.score,
-                    "summary": report.summary,
-                    "sample_mode": report.sample_mode,
-                    "actions": report.actions,
-                },
-                indent=2,
-            )
-        )
+        payload = {
+            "decision": report.decision,
+            "score": report.score,
+            "summary": report.summary,
+            "sample_mode": report.sample_mode,
+            "actions": report.actions,
+        }
+        if llm_review:
+            payload["llm_review"] = llm_review
+        print(json.dumps(payload, indent=2))
     else:
         markdown = report.to_markdown()
+        if llm_review:
+            markdown += f"\n## LLM Review (claude-opus-4-8)\n\n{llm_review}\n"
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(markdown, encoding="utf-8")
             print(f"Wrote {args.output}")
+            print(f"Decision: {report.decision.upper()} (score {report.score}/100)")
         else:
             print(markdown)
 
+    if args.fail_on_block and report.decision == "block":
+        print(f"Gate decision is BLOCK (score {report.score}/100) — failing.", file=sys.stderr)
+        return 1
     return 0
 
 

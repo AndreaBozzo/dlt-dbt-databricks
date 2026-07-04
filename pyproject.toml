@@ -22,6 +22,12 @@ dependencies = [
 [project.optional-dependencies]
 # `sql_database_to_databricks.py` needs a driver. Postgres by default; swap as needed.
 postgres = ["psycopg2-binary>=2.9"]
+duckdb = [
+    "dbt-duckdb>=1.9,<2",
+]
+llm = [
+    "anthropic>=0.40",
+]
 
 [dependency-groups]
 dev = [

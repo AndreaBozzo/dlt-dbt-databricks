@@ -1,5 +1,25 @@
 version: 2
 
+# Unit test (dbt 1.8+): the reversal/rollup math is exactly what breaks silently — pin it on
+# fixed rows. NULL money must not count, negatives must net, ratio = allowed/charged.
+unit_tests:
+  - name: int_claims_nets_reversals_into_claim_totals
+    model: int_claims
+    given:
+      - input: ref('stg_claims')
+        rows:
+          - {claim_id: "C1", hvid: "H1", service_date: 2025-03-05, diagnosis_code: "E11.9",
+             line_charge: 100.0, line_allowed: 80.0}
+          - {claim_id: "C1", hvid: "H1", service_date: 2025-03-01, diagnosis_code: "I10",
+             line_charge: -50.0, line_allowed: -40.0}
+          - {claim_id: "C1", hvid: "H1", service_date: 2025-03-09, diagnosis_code: "E11.9",
+             line_charge: null, line_allowed: null}
+    expect:
+      rows:
+        - {claim_id: "C1", hvid: "H1", line_count: 3, distinct_diagnoses: 2,
+           first_service_date: 2025-03-01, total_charge: 50.0, total_allowed: 40.0,
+           allowed_ratio: 0.8}
+
 models:
   - name: int_claims
     description: "One row per claim (line detail rolled up). Header + summed money."
@@ -17,15 +37,37 @@ models:
               config:
                 severity: warn
 
+  # Both marts carry an ENFORCED model contract (dbt 1.5+): dbt verifies the built columns and
+  # data types match this spec before creating the table, so downstream consumers (the quality
+  # gate, BI) can rely on the shape. Change the SQL without the yml and the build fails.
   - name: mart_claims_by_payer
     description: "Claim & cost metrics by payer_type, state, claim_type."
+    config:
+      contract:
+        enforced: true
     columns:
+      - name: payer_type
+        data_type: string
+      - name: patient_state
+        data_type: string
+      - name: claim_type
+        data_type: string
       - name: claims
+        data_type: bigint
         data_tests:
           - dbt_expectations.expect_column_values_to_be_between:
               arguments:
                 min_value: 1
+      - name: members
+        data_type: bigint
+      - name: total_charge
+        data_type: double
+      - name: total_allowed
+        data_type: double
+      - name: avg_allowed_per_claim
+        data_type: double
       - name: allowed_ratio
+        data_type: double
         description: "Allowed / charged. Usually 0..1; can exceed 1 in edge cases."
         data_tests:
           - dbt_expectations.expect_column_values_to_be_between:
@@ -35,11 +77,30 @@ models:
 
   - name: mart_member_summary
     description: "One row per insured member (hvid) with utilization + cost."
+    config:
+      contract:
+        enforced: true
     columns:
       - name: hvid
+        data_type: string
         data_tests: [not_null, unique]
+      - name: primary_payer_type
+        data_type: string
+      - name: patient_state
+        data_type: string
       - name: claim_count
+        data_type: bigint
         data_tests:
           - dbt_expectations.expect_column_values_to_be_between:
               arguments:
                 min_value: 1
+      - name: total_service_lines
+        data_type: bigint
+      - name: total_charge
+        data_type: double
+      - name: total_allowed
+        data_type: double
+      - name: first_claim_date
+        data_type: date
+      - name: last_claim_date
+        data_type: date

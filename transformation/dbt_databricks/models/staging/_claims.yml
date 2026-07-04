@@ -32,3 +32,38 @@ models:
                 severity: warn
       - name: is_reversal
         description: "True when line_charge < 0 (claim reversal/adjustment)."
+
+# dbt UNIT tests (dbt 1.8+): assert the staging logic on fixed inputs, before any data exists.
+# They run during `dbt build` on every lane — including the warehouse-free CI lane.
+unit_tests:
+  - name: stg_claims_types_codes_and_flags_reversals
+    description: >
+      The raw table is all strings: staging must cast money/dates, normalize claim_type and
+      payer_type codes, blank-to-null the codes, and flag negative charges as reversals.
+    model: stg_claims
+    given:
+      # format sql (not dict rows): dict fixtures need the source relation to exist so dbt can
+      # read its column types, but on the DuckDB lane this source is a CSV via external_location.
+      # A literal SELECT works on every adapter and pins the raw all-string contract explicitly.
+      - input: source('healthverity', 'claims_sample_synthetic')
+        format: sql
+        rows: |
+          select
+            'C1' as claim_id, '' as hvid, '1' as service_line_number, 'P' as claim_type,
+            '2025-03-01' as date_service, 'commercial' as payer_type, '' as diagnosis_code,
+            '' as procedure_code, '' as revenue_code, '' as patient_gender,
+            '1980' as patient_year_of_birth, '' as patient_state, '' as patient_zip3,
+            '-120.50' as line_charge, '-96.40' as line_allowed,
+            '' as prov_billing_npi, '' as prov_rendering_npi
+    expect:
+      rows:
+        - claim_id: "C1"
+          service_line_number: 1
+          claim_type: "professional"
+          service_date: 2025-03-01
+          payer_type: "COMMERCIAL"
+          diagnosis_code: null
+          patient_year_of_birth: 1980
+          line_charge: -120.5
+          line_allowed: -96.4
+          is_reversal: true

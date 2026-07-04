@@ -13,7 +13,7 @@ ingestion/
 ├── .dlt/
 │   ├── config.toml            # non-secret config (catalog, optional staging volume)
 │   └── secrets.toml.example   # credential template (or use .env env vars)
-├── _common.py                 # shared: load .env + build the Databricks-destination pipeline
+├── _common.py                 # shared: load .env + build the destination pipeline (see lanes below)
 ├── pipelines/
 │   ├── rest_api_to_databricks.py     # declarative rest_api source, parent→child, merge
 │   └── sql_database_to_databricks.py # real public Postgres → custom SQL resource, incremental + merge
@@ -34,6 +34,22 @@ make dlt-contracts
 
 `rest_api_to_databricks.py` uses a public no-auth API, so it's the best first smoke test once your
 `.env` has Databricks credentials.
+
+## Destination lanes
+
+`_common.demo_pipeline()` picks the destination from `DLT_DESTINATION`:
+
+- **`databricks`** (default) — Unity Catalog via the credentials below.
+- **`duckdb`** — no credentials, no workspace: the same pipelines land the same raw tables in
+  `local/dlt_dbt.duckdb` (override with `DUCKDB_PATH`), which dbt's `duckdb` profile target reads.
+  This is the lane CI runs (`make e2e-duckdb`).
+
+```bash
+DLT_DESTINATION=duckdb uv run python ingestion/pipelines/rest_api_to_databricks.py
+```
+
+The two Databricks-specific examples (`iceberg_table_format.py`, `data_contracts.py`) configure the
+Databricks destination explicitly and stay workspace-only.
 
 ## Credentials
 

@@ -60,6 +60,21 @@ resources:
             commands:
               - "dbt deps"
               - "dbt build"
+        # 3) Agentic quality gate — dbt tests already gate correctness; this task adds the
+        #    metric thresholds (volume, freshness, allowed-ratio) and fails the job on `block`.
+        - task_key: quality_gate
+          depends_on:
+            - task_key: dbt_build
+          environment_key: default
+          spark_python_task:
+            python_file: orchestration/gate_on_databricks.py
+            parameters:
+              - "--catalog"
+              - "${var.catalog}"
+              - "--schema"
+              - "${var.schema}"
+              - "--raw-schema"
+              - "raw"
       environments:
         - environment_key: default
           spec:

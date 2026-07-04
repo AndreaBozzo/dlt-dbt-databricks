@@ -50,3 +50,41 @@ jobs:
         env:
           # dbt parse does not connect; these satisfy any env_var() lookups during parsing.
           DLT_DATASET_NAME: raw
+
+  # Warehouse-free execution: the same dlt pipelines and dbt models run against a local DuckDB
+  # file, then the agentic quality gate evaluates the real dbt artifacts. Proves the examples
+  # RUN, not just parse — no Databricks workspace or secrets needed.
+  e2e-duckdb:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --extra duckdb
+
+      - name: dbt deps + profiles
+        working-directory: transformation/dbt_databricks
+        run: |
+          cp profiles.yml.example profiles.yml
+          uv run dbt deps
+
+      - name: dlt -> DuckDB -> dbt -> quality gate
+        run: uv run python orchestration/run_e2e.py --lane duckdb
+
+      - name: Upload gate packet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-packet
+          path: |
+            local/gate_packet.md
+            local/gate_metrics.json
+          if-no-files-found: ignore

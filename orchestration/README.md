@@ -11,6 +11,22 @@ enough to demo and test the full handoff locally.
 make e2e        # or: uv run python orchestration/run_e2e.py
 ```
 
+## Warehouse-free lane: `run_e2e.py --lane duckdb`
+
+The same pipelines and models, no workspace: dlt loads into a local DuckDB file
+(`DLT_DESTINATION=duckdb`), dbt builds with its `duckdb` profile target against that file (the
+`samples.healthverity` source resolves to a checked-in sample CSV via dbt-duckdb's
+`external_location`), then [`collect_gate_metrics.py`](collect_gate_metrics.py) queries the built
+marts and the [agentic quality gate](agentic_quality_gate.py) evaluates the **real**
+`run_results.json` + metrics, failing the run on a `block` decision (`--fail-on-block`).
+
+```bash
+make e2e-duckdb   # or: uv run python orchestration/run_e2e.py --lane duckdb
+```
+
+This is what the `e2e-duckdb` CI job runs on every PR, so every example is *executed* — not just
+parsed — before merge. The gate packet lands in `local/gate_packet.md` (uploaded as a CI artifact).
+
 It runs dbt through the same Python environment that launched the script, so `uv run python
 orchestration/run_e2e.py` uses the repo-managed dbt install and the same env/credentials used
 everywhere else.

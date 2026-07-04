@@ -1,0 +1,19 @@
+version: 2
+
+# Exposures declare the downstream consumers of the marts, so `dbt docs` / lineage show WHO
+# depends on a model before you change it, and `dbt ls --select +exposure:...` scopes builds.
+exposures:
+  - name: agentic_claims_quality_gate
+    label: "Agentic claims quality gate"
+    type: application
+    maturity: medium
+    url: https://github.com/AndreaBozzo/dlt-dbt-databricks/blob/main/docs/agentic-quality-gate.md
+    description: >
+      The promotion gate (orchestration/agentic_quality_gate.py) reads these marts' metrics and
+      dbt run results to decide promote / review / block for each pipeline run.
+    depends_on:
+      - ref('mart_claims_by_payer')
+      - ref('mart_member_summary')
+    owner:
+      name: Andrea Bozzo
+      email: andreabozzo92@gmail.com
