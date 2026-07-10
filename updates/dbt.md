@@ -4,6 +4,34 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-10 — dbt-databricks 1.12.2: SDK cap raised to <0.118.0
+
+- **dbt-databricks 1.12.2** released **2026-07-09**. The most significant adapter release since 1.12.1.
+- **SDK cap raised:** adapter now requires `databricks-sdk>=0.76.0,<0.118.0` (was `<0.105.0`). After
+  upgrading to 1.12.2 and re-locking (`uv sync`), the repo environment resolves from **0.104.0 →
+  0.117.0**. Versions 0.118.0–0.120.0 are still out of reach under the new cap.
+- **Spark Connect fix (via SDK 0.117.0):** fixes `WorkspaceClient` construction failing with
+  `CONTEXT_UNAVAILABLE_FOR_REMOTE_CLIENT` on Spark Connect clusters — relevant for notebook-embedded
+  dbt or SDK usage patterns.
+- **New features:**
+  - `catalogs.yml` v2 support (opt-in with `use_catalogs_v2: true`)
+  - `skip_optimize` model config — bypass post-materialization OPTIMIZE for faster dev iteration
+  - Rust kernel backend via `connection_parameters: {use_kernel: true}`
+- **Bug fixes:**
+  - Column-level constraints no longer silently dropped on incremental runs when `contract.enforced: false`
+  - Merge config schema typo fixed (`skip_not_matched_step`)
+  - Primary key expressions now preserved during V1 materialization
+  - Column-level tags correctly applied to incremental models
+  - Python model job failures now raise proper errors instead of silently succeeding
+- **Impact on this repo:** no source-code change needed. After upgrading the lockfile to 1.12.2,
+  the SDK resolves to 0.117.0. The constraint-drop bug fix is informational — marts in this repo
+  use `data_tests` only (no column-level constraints), so behavior is unchanged.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.2
+
+---
+
 ## 2026-06-18 — release check: 1.12.1 still latest; contract.enforced detail
 
 - **No new `dbt-databricks` release** since 1.12.1 (2026-06-10); it remains the current adapter line.
