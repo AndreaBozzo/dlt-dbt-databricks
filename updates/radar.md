@@ -4,6 +4,18 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-10 — dbt-databricks 1.12.2 unlocks SDK to 0.117.0; dlt and SDK tip unchanged
+
+**dlt** — **1.28.1** still latest (no change since 2026-06-19). No Databricks-specific fixes or example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** released **2026-07-09** — the gating release. Adapter's `databricks-sdk` upper cap raised from `<0.105.0` → `<0.118.0`. After upgrading and re-locking, the repo environment moves from SDK **0.104.0 → 0.117.0** (the highest version satisfying the new cap). Also ships: `skip_optimize` model config, Rust kernel backend (`use_kernel: true`), catalogs.yml v2, Spark Connect WorkspaceClient fix, and a constraint-drop bugfix for incremental runs. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.120.0** (2026-07-02) is still the latest release. Under the new `<0.118.0` cap, 0.117.0 is the highest reachable version — 3 minor releases below the tip. SDP / platform release notes returned HTTP 403 again this run. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Upgrade path is now open: `uv sync` against dbt-databricks 1.12.2 resolves SDK to 0.117.0. Zerobus ingestion path still a candidate example once the Unity Catalog Volume serverless staging issue (`Connection refused`) is resolved upstream. Next gate: whenever dbt-databricks raises the cap past 0.120.0 to reach the current SDK tip.
+
+---
+
 ## 2026-07-03 — SDK 0.120.0 released; dlt and dbt-databricks unchanged
 
 **dlt** — **1.28.1** still latest (no change since 2026-06-19). No Databricks-specific fixes or example updates needed. → [dlt.md](dlt.md)
