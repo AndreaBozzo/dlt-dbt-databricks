@@ -4,6 +4,26 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-11 — dlt 1.28.2 maintenance patch; dbt-databricks and SDK tip unchanged
+
+**dlt** — **1.28.2** released **2026-07-10** (missed in yesterday's radar). Maintenance only:
+loosens the `dlthub-client` upper-version cap so the 1.28.x branch can work with future client
+releases without a new dlt minor. No Databricks-specific changes; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** (2026-07-09) unchanged. SDK cap is now `<0.118.0`; repo
+resolves to 0.117.0 after upgrading. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.120.0** (2026-07-02) unchanged. Under the `<0.118.0` cap,
+0.117.0 remains the highest reachable version. SDP / platform release notes returned HTTP 403
+again this run — no new Lakeflow/SDP entries confirmed. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. Next SDK gate:
+whenever dbt-databricks raises the cap past 0.120.0 to reach the 0.120.0 tip.
+
+---
+
 ## 2026-07-10 — dbt-databricks 1.12.2 unlocks SDK to 0.117.0; dlt and SDK tip unchanged
 
 **dlt** — **1.28.1** still latest (no change since 2026-06-19). No Databricks-specific fixes or example updates needed. → [dlt.md](dlt.md)
