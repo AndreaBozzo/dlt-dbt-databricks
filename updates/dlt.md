@@ -4,6 +4,21 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-11 — dlt 1.28.2 maintenance patch (2026-07-10); no Databricks impact
+
+- **dlt 1.28.2** shipped **2026-07-10** — a maintenance patch on top of 1.28.1.
+- **Sole change:** the `dlthub-client` upper-version cap is relaxed so the 1.28.x branch can
+  consume future `dlthub-client` releases without requiring a new dlt minor release. No
+  functional changes to the dlt library itself.
+- **No Databricks-specific changes** in this release; no example updates needed.
+- Python support unchanged: 3.10–3.14.
+
+Sources:
+- https://pypi.org/project/dlt/#history
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-06-25 — release check: still 1.28.1; retroactive FK/create_indexes finding affects example
 
 - **No new dlt release** since 1.28.1 (2026-06-19).
