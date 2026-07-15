@@ -4,6 +4,31 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-15 — dlt 1.29.0 new minor release (2026-07-13); no Databricks-specific changes
+
+- **dlt 1.29.0** shipped **2026-07-13** — the first new minor release since 1.28.x.
+- **No Databricks-specific changes** in this release; no example updates needed.
+- **Key new features (generic):**
+  - **ClickHouse staging-optimized replace** (PR #3927): atomic table swaps via `EXCHANGE TABLES` on
+    ClickHouse — not relevant for Databricks.
+  - **AWS Secret Manager provider** (PR #4162): resolve dlt secrets directly from AWS Secrets Manager
+    without a local config file — useful for Databricks-on-AWS deployments that already use ASM for
+    credentials, but requires no changes to Databricks-destination code.
+  - **Explicit `Relation.join()`** (PR #3868): dataset-level join API with cross-destination
+    compatibility rules (`physical_location()` + `can_join_with`). Enables querying across dlt
+    datasets from different destinations — worth watching for future Unity Catalog cross-schema
+    query examples.
+  - **Arrow type promotion fix** (PR #3896): fixes crashes when Arrow type promotions span multiple
+    flush batches — relevant if loading large columnar payloads to any destination including
+    Databricks, though no Databricks-specific regressions were reported.
+- **Python support**: 3.10–3.14 (unchanged).
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.29.0
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-07-14 — dlt 1.29.0 minor release (2026-07-13); no Databricks impact
 
 - **dlt 1.29.0** shipped **2026-07-13** — first minor release since 1.28.0.
