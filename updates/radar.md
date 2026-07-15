@@ -4,6 +4,26 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-15 — dlt 1.29.0 new minor; dbt-databricks and SDK unchanged
+
+**dlt** — **1.29.0** released **2026-07-13** (first minor since 1.28.x). No Databricks-specific
+changes. New cross-tool features: ClickHouse staging-optimized replace, AWS Secret Manager
+provider, explicit `Relation.join()` API with cross-destination `can_join_with` rules, and an
+Arrow type-promotion flush-batch fix. No example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** (2026-07-09) unchanged. SDK cap is `<0.118.0`; repo
+resolves to **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.120.0** (2026-07-02) unchanged. Under the `<0.118.0` cap,
+**0.117.0** remains the highest reachable version. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — dlt 1.29.0's `Relation.join()` + `physical_location()` accessor is
+worth watching as a future cross-schema Unity Catalog query example. Zerobus ingestion example
+still a candidate once the Unity Catalog Volume serverless staging issue (`Connection refused`) is
+resolved upstream. Next SDK gate: whenever dbt-databricks raises the cap past 0.120.0.
+
+---
+
 ## 2026-07-11 — dlt 1.28.2 maintenance patch; dbt-databricks and SDK tip unchanged
 
 **dlt** — **1.28.2** released **2026-07-10** (missed in yesterday's radar). Maintenance only:
