@@ -29,6 +29,30 @@ Sources:
 
 ---
 
+## 2026-07-14 — dlt 1.29.0 minor release (2026-07-13); no Databricks impact
+
+- **dlt 1.29.0** shipped **2026-07-13** — first minor release since 1.28.0.
+- **No Databricks-specific changes** in this release; no example updates needed.
+- Notable additions in other destinations and capabilities:
+  - **ClickHouse** — new `staging-optimized` replace strategy for atomic table swaps via
+    `EXCHANGE TABLES`.
+  - **AWS Secret Manager** config provider added (feature-parity with Google Secret Manager).
+  - **Relations API** — `Relation.join()` for explicit cross-dataset joins; `physical_location()`
+    accessor and `can_join_with` rules for cross-destination join-compatibility checks.
+  - **BigQuery** — opt-in atomic replace via `enable_atomic_replace` using single-job
+    `WRITE_TRUNCATE_DATA` loads.
+  - **DuckDB** now fully supported as a SQLAlchemy destination.
+  - **Parquet compression** configurable via `DATA_WRITER__COMPRESSION`.
+- Notable fixes: normalize crash on empty Arrow tables with `_dlt_id`; metric aggregation
+  undercounting across normalize workers; Airflow parallel staging truncation; merge SQL
+  generation (subquery placement).
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.29.0
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-07-11 — dlt 1.28.2 maintenance patch (2026-07-10); no Databricks impact
 
 - **dlt 1.28.2** shipped **2026-07-10** — a maintenance patch on top of 1.28.1.

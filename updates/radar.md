@@ -24,6 +24,30 @@ resolved upstream. Next SDK gate: whenever dbt-databricks raises the cap past 0.
 
 ---
 
+## 2026-07-14 — dlt 1.29.0 minor release; dbt-databricks and SDK unchanged
+
+**dlt** — **1.29.0** released **2026-07-13**. No Databricks-specific changes. New in other
+destinations/capabilities: ClickHouse atomic-swap replace (`staging-optimized` strategy), AWS
+Secret Manager config provider, Relations API explicit joins (`Relation.join()`) with
+`physical_location()` and cross-destination `can_join_with` compatibility checks, BigQuery
+atomic replace (opt-in), DuckDB as SQLAlchemy destination, configurable Parquet compression.
+No example updates needed for this repo. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** (2026-07-09) unchanged. SDK cap is `<0.118.0`; repo
+resolves to 0.117.0. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.120.0** (2026-07-02) unchanged. Under the `<0.118.0` cap,
+0.117.0 remains the highest reachable version. SDP / platform release notes returned HTTP 403
+again this run — no new Lakeflow/SDP entries confirmed. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Relations API `Relation.join()` (dlt 1.29.0) is a future candidate
+for a cross-pipeline dataset-join example; needs design thought on cross-destination semantics
+before implementing. Zerobus ingestion example still a candidate once the Unity Catalog Volume
+serverless staging issue (`Connection refused`) is resolved upstream. Next SDK gate: whenever
+dbt-databricks raises the cap past 0.120.0.
+
+---
+
 ## 2026-07-11 — dlt 1.28.2 maintenance patch; dbt-databricks and SDK tip unchanged
 
 **dlt** — **1.28.2** released **2026-07-10** (missed in yesterday's radar). Maintenance only:
