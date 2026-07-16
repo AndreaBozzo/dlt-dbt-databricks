@@ -4,6 +4,29 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-16 — dbt-databricks 1.12.2 lifts SDK gate; dlt 1.29.0 out; SDK unchanged
+
+**dlt** — **1.29.0** released **2026-07-13** (up from 1.28.1). No Databricks-specific changes —
+new features are ClickHouse atomic swap, AWS Secret Manager config provider, explicit Relation
+joins, and Parquet codec config. No example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** shipped **2026-07-09**. The headline change: **databricks-sdk
+cap raised from `<0.105.0` to `<0.118.0`** — the first SDK gate lift since the adapter has been at
+1.12.x. With 1.12.2 installed, `uv lock` will resolve databricks-sdk to **0.117.x** (currently
+0.104.0 in this repo's lockfile). Additional features: `skip_optimize` model config, Rust kernel
+backend support, catalogs.yml v2. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.120.0** (2026-07-02) remains latest — no new release since
+last check. With dbt-databricks 1.12.2 the repo can now reach **0.117.x**; 0.118.0–0.120.0 remain
+out of reach until the adapter cap advances past 0.118.0. SDP / platform release notes returned
+HTTP 403 again — no new Lakeflow entries confirmed. → [databricks.md](databricks.md)
+
+**Watch / action items** — Run `uv lock` to upgrade this repo from dbt-databricks 1.12.1 →
+1.12.2 and databricks-sdk 0.104.0 → 0.117.x. The `iamv2.User.name` breaking change (0.120.0) is
+above the new cap and won't be picked up. No example code changes needed from this cycle.
+
+---
+
 ## 2026-07-03 — SDK 0.120.0 released; dlt and dbt-databricks unchanged
 
 **dlt** — **1.28.1** still latest (no change since 2026-06-19). No Databricks-specific fixes or example updates needed. → [dlt.md](dlt.md)

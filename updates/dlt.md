@@ -4,6 +4,23 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-16 — 1.29.0 released (2026-07-13); no Databricks-specific changes
+
+- **dlt 1.29.0** shipped **2026-07-13** (first new release since 1.28.1 on 2026-06-19).
+- Key new features: ClickHouse staging-optimized replace via `EXCHANGE TABLES` for atomic swaps;
+  AWS Secret Manager config provider (mirrors existing Google Secret Manager support); explicit join
+  API (`Relation.join()` with controlled join conditions); cross-destination join compatibility
+  (physical location accessors and join compatibility rules across destinations); BigQuery atomic
+  replace with optional `enable_atomic_replace` flag; configurable Parquet compression codec via
+  env var or direct config; cross-batch schema evolution in Arrow-to-Parquet conversion; DuckDB
+  SQLAlchemy destination fixes.
+- **No Databricks-specific changes** in this release. No example updates required for this repo.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.29.0
+
+---
+
 ## 2026-06-25 — release check: still 1.28.1; retroactive FK/create_indexes finding affects example
 
 - **No new dlt release** since 1.28.1 (2026-06-19).

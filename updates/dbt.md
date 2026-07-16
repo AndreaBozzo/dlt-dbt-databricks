@@ -4,6 +4,37 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-16 — dbt-databricks 1.12.2 (2026-07-09): SDK cap raised to <0.118.0
+
+- **dbt-databricks 1.12.2** shipped **2026-07-09** — the first adapter release to break past the
+  `<0.105.0` SDK ceiling that has kept this repo on **databricks-sdk 0.104.0** since June 2026.
+- **databricks-sdk cap raised to `<0.118.0`** (up from `<0.105.0` in 1.12.1). With 1.12.2
+  installed, `uv lock` will resolve databricks-sdk up to **0.117.x**. Note: 0.118.0–0.120.0
+  remain out of reach until the adapter bumps its cap again.
+- **dbt-core upper bound raised to `<1.11.13`** (picks up dbt-core 1.11.12).
+- **databricks-sql-connector upper bound raised to `<4.3.1`** (up from `<4.3.0`).
+- **New features:**
+  - **catalogs.yml v2 support** — opt in with `use_catalogs_v2: true` in dbt-core settings.
+  - **`skip_optimize` model config** — lets a model opt out of the post-materialization
+    `OPTIMIZE` call without dropping `zorder`/`liquid_clustered_by`, delegating optimization
+    elsewhere (useful for latency-sensitive models or external OPTIMIZE orchestration).
+  - **Rust kernel backend** — enable via `connection_parameters: {use_kernel: true}` on SQL
+    warehouses; supports PAT + Databricks OAuth; requires Python ≥ 3.10 (satisfied by this repo's
+    ≥ 3.12 requirement).
+- **Behavioral change:** changing `expression` on an existing PK/FK constraint
+  (`RELY`↔`NORELY`) no longer applies on incremental runs — requires `--full-refresh`.
+  (Relevant if constraints are added to the marts; current marts use `data_tests` only.)
+- **Action for this repo:** run `uv lock` to upgrade from dbt-databricks 1.12.1 → 1.12.2 and
+  databricks-sdk 0.104.0 → 0.117.x. SDK breaking changes introduced between 0.104.0 and 0.117.x
+  (`replicate_workspace_assets` becoming optional in 0.119.0, `cancel_pending_cluster_enforcement`
+  added in 0.119.0, `iamv2.User.name` removed in 0.120.0) are all above the new cap and therefore
+  not a concern.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.2
+
+---
+
 ## 2026-06-18 — release check: 1.12.1 still latest; contract.enforced detail
 
 - **No new `dbt-databricks` release** since 1.12.1 (2026-06-10); it remains the current adapter line.

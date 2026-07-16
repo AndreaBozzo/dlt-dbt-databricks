@@ -4,6 +4,23 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-16 — SDK gate lifted: dbt-databricks 1.12.2 raises cap to <0.118.0
+
+- **No new databricks-sdk release** since 0.120.0 (2026-07-02, logged 2026-07-03).
+- **Gate lifted by dbt-databricks 1.12.2 (2026-07-09):** the adapter's SDK upper cap has been
+  raised from `<0.105.0` to `<0.118.0`. Running `uv lock` in this repo will resolve
+  **databricks-sdk to 0.117.x** (the highest 0.117.x on PyPI), ending the long period of being
+  stuck on 0.104.0.
+- **SDK 0.118.0–0.120.0 still out of reach** until the adapter bumps its cap past 0.118.0.
+  The `iamv2.User.name` breaking change (0.120.0) therefore remains irrelevant to this repo.
+- **SDP / platform release notes** returned HTTP 403 this run — no new Lakeflow/SDP entries confirmed.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.2
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-07-03 — databricks-sdk 0.120.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.120.0** shipped **2026-07-02**. Highlights: `download_message_attachment_visualization()` added to the Genie workspace service; new `sql_condition` fields across job trigger-related classes; `full_name` field added to IAM User (paired with breaking change below); `excluded_schemas` for `CatalogConfig`; `telemetry_config` across serving endpoint classes; `status_message` for `AiRuntimeTaskOutput`; PostgreSQL service additions (`replace_existing`, pooled host options, autoscaling limits). Breaking change — **`name` field removed from `databricks.sdk.service.iamv2.User`** (replaced by `full_name`); code calling `.name` on an IAM User object will break on 0.120.0+.
