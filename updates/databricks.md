@@ -4,6 +4,23 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-18 — databricks-sdk 0.121.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.121.0** shipped **2026-07-17**. Highlights: workspace-level grants
+  methods added; API enhancements across jobs, ML, and serving services. Breaking changes:
+  `include_browse` removed from secret operations; several fields removed from ML aggregation
+  functions.
+- **No repo change:** `dbt-databricks 1.12.2` pins `databricks-sdk<0.118.0`, so the resolved
+  environment stays on **0.117.0**. Versions 0.118.0–0.121.0 all remain above the cap; the next
+  gate is whenever dbt-databricks raises the cap past 0.121.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.121.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-07-10 — SDK cap unlocked: 0.117.0 now reachable via dbt-databricks 1.12.2
 
 - **No new databricks-sdk release** since 0.120.0 (2026-07-02). Latest remains 0.120.0.

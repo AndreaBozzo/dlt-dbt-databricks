@@ -4,6 +4,26 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-18 — SDK 0.121.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.29.0** (2026-07-13) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** (2026-07-09) unchanged. SDK cap is `<0.118.0`; repo resolves
+to **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.121.0** shipped **2026-07-17** (new since 2026-07-15 check).
+Highlights: workspace-level grants methods added; API enhancements across jobs, ML, and serving
+services. Breaking changes: `include_browse` removed from secret operations; several ML aggregation
+function fields removed. Still out of reach under the `<0.118.0` adapter cap — repo stays on
+**0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. Next SDK gate: whenever
+dbt-databricks raises the cap past 0.121.0.
+
+---
+
 ## 2026-07-15 — dlt 1.29.0 new minor; dbt-databricks and SDK unchanged
 
 **dlt** — **1.29.0** released **2026-07-13** (first minor since 1.28.x). No Databricks-specific
