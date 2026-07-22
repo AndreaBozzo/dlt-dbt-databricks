@@ -4,6 +4,27 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-22 — SDK 0.122.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.29.0** (2026-07-13) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** (2026-07-09) unchanged. SDK cap is `<0.118.0`; repo resolves
+to **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.122.0** shipped **2026-07-21** (new since 2026-07-18 check).
+Highlights: clean room task-run listing, Postgres CDF config methods (6 new), pipeline connectors
+for Reddit/Google Ads/TikTok, Jobs performance-target field, Azure capacity reservation for
+instance pools. Breaking: `internal_id` type changed to string on Group/ServicePrincipal/User;
+`AiRuntimeTask.code_source_path` removed; `TimeWindow.long_rolling` removed. Still out of reach
+under the `<0.118.0` adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. Next SDK gate:
+whenever dbt-databricks raises the cap past 0.122.0.
+
+---
+
 ## 2026-07-18 — SDK 0.121.0 new; dlt and dbt-databricks unchanged
 
 **dlt** — **1.29.0** (2026-07-13) unchanged. No Databricks-specific changes; no example updates

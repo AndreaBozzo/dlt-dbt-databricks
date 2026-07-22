@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-22 — databricks-sdk 0.122.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.122.0** shipped **2026-07-21**. Highlights: clean rooms service gains
+  `list_clean_room_task_runs_handler()`; Postgres service adds six new CDF config methods
+  (create/delete/get + status queries); pipeline connectors add Reddit, Google Ads, and TikTok
+  sources; Jobs service gains `performance_target` field; compute instance pools get Azure capacity
+  reservation options; workspace repos support Git CLI mode; serving telemetry tracks table names and
+  profile IDs. Breaking changes: `internal_id` changed from int to string on Group, ServicePrincipal,
+  and User objects; `AiRuntimeTask.code_source_path` field removed; `TimeWindow.long_rolling` option
+  removed; various IAM v2 method paths modified.
+- **No repo change:** `dbt-databricks 1.12.2` pins `databricks-sdk<0.118.0`, so the resolved
+  environment stays on **0.117.0**. Versions 0.118.0–0.122.0 all remain above the cap; the next
+  gate is whenever dbt-databricks raises the cap past 0.122.0.
+- **SDP / platform release notes:** returned HTTP 403 again — no new Lakeflow/SDP entries confirmed.
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.122.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-07-18 — databricks-sdk 0.121.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.121.0** shipped **2026-07-17**. Highlights: workspace-level grants
