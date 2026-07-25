@@ -4,6 +4,26 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-25 — dlt 1.29.1 patch (2026-07-24); no Databricks-specific changes
+
+- **dlt 1.29.1** shipped **2026-07-24** — a patch release on top of 1.29.0.
+- **No Databricks-specific changes** to the destination; no example updates needed.
+- **Key changes:**
+  - `instance` requirement spec added for job resources.
+  - Case-sensitive identifier handling fixed in sqlglot schema normalization.
+  - REST paginator stop-condition now preserved across paginator chains.
+  - JWT authentication fixed when scopes are absent.
+  - Column removal logic improved in `_dlt_load_id` column processing.
+  - **CI note:** transient Databricks (and Azure SQL/ODBC) connection errors are now retried
+    rather than failing the test run — a testing-infrastructure improvement, not a destination
+    code change.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.29.1
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-07-15 — dlt 1.29.0 new minor release (2026-07-13); no Databricks-specific changes
 
 - **dlt 1.29.0** shipped **2026-07-13** — the first new minor release since 1.28.x.

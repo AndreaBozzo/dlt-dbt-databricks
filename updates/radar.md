@@ -4,6 +4,23 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-25 — dlt 1.29.1 patch; dbt-databricks and SDK unchanged
+
+**dlt** — **1.29.1** (2026-07-24) new patch on top of 1.29.0. No Databricks-specific destination
+changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.2** (2026-07-09) unchanged. SDK cap is `<0.118.0`; repo resolves
+to **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.122.0** (2026-07-21) unchanged. Still out of reach under the
+`<0.118.0` adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. Next SDK gate:
+whenever dbt-databricks raises the cap past 0.122.0.
+
+---
+
 ## 2026-07-22 — SDK 0.122.0 new; dlt and dbt-databricks unchanged
 
 **dlt** — **1.29.0** (2026-07-13) unchanged. No Databricks-specific changes; no example updates
