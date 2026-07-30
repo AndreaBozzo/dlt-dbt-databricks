@@ -4,6 +4,34 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-30 — dbt-databricks 1.12.3 patch; SDK cap unchanged
+
+- **dbt-databricks 1.12.3** released **2026-07-29**. Patch release on top of 1.12.2.
+- **SDK cap unchanged:** still `databricks-sdk>=0.76.0,<0.118.0`; repo resolves to **0.117.0**.
+- **New feature:** `catalog_database` support in v2 `catalogs.yml` — routes a Unity Catalog model
+  to a physical catalog independent of the dbt catalog name. Requires `dbt-core>=1.12` and
+  `dbt-adapters>=1.24.4` to use. This repo has no `catalogs.yml` yet; informational for now.
+- **Bug fixes:**
+  - Race condition in lazy SDK initialization (concurrent connection opens).
+  - Streaming table tag diffing: unchanged `databricks_tags` no longer treated as config changes.
+  - Governed tag column drops: columns with governed tags can now be dropped cleanly.
+  - `--full-refresh` view no-op bug fixed when `view_update_via_alter: true` +
+    `use_materialization_v2: true`.
+  - `dbt clone` over existing shallow clones now works.
+  - Managed Iceberg Python models: fixes `MANAGED_TABLE_FORMAT` failure (now emits
+    `.format("iceberg")` instead of the `parquet` sentinel).
+  - Non-ASCII column names in incremental strategies are now quoted correctly.
+  - Missing view-definition metadata handled for newly-created materialized/streaming views.
+- **Under the hood:** `keyring` dependency removed; dbt-core upper bound raised to `<1.12.1`.
+- **Impact on this repo:** no source-code change needed; 1.12.3 is a drop-in patch. The
+  constraint-drop and `view_update_via_alter` fixes are informational — this repo's marts use
+  `data_tests` only (no column-level constraints, no `view_update_via_alter`).
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.3
+
+---
+
 ## 2026-07-10 — dbt-databricks 1.12.2: SDK cap raised to <0.118.0
 
 - **dbt-databricks 1.12.2** released **2026-07-09**. The most significant adapter release since 1.12.1.
