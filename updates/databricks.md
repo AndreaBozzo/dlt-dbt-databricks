@@ -4,6 +4,28 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-07-31 — databricks-sdk 0.123.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.123.0** shipped **2026-07-30**. Highlights: new
+  `w.ai_gateway` workspace-level service for AI Gateway; `update_operation()` for
+  bundle deployments; `patch_telemetry_config()` for serving endpoints. New fields across
+  bundle deployments (`last_successful_version_id`, `updated_by`, `sequence_id`,
+  `previous_version_id`), compute clusters (`dependency_mode`), and SQL alerts
+  (`parameters`). Breaking changes: `create_deployment()` argument order changed;
+  `deployment_id` removed from `CreateDeploymentRequest`; `lifetime` field removed from
+  `TimeWindow`.
+- **No repo change:** `dbt-databricks 1.12.3` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.123.0 all remain above the
+  cap; the next gate is whenever dbt-databricks raises the cap past 0.123.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.123.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-07-22 — databricks-sdk 0.122.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.122.0** shipped **2026-07-21**. Highlights: clean rooms service gains

@@ -4,6 +4,29 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-07-31 — SDK 0.123.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.29.1** (2026-07-24) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.3** (2026-07-29) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.123.0** shipped **2026-07-30** (new since yesterday's check).
+Highlights: new `w.ai_gateway` workspace-level service, `update_operation()` for bundle
+deployments, `patch_telemetry_config()` for serving endpoints, `dependency_mode` on compute
+clusters, and `parameters` on SQL alerts. Breaking: `create_deployment()` argument order changed;
+`deployment_id` removed from `CreateDeploymentRequest`; `lifetime` removed from `TimeWindow`.
+Still out of reach under the `<0.118.0` adapter cap — repo stays on **0.117.0**.
+→ [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `catalog_database`
+in v2 `catalogs.yml` (1.12.3) worth a minimal example once `dbt-core>=1.12` is adopted. Next
+SDK gate: whenever dbt-databricks raises the cap past 0.123.0.
+
+---
+
 ## 2026-07-30 — dbt-databricks 1.12.3 patch; dlt and SDK unchanged
 
 **dlt** — **1.29.1** (2026-07-24) unchanged. No Databricks-specific changes; no example updates
