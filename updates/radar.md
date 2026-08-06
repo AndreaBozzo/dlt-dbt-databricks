@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-06 — SDK 0.124.0 + 0.125.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.29.1** (2026-07-24) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.3** (2026-07-29) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases. **databricks-sdk 0.124.0** (2026-08-04): explicit IAM
+ID fields (`group_id`, `service_principal_id`, `user_id`) replace `internal_id`; credential
+fields pruned from model provider configs (Amazon Bedrock, Azure OpenAI, Microsoft Foundry);
+`mode` on pipeline update operations; `kinesis_stream_config` for ML streaming. Breaking: `state`
+type changed from enum to string in `bundledeployments.Operation` and `bundledeployments.Resource`;
+`internal_id` removed from all IAM types. **databricks-sdk 0.125.0** (2026-08-05): billing
+alert/budget scope controls (`principal_overrides`, `scope_type`, `resource_type`, new `block_usage`
+enum); `netsuite` connection type; `PolicyInfo.grant`; `Transformer.input_column` /
+`output_column` in Pipelines; no breaking changes. Both remain out of reach under the `<0.118.0`
+adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `catalog_database`
+in v2 `catalogs.yml` (1.12.3) worth a minimal example once `dbt-core>=1.12` is adopted. Next
+SDK gate: whenever dbt-databricks raises the cap past 0.125.0.
+
+---
+
 ## 2026-07-31 — SDK 0.123.0 new; dlt and dbt-databricks unchanged
 
 **dlt** — **1.29.1** (2026-07-24) unchanged. No Databricks-specific changes; no example updates

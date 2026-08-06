@@ -4,6 +4,35 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-06 — databricks-sdk 0.124.0 and 0.125.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.124.0** shipped **2026-08-04**. Key additions: explicit
+  `group_id`, `service_principal_id`, and `user_id` identifier fields added to IAM entity
+  types (Group, ServicePrincipal, User); `kinesis_stream_config` for ML streaming source
+  configurations; `mode` field for pipeline update operations. Breaking changes: `state` field
+  type changed from enum to string in `bundledeployments.Operation` and
+  `bundledeployments.Resource`; AWS access credentials removed from Amazon Bedrock model
+  provider config; Azure authentication credentials removed from Azure OpenAI and Microsoft
+  Foundry providers; `internal_id` removed from all three IAM types (superseded by the new
+  explicit ID fields).
+- **Databricks SDK for Python 0.125.0** shipped **2026-08-05**. Additions: billing alert/budget
+  configs gain `principal_overrides`, `scope_type`, and `resource_type` fields plus a new
+  `block_usage` enum value for `ActionConfigurationType`; `PolicyInfo` gains a `grant` field;
+  `netsuite` added as a `ConnectionType`; `policy_type_grant` added to `PolicyType`; `Transformer`
+  class gains `input_column` and `output_column` fields in the Pipelines service. No breaking
+  changes documented.
+- **No repo change:** `dbt-databricks 1.12.3` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.125.0 all remain above the cap;
+  the next gate is whenever dbt-databricks raises the cap past 0.125.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.124.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.125.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-07-31 — databricks-sdk 0.123.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.123.0** shipped **2026-07-30**. Highlights: new
