@@ -4,7 +4,7 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
-## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.126.0/0.127.0 new
+## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
 comments on `_dlt_*` tables are no longer created by default, removing a non-atomicity hazard.
@@ -19,18 +19,38 @@ from logged SQL (security), delete+insert composite key fix (DBR < 17.1), materi
 comment escaping. CVE fix: `databricks-sql-connector` pinned to 4.4.0, resolving 3 CVEs.
 → [dbt.md](dbt.md)
 
-**Databricks** — Two new SDK releases. **databricks-sdk 0.126.0** (2026-08-11): `include_browse`
-removed from catalog/model/MCP operations (breaking); service principal and user fields made
-mandatory; new GPU workload type, token forwarding, secret value inclusion; `legacy_mode` for
-ingress policies. **databricks-sdk 0.127.0** (2026-08-12): Jobs gain `trigger_details`/`triggers`
+**Databricks** — **databricks-sdk 0.127.0** (2026-08-12): Jobs gain `trigger_details`/`triggers`
 fields; Pipelines gain connector source config options; GCP endpoint fields added; no breaking
-changes. Both remain out of reach under the `<0.118.0` adapter cap — repo stays on **0.117.0**.
-→ [databricks.md](databricks.md)
+changes. SDK 0.126.0 (2026-08-11) already logged below. Both remain out of reach under the
+`<0.118.0` adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
 
 **Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
 Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
 on the Databricks destination (new in dlt 1.30.0) worth a config note if timezone-sensitive
 pipelines are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.127.0.
+
+---
+
+## 2026-08-11 — SDK 0.126.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.29.1** (2026-07-24) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.3** (2026-07-29) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.126.0** shipped **2026-08-11** (today). Highlights: Apps
+gain `forward_user_access_token`; `include_value` added to `GetSecretRequest` in Catalog; Jobs
+`AiRuntimeTask` gains `docker_image_url`; `gpu_xlarge_8` workload type added in Serving.
+Breaking: IAMv2 `ServicePrincipal` now requires `account_sp_status` and `display_name`; `User`
+requires `account_user_status`, `full_name`, and `username`; `include_browse` and `browse_only`
+removed from catalog MCP/model-provider/model-service request and response types. Still out of
+reach under the `<0.118.0` adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `catalog_database`
+in v2 `catalogs.yml` (1.12.3) worth a minimal example once `dbt-core>=1.12` is adopted. Next
+SDK gate: whenever dbt-databricks raises the cap past 0.126.0.
 
 ---
 

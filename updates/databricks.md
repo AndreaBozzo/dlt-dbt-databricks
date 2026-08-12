@@ -4,15 +4,8 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
-## 2026-08-12 — databricks-sdk 0.126.0 and 0.127.0 released (adapter cap still binds)
+## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
-- **Databricks SDK for Python 0.126.0** shipped **2026-08-11**. Key additions: new
-  `forward_user_access_token` field for app configs; `include_value` for secret retrieval
-  requests; `docker_image_url` for AI runtime tasks; `gpu_xlarge_8` workload type;
-  `legacy_mode` enum value for ingress network policies. Breaking changes: `include_browse`
-  removed from catalog, MCP, model-provider, and model-service operations; `browse_only` field
-  eliminated from those services; service-principal `account_sp_status` and `display_name` now
-  mandatory; user `account_user_status`, `full_name`, and `username` now mandatory.
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
   `mlflow_artifact_location` on `AiRuntimeTask`, `trigger_details` on `BaseJob`/`Job`, and
   `triggers` on `CreateJob`/`JobSettings`; Pipelines service gains `api_source_connector_options`
@@ -26,8 +19,36 @@ Newest on top. Each entry dated + sourced.
   HTTP 403).
 
 Sources:
-- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.126.0
 - https://github.com/databricks/databricks-sdk-py/releases/tag/v0.127.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
+## 2026-08-11 — databricks-sdk 0.126.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.126.0** shipped **2026-08-11**. Key changes:
+  - **Apps:** `forward_user_access_token` field added to `App` and `AppUpdate`.
+  - **Catalog:** `include_value` field added to `GetSecretRequest`.
+  - **Jobs:** `docker_image_url` field added to `AiRuntimeTask`.
+  - **Serving:** `gpu_xlarge_8` added as a new enum value for `ServedModelInputWorkloadType`
+    and `ServingModelWorkloadType`.
+  - **Settings:** `legacy_mode` added to
+    `CustomerFacingIngressNetworkPolicyCrossWorkspaceAccessRestrictionMode`.
+  - **Breaking — IAMv2:** `account_sp_status` and `display_name` are now required fields on
+    `ServicePrincipal`; `account_user_status`, `full_name`, and `username` are now required on
+    `User`.
+  - **Breaking — Catalog browsing:** `include_browse` removed from `GetMcpServiceRequest`,
+    `GetModelProviderServiceRequest`, `GetModelServiceRequest`, `ListMcpServicesRequest`,
+    `ListModelProviderServicesRequest`, and `ListModelServicesRequest`; `browse_only` removed
+    from `McpService`, `ModelProviderService`, and `ModelService`.
+- **No repo change:** `dbt-databricks 1.12.3` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.126.0 all remain above the
+  cap; the next gate is whenever dbt-databricks raises the cap past 0.126.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.126.0
 - https://github.com/databricks/databricks-sdk-py/releases
 
 ---
