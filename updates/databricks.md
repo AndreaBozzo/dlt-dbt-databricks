@@ -4,6 +4,34 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-12 — databricks-sdk 0.126.0 and 0.127.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.126.0** shipped **2026-08-11**. Key additions: new
+  `forward_user_access_token` field for app configs; `include_value` for secret retrieval
+  requests; `docker_image_url` for AI runtime tasks; `gpu_xlarge_8` workload type;
+  `legacy_mode` enum value for ingress network policies. Breaking changes: `include_browse`
+  removed from catalog, MCP, model-provider, and model-service operations; `browse_only` field
+  eliminated from those services; service-principal `account_sp_status` and `display_name` now
+  mandatory; user `account_user_status`, `full_name`, and `username` now mandatory.
+- **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
+  `mlflow_artifact_location` on `AiRuntimeTask`, `trigger_details` on `BaseJob`/`Job`, and
+  `triggers` on `CreateJob`/`JobSettings`; Pipelines service gains `api_source_connector_options`
+  on `ConnectorOptions` and `api_source_connector_config` on `SourceConfig`; Settings service
+  gains `all_vpc_sc_services` and `google_api_endpoints` on `GcpEndpoint`. No breaking changes
+  documented.
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.127.0 all remain above the cap;
+  the next gate is whenever dbt-databricks raises the cap past 0.127.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.126.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.127.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-06 — databricks-sdk 0.124.0 and 0.125.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.124.0** shipped **2026-08-04**. Key additions: explicit

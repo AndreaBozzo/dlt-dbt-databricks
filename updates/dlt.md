@@ -4,6 +4,34 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-12 — dlt 1.30.0 new minor; Databricks CREATE TABLE now atomic
+
+- **dlt 1.30.0** shipped **2026-08-11** — first minor release since 1.29.0.
+- **Databricks-specific change:** Comments on `_dlt_*` tables are no longer created by
+  default. Previously, comment creation made `CREATE TABLE` non-atomic; 1.30.0 removes this
+  behaviour by default and adds a `TBLPROPS`-based option to re-enable it. Existing pipelines
+  benefit automatically — no example change needed.
+- **Configurable session timezone:** `session_timezone` is now configurable on the Databricks
+  destination (alongside ClickHouse, DuckDB, Postgres, Redshift, Snowflake). Informational for
+  this repo — no timezone-sensitive pipelines exist yet.
+- **Cross-destination joins:** New `Relation.join()` capability for joining datasets across
+  different destinations (duckdb, motherduck, ducklake, lance, lancedb, filesystem). Databricks
+  is not in the supported query-engine list; Databricks-to-Databricks joins still require a
+  Unity Catalog query or a dbt model.
+- **Breaking changes (none affect this repo):**
+  - `auto_abort_on_terminal_error` now defaults to `False` — failed load packages no longer
+    auto-abort; use `pipeline.abort_packages()` or the equivalent CLI command.
+  - Filesystem layouts without `{ext}` now append the extension automatically.
+  - Table prefix separator preserved (e.g. `event.` not `event`).
+- **Other additions:** Input/output lineage in traces (OpenLineage-compatible); manual load
+  package abort with `abort_packages`; retryable schema migrations via `retry_schema_update`.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.30.0
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-07-25 — dlt 1.29.1 patch (2026-07-24); no Databricks-specific changes
 
 - **dlt 1.29.1** shipped **2026-07-24** — a patch release on top of 1.29.0.

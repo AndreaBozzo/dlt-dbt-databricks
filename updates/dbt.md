@@ -4,6 +4,30 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-12 — dbt-databricks 1.12.4 patch; SDK cap unchanged, CVE fix
+
+- **dbt-databricks 1.12.4** released **2026-08-12**. Patch release on top of 1.12.3.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **Bug fixes:**
+  - SQL credential and encryption clauses now redacted from all logged SQL regardless of keyword
+    case — security improvement (previously credentials could appear in debug logs).
+  - `delete+insert` with composite `unique_key` no longer deletes unmatched rows on Databricks
+    Runtime below 17.1.
+  - Materialized views and streaming tables with apostrophes in descriptions now created correctly
+    (single quotes escaped in relation comments).
+- **Dependency updates:**
+  - `databricks-sql-connector` ceiling raised to `<4.4.1` and pinned to 4.4.0 — resolves
+    3 CVEs in the connector.
+  - `dbt-common` upper bound raised to `<1.39.0`.
+  - `pytest-rerunfailures` updated to `>=16.2`.
+- **Impact on this repo:** no source-code change needed; 1.12.4 is a drop-in patch. The
+  credential-redaction fix is a security improvement that takes effect automatically.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.4
+
+---
+
 ## 2026-07-30 — dbt-databricks 1.12.3 patch; SDK cap unchanged
 
 - **dbt-databricks 1.12.3** released **2026-07-29**. Patch release on top of 1.12.2.

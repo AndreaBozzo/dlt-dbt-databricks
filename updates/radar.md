@@ -4,6 +4,36 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.126.0/0.127.0 new
+
+**dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
+comments on `_dlt_*` tables are no longer created by default, removing a non-atomicity hazard.
+Cross-destination joins added but Databricks is not a supported query engine for joins.
+`session_timezone` is now configurable on the Databricks destination. Breaking:
+`auto_abort_on_terminal_error` defaults to `False`; filesystem layout separator/extension changes.
+No example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) patch. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. Key fixes: SQL credential redaction
+from logged SQL (security), delete+insert composite key fix (DBR < 17.1), materialized view
+comment escaping. CVE fix: `databricks-sql-connector` pinned to 4.4.0, resolving 3 CVEs.
+→ [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases. **databricks-sdk 0.126.0** (2026-08-11): `include_browse`
+removed from catalog/model/MCP operations (breaking); service principal and user fields made
+mandatory; new GPU workload type, token forwarding, secret value inclusion; `legacy_mode` for
+ingress policies. **databricks-sdk 0.127.0** (2026-08-12): Jobs gain `trigger_details`/`triggers`
+fields; Pipelines gain connector source config options; GCP endpoint fields added; no breaking
+changes. Both remain out of reach under the `<0.118.0` adapter cap — repo stays on **0.117.0**.
+→ [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (new in dlt 1.30.0) worth a config note if timezone-sensitive
+pipelines are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.127.0.
+
+---
+
 ## 2026-08-06 — SDK 0.124.0 + 0.125.0 new; dlt and dbt-databricks unchanged
 
 **dlt** — **1.29.1** (2026-07-24) unchanged. No Databricks-specific changes; no example updates
