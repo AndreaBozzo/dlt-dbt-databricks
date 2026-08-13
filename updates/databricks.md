@@ -4,6 +4,29 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-13 — databricks-sdk 0.128.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.128.0** shipped **2026-08-13** (today). Key additions:
+  - **Account-level IAM v2 service:** 19+ new methods for user, group, service principal, and
+    workspace assignment management — `create_user()`, `get_user()`, `list_users()`,
+    `update_user()`, `delete_user()`, equivalent group/service-principal/workspace-assignment
+    variants, and `list_transitive_parent_groups()`.
+  - **Workspace-level IAM v2 service:** Corresponding proxy methods, plus
+    `get_workspace_identity_detail()` and `update_workspace_identity_detail()`.
+  - **Dashboards:** `create_time` and `update_time` fields added to `GenieSpace`.
+  - **Breaking:** `new_cluster` on `JobCluster` is no longer required (previously mandatory).
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.128.0 all exceed the cap;
+  next gate is whenever dbt-databricks raises the cap past 0.128.0.
+- **SDP / platform release notes:** not checked this run (docs.databricks.com blocked by egress
+  proxy, consistent with prior runs).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.128.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
