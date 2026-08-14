@@ -4,6 +4,28 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-14 — SDK 0.128.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.128.0** (2026-08-13): account-level IAM v2 service
+(`a.account_iam_v2`) adds 19 group/user/service-principal management methods; workspace-level
+IAM v2 (`w.workspace_iam_v2`) adds 20 proxy-based equivalents plus workspace-identity-detail
+methods; Genie Space gains `create_time`/`update_time`. Breaking: `new_cluster` on `JobCluster`
+is no longer mandatory. All remain out of reach under the `<0.118.0` adapter cap — repo stays
+on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (new in dlt 1.30.0) worth a config note if timezone-sensitive
+pipelines are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.128.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
