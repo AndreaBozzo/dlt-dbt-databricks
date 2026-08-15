@@ -4,6 +4,29 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-15 — SDK 0.128.0 + 0.129.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases. **databricks-sdk 0.128.0** (2026-08-13): IAMv2 CRUD
+methods added at both account and workspace level; `GenieSpace` gains `create_time`/`update_time`
+audit fields; breaking: `new_cluster` in `JobCluster` is no longer required. **databricks-sdk
+0.129.0** (2026-08-15): `agent_type` on `GenieConversationSummary`, `group_id` on
+`DirectGroupMember`, `effective_serverless_compute_id` on `RunTask`, `pipeline_channel` on
+`NewPipelineSpec`; breaking: four IAMv2 list methods gain pagination. Both remain out of reach
+under the `<0.118.0` adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (new in dlt 1.30.0) worth a config note if timezone-sensitive
+pipelines are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.129.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:

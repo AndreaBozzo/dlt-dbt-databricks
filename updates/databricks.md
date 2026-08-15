@@ -4,6 +4,38 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-15 — databricks-sdk 0.128.0 and 0.129.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.128.0** shipped **2026-08-13**. Key changes:
+  - **Account-level IAM v2:** new CRUD methods added — `create_direct_group_member()`,
+    `create_group()`, `create_service_principal()`, `create_user()`, and corresponding get,
+    list, update, and delete operations.
+  - **Workspace-level IAM v2:** proxy methods added including `get_workspace_identity_detail()`
+    and `update_workspace_identity_detail()`.
+  - **Genie:** `create_time` and `update_time` fields added to `GenieSpace`.
+  - **Breaking:** `new_cluster` field in `JobCluster` is no longer required.
+- **Databricks SDK for Python 0.129.0** shipped **2026-08-15**. Key changes:
+  - `agent_type` field added to `GenieConversationSummary`.
+  - `group_id` field added to `DirectGroupMember`.
+  - `effective_serverless_compute_id` field added to `RunTask`.
+  - `pipeline_channel` field added to `NewPipelineSpec`.
+  - `text_attachment_purpose_answer` enum value added to `TextAttachmentPurpose`.
+  - **Breaking:** four IAMv2 list methods gain pagination — `AccountIamV2API.list_direct_group_members`,
+    `AccountIamV2API.list_workspace_assignment_details`,
+    `WorkspaceIamV2API.list_direct_group_members_proxy`,
+    `WorkspaceIamV2API.list_workspace_assignment_details_proxy`.
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.129.0 all exceed the cap;
+  the next gate is whenever dbt-databricks raises the cap past 0.129.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.128.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.129.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
