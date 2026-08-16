@@ -4,6 +4,47 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-16 — databricks-sdk 0.128.0 – 0.130.0 released (adapter cap still binds)
+
+Three SDK releases since the last check; all remain out of reach under the adapter cap.
+
+- **Databricks SDK for Python 0.128.0** shipped **2026-08-13**.
+  - **Account- and workspace-level IAM v2:** 24 new methods added across `a.account_iam_v2` and
+    `w.workspace_iam_v2` — CRUD for users, groups, and service principals; direct group member
+    management; workspace assignment operations; transitive parent group listing.
+  - **Dashboards:** `GenieSpace` gains `create_time` and `update_time` audit fields.
+  - **Breaking:** `new_cluster` field on `JobCluster` changed from required → optional.
+
+- **Databricks SDK for Python 0.129.0** shipped **2026-08-15**.
+  - `agent_type` added to `GenieConversationSummary` (Dashboards).
+  - `group_id` added to `DirectGroupMember` (IAM v2).
+  - `effective_serverless_compute_id` added to `RunTask` (Jobs).
+  - `pipeline_channel` added to `NewPipelineSpec` (Postgres service).
+  - `text_attachment_purpose_answer` enum value added to `TextAttachmentPurpose` (Dashboards).
+  - **Breaking:** pagination added to `AccountIamV2API.list_direct_group_members`,
+    `AccountIamV2API.list_workspace_assignment_details`, and their workspace-level proxy variants.
+
+- **Databricks SDK for Python 0.130.0** shipped **2026-08-16**.
+  - **Pipelines:** `linkedin_ads_options` and `marketo_options` added to `ConnectorOptions`.
+  - **Postgres / Database:** `pg_specific_type_halfvec` and `pg_specific_type_varchar` enum
+    values added to `SyncedTableSpec` services.
+  - **Breaking:** pagination added to workspace assignment listing methods on
+    `AccountIamV2API` and `WorkspaceIamV2API`.
+
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`; the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.130.0 all exceed the cap.
+  Next gate: whenever dbt-databricks raises the cap past 0.130.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.128.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.129.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.130.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
