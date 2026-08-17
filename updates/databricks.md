@@ -4,6 +4,51 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-17 — databricks-sdk 0.128.0–0.131.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.128.0** shipped **2026-08-13**:
+  - New comprehensive IAM v2 services: `a.account_iam_v2` (account-level) and
+    `w.workspace_iam_v2` (workspace-level) with full CRUD for groups, users, service
+    principals, direct group members, and workspace assignments; plus
+    `list_transitive_parent_groups()` and workspace identity detail methods.
+  - `create_time` and `update_time` fields added to Genie Space dashboard objects.
+  - **Breaking:** `new_cluster` field for job cluster configurations is no longer mandatory.
+- **Databricks SDK for Python 0.129.0** shipped **2026-08-15**:
+  - New fields: `agent_type` on `GenieConversationSummary` (dashboards); `group_id` on
+    `DirectGroupMember` (IAM v2); `effective_serverless_compute_id` on `RunTask` (jobs);
+    `pipeline_channel` on `NewPipelineSpec` (postgres service);
+    `text_attachment_purpose_answer` enum value (dashboards).
+  - **Breaking:** Pagination added to four IAM v2 listing methods:
+    `AccountIamV2API.list_direct_group_members`,
+    `AccountIamV2API.list_workspace_assignment_details`,
+    `WorkspaceIamV2API.list_direct_group_members_proxy`,
+    `WorkspaceIamV2API.list_workspace_assignment_details_proxy`.
+- **Databricks SDK for Python 0.130.0** shipped **2026-08-16**:
+  - `linkedin_ads_options` and `marketo_options` connector option fields added to
+    `pipelines.ConnectorOptions` (Databricks Pipelines / Lakeflow SDP).
+  - `pg_specific_type_halfvec` and `pg_specific_type_varchar` enum values added to
+    `database.SyncedTableSpecPgSpecificType` and `postgres.SyncedTableSyncedTableSpecPgSpecificType`.
+  - **Breaking:** Pagination added to `AccountIamV2API.list_workspace_assignments` and
+    `WorkspaceIamV2API.list_workspace_assignments_proxy`.
+- **Databricks SDK for Python 0.131.0** shipped **2026-08-17**:
+  - **Breaking:** `action_type` and `status` fields on
+    `bundledeployments.Operation` changed from required to optional.
+  - **Breaking:** `create_operation()` method removed from `w.bundle_deployments`.
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.131.0 all exceed the cap;
+  the next gate is whenever dbt-databricks raises the cap past 0.131.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.128.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.129.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.130.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.131.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains

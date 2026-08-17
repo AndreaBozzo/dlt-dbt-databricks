@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-17 — SDK 0.128.0–0.131.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No Databricks-specific changes; no example updates
+needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Four new SDK releases since last check. **0.128.0** (2026-08-13): comprehensive
+IAM v2 services added (`a.account_iam_v2`, `w.workspace_iam_v2`) with full CRUD for groups/users/
+service principals; `new_cluster` job field no longer mandatory (breaking). **0.129.0**
+(2026-08-15): `effective_serverless_compute_id` on RunTask; pagination added to 4 IAM v2 listing
+methods (breaking). **0.130.0** (2026-08-16): LinkedIn Ads and Marketo connector options for
+Lakeflow SDP pipelines; pagination added to workspace-assignments listing (breaking). **0.131.0**
+(2026-08-17): `action_type`/`status` on `bundledeployments.Operation` now optional; `create_operation()`
+removed (breaking). All remain out of reach under the `<0.118.0` adapter cap — repo stays on
+**0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. LinkedIn Ads and
+Marketo Lakeflow SDP connector options (0.130.0) are informational for this repo's dlt-based
+ingestion examples; no direct action warranted. Next SDK gate: whenever dbt-databricks raises the
+cap past 0.131.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
