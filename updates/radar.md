@@ -4,6 +4,33 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-18 — SDK 0.128.0–0.132.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No Databricks-specific changes; no example
+updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Five new SDK releases since last check: **0.128.0** (2026-08-13): IAM v2
+API expansion, breaking `new_cluster` now optional in `JobCluster`; **0.129.0** (2026-08-15):
+`agent_type` in dashboard conversations, Jobs `effective_serverless_compute_id`, breaking
+pagination in IAM v2 group/workspace methods; **0.130.0** (2026-08-16): LinkedIn Ads and
+Marketo pipeline connectors, PostgreSQL `halfvec`/`varchar`, breaking IAM v2 workspace
+assignment pagination; **0.131.0** (2026-08-17): breaking — `action_type`/`status` now
+optional in `Operation`, `create_operation()` removed from `bundle_deployments`; **0.132.0**
+(2026-08-18): Apps git source fields (`default_git_source`, `git_source`, `source_code_path`),
+ML `custom_udf`, Pipelines `effective_serverless_compute_id`, no breaking changes. All five
+remain out of reach under the `<0.118.0` adapter cap — repo stays on **0.117.0**.
+→ [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (new in dlt 1.30.0) worth a config note if timezone-sensitive
+pipelines are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.132.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:

@@ -4,6 +4,41 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-18 — databricks-sdk 0.128.0–0.132.0 released (adapter cap still binds)
+
+- **Databricks SDK for Python 0.128.0** shipped **2026-08-13**. Key additions: major expansion
+  of account and workspace IAM v2 API methods (create, delete, get, list, update); Dashboard
+  `GenieSpace` gains `create_time` and `update_time`. Breaking: `new_cluster` field is now
+  optional in `JobCluster`.
+- **Databricks SDK for Python 0.129.0** shipped **2026-08-15**. Key additions: Dashboard
+  conversations gain `agent_type` field; Jobs `RunTask` gains `effective_serverless_compute_id`.
+  Breaking: pagination added to IAM v2 group and workspace assignment methods.
+- **Databricks SDK for Python 0.130.0** shipped **2026-08-16**. Key additions: Pipeline
+  connectors gain LinkedIn Ads and Marketo source options; Database syncing adds PostgreSQL
+  `halfvec` and `varchar` types. Breaking: pagination added to IAM v2 workspace assignment
+  methods.
+- **Databricks SDK for Python 0.131.0** shipped **2026-08-17**. Breaking: `action_type` and
+  `status` fields in `Operation` are now optional; `create_operation()` method removed from the
+  `bundle_deployments` service.
+- **Databricks SDK for Python 0.132.0** shipped **2026-08-18**. Key additions: Apps service
+  gains `default_git_source`, `git_source`, `source_code_path`; `GitRepository` gains
+  `auto_deploy` and `caller_credential_id`; ML Functions gain `custom_udf`; Pipelines gain
+  `effective_serverless_compute_id`. No breaking changes documented.
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`, so the
+  resolved environment stays on **0.117.0**. Versions 0.118.0–0.132.0 all exceed the cap;
+  the next gate is whenever dbt-databricks raises the cap past 0.132.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.128.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.129.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.130.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.131.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.132.0
+
+---
+
 ## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
