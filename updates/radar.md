@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-20 — SDK 0.128.0–0.133.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since last entry. No example
+updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Six new SDK releases since 2026-08-12: **0.128.0** (2026-08-13) adds IAM v2
+CRUD methods and Genie Space timestamps, breaking: `new_cluster` on `JobCluster` no longer
+required; **0.129.0** (2026-08-15) adds `effective_serverless_compute_id` to job run tasks,
+breaking: pagination in IAM v2; **0.130.0** (2026-08-16) adds LinkedIn Ads and Marketo pipeline
+connector options, breaking: IAM v2 pagination; **0.131.0** (2026-08-17) breaking: `create_operation()`
+removed from bundle deployments; **0.132.0** (2026-08-18) adds Apps git source fields, ML
+`custom_udf`, Pipelines `effective_serverless_compute_id`; **0.133.0** (2026-08-19, latest)
+adds serving `enabled_telemetry_features`. All remain out of reach under the `<0.118.0` adapter
+cap — repo stays on **0.117.0**. SDP/platform release notes blocked by network egress proxy
+this run. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (dlt 1.30.0) worth a config note if timezone-sensitive pipelines
+are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.133.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
