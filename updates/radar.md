@@ -4,6 +4,28 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-22 — SDK 0.128.0–0.133.0 new; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new releases; no Databricks-specific changes;
+no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Six new SDK releases (**0.128.0–0.133.0**, 2026-08-13 to 2026-08-19).
+Notable: 0.129.0 adds serverless compute details on job tasks and IAM pagination; 0.130.0 adds
+LinkedIn Ads and Marketo pipeline connectors; 0.131.0 breaks the bundle deployments
+`create_operation()` method; 0.132.0 adds App git-source management and auto-deployment;
+0.133.0 adds `enabled_telemetry_features` to TelemetryConfig. All six remain out of reach
+under the `<0.118.0` adapter cap — repo stays on **0.117.0**. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (dlt 1.30.0) worth a config note if timezone-sensitive pipelines
+are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.133.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
