@@ -4,6 +4,48 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-23 — databricks-sdk 0.128.0–0.133.0 released (adapter cap still binds)
+
+- **Six new SDK releases** shipped 2026-08-13 through 2026-08-19: 0.128.0, 0.129.0, 0.130.0,
+  0.131.0, 0.132.0, 0.133.0. All remain out of reach under the `<0.118.0` cap — repo stays on
+  **0.117.0**.
+- **0.128.0 (2026-08-13):** Comprehensive IAM v2 CRUD methods added for both account-level and
+  workspace-level (create/get/update/delete for groups, users, service principals, and workspace
+  proxy equivalents). `GenieSpace` gains `create_time` and `update_time` fields. Breaking:
+  `new_cluster` on `JobCluster` is no longer required.
+- **0.129.0 (2026-08-15):** `agent_type` on `GenieConversationSummary`; `group_id` on
+  `DirectGroupMember`; `effective_serverless_compute_id` on `RunTask`; `pipeline_channel` on
+  `NewPipelineSpec` (PostgreSQL service). Breaking: pagination added to
+  `AccountIamV2API.list_direct_group_members`, `list_workspace_assignment_details`, and workspace
+  proxy equivalents.
+- **0.130.0 (2026-08-16):** LinkedIn Ads and Marketo connector options added to
+  `pipelines.ConnectorOptions`; `pg_specific_type_halfvec` and `pg_specific_type_varchar` enum
+  values added to PostgreSQL sync-type enums. Breaking: pagination added to
+  `AccountIamV2API.list_workspace_assignments` and `WorkspaceIamV2API.list_workspace_assignments_proxy`.
+- **0.131.0 (2026-08-17):** Breaking: `create_operation()` removed from workspace-level bundle
+  deployments service; `action_type` and `status` on `bundledeployments.Operation` are now
+  optional (were previously required).
+- **0.132.0 (2026-08-18):** Apps service: `default_git_source`, `git_source`, `source_code_path`
+  on `App`; `auto_deploy` and `caller_credential_id` on `GitRepository`. ML: `custom_udf` on
+  `Function`. Pipelines: `effective_serverless_compute_id` on `GetPipelineResponse`. No breaking
+  changes documented.
+- **0.133.0 (2026-08-19):** `enabled_telemetry_features` field added to `serving.TelemetryConfig`.
+  No breaking changes documented.
+- **No repo change:** `dbt-databricks 1.12.4` still pins `databricks-sdk<0.118.0`; the next gate
+  is whenever dbt-databricks raises the cap past 0.133.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.128.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.129.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.130.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.131.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.132.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.133.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-12 — databricks-sdk 0.127.0 released (adapter cap still binds)
 
 - **Databricks SDK for Python 0.127.0** shipped **2026-08-12**. Additions: Jobs service gains
