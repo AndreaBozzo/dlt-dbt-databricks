@@ -4,6 +4,30 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-08-24 — SDK 0.128.0–0.133.0 (six releases); dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new releases since the last entry; no example
+updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.4** (2026-08-12) unchanged. SDK cap still
+`databricks-sdk<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Six new **databricks-sdk** releases since 2026-08-12: **0.128.0** (2026-08-13)
+through **0.133.0** (2026-08-19). Highlights: IAM v2 gets 39 new account- and workspace-level
+methods (groups, users, service principals, workspace assignments); Apps gain git source fields;
+Pipelines gain LinkedIn Ads and Marketo connector options; Jobs `new_cluster` is now optional;
+`create_operation()` removed from bundle deployments; telemetry features field in Serving.
+Breaking changes across 0.128.0–0.131.0 (IAM v2 pagination, bundle deployments field changes).
+**All remain out of reach** under the `<0.118.0` adapter cap — repo stays on **0.117.0**.
+Next gate: whenever dbt-databricks raises the cap past 0.133.0. → [databricks.md](databricks.md)
+
+**Watch / opportunities** — Zerobus ingestion example still a candidate once the Unity Catalog
+Volume serverless staging issue (`Connection refused`) is resolved upstream. `session_timezone`
+on the Databricks destination (new in dlt 1.30.0) worth a config note if timezone-sensitive
+pipelines are added. Next SDK gate: whenever dbt-databricks raises the cap past 0.133.0.
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 + dbt-databricks 1.12.4 + SDK 0.127.0 new
 
 **dlt** — **1.30.0** (2026-08-11) new minor. Databricks `CREATE TABLE` is now atomic:
