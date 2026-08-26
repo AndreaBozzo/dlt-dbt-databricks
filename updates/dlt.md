@@ -7,9 +7,9 @@ Newest on top. Each entry dated + sourced.
 ## 2026-08-26 — repo adopts 1.30.0 and adds per-resource Zerobus
 
 - Re-locked the project from dlt 1.28.0 to **1.30.0** and raised the dependency floor so fresh
-  environments cannot silently install a pre-session-timezone/pre-current Databricks integration.
-- Set Databricks `session_timezone` to **UTC** for deterministic handling of the SQL example's
-  timestamp cursor.
+  environments cannot silently install an older Databricks integration.
+- Leave Databricks `session_timezone` unset because serverless SQL warehouses can reject its
+  Spark session configuration; timestamp-producing examples already emit explicit UTC values.
 - Added `ingestion/advanced/zerobus_append.py` using the supported per-resource
   `databricks_adapter(..., insert_api="zerobus")` route. This is append-only and at-least-once; the
   example includes stable event IDs for downstream de-duplication. It avoids dlt's still-open

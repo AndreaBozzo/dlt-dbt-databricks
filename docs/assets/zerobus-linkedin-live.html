@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1200, initial-scale=1">
+  <title>dltHub × Databricks Zerobus — live result</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1200px; height: 627px; overflow: hidden; }
+    body {
+      color: #f7f9fc;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(39, 193, 187, .17), transparent 32%),
+        radial-gradient(circle at 94% 4%, rgba(255, 54, 33, .18), transparent 31%),
+        #0a0e14;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      padding: 36px 42px 30px;
+    }
+    .top { display: flex; justify-content: space-between; align-items: center; }
+    .brand { display: flex; gap: 12px; align-items: center; font-size: 19px; font-weight: 750; }
+    .dlt { color: #35d0c5; }
+    .times { color: #657083; font-weight: 500; }
+    .dbx { color: #ff5a48; }
+    .live {
+      display: flex; align-items: center; gap: 8px; padding: 7px 12px;
+      border: 1px solid #344052; border-radius: 999px; color: #bdc6d4;
+      background: rgba(18, 24, 34, .75); font-size: 12px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #41db8a; box-shadow: 0 0 12px #41db8a; }
+    h1 { margin: 17px 0 4px; font-size: 38px; line-height: 1.08; letter-spacing: -.035em; }
+    .sub { color: #98a5b7; font-size: 16px; margin-bottom: 19px; }
+    .sub strong { color: #d8dee8; }
+    .grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 16px; height: 326px; }
+    .panel {
+      position: relative; overflow: hidden; border: 1px solid #273142; border-radius: 14px;
+      background: linear-gradient(150deg, rgba(22, 29, 40, .98), rgba(12, 17, 25, .98));
+      box-shadow: 0 18px 45px rgba(0, 0, 0, .24);
+    }
+    .panel-head {
+      height: 43px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; border-bottom: 1px solid #273142; color: #aab5c5; font-size: 12px;
+      font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .pill { color: #42d7cc; background: rgba(53, 208, 197, .1); border: 1px solid rgba(53, 208, 197, .28); border-radius: 999px; padding: 4px 8px; }
+    pre { margin: 0; padding: 17px 19px; color: #d8dee9; font: 14px/1.52 "Cascadia Code", Consolas, monospace; }
+    .kw { color: #c792ea; } .fn { color: #82aaff; } .str { color: #c3e88d; } .arg { color: #f6c177; } .muted { color: #657083; }
+    .result-wrap { padding: 15px 16px; }
+    .path { font: 12px/1.4 "Cascadia Code", Consolas, monospace; color: #e3e8f1; margin-bottom: 12px; }
+    .path .arrow { color: #ff5a48; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; font: 11px/1.35 "Cascadia Code", Consolas, monospace; }
+    th { padding: 9px 8px; text-align: left; color: #778499; border-top: 1px solid #293344; border-bottom: 1px solid #293344; font-weight: 600; }
+    td { padding: 12px 8px; color: #cbd3df; border-bottom: 1px solid #202938; vertical-align: top; }
+    th:nth-child(1), td:nth-child(1) { width: 43%; }
+    th:nth-child(2), td:nth-child(2) { width: 20%; }
+    th:nth-child(3), td:nth-child(3) { width: 12%; }
+    th:nth-child(4), td:nth-child(4) { width: 25%; }
+    .ok { color: #41db8a; }
+    .status { display: flex; gap: 10px; margin-top: 13px; }
+    .status span { padding: 7px 9px; background: #111823; border: 1px solid #293344; border-radius: 7px; color: #aeb8c7; font-size: 11px; font-weight: 650; }
+    .status b { color: #41db8a; }
+    .flow { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 18px; color: #cbd3df; font-size: 13px; font-weight: 700; }
+    .flow .step { padding: 7px 12px; border: 1px solid #2b3546; border-radius: 999px; background: #101620; }
+    .flow .chev { color: #657083; }
+    .foot { margin-top: 11px; text-align: center; color: #6f7b8d; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="brand"><span class="dlt">dltHub</span><span class="times">×</span><span class="dbx">Databricks</span></div>
+    <div class="live"><span class="dot"></span>Live on AWS · us-east-2</div>
+  </div>
+  <h1>Direct-to-Delta ingestion with Zerobus</h1>
+  <div class="sub"><strong>dlt 1.30</strong> keeps the pipeline contract. Zerobus skips object staging on the event path.</div>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-head"><span>Python · dlt resource</span><span class="pill">insert_api="zerobus"</span></div>
+      <pre><span class="kw">@dlt.resource</span>(
+  <span class="arg">name</span>=<span class="str">"zerobus_events"</span>,
+  <span class="arg">write_disposition</span>=<span class="str">"append"</span>,
+)
+<span class="kw">def</span> <span class="fn">events</span>():
+  <span class="kw">yield from</span> event_rows(...)
+
+databricks_adapter(
+  events,
+  <span class="arg">insert_api</span>=<span class="str">"zerobus"</span>,
+)</pre>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><span>Databricks SQL · query result</span><span class="pill">2 rows</span></div>
+      <div class="result-wrap">
+        <div class="path"><span class="arrow">▸</span> zerobus_demo.dlt_events.zerobus_events</div>
+        <table>
+          <thead><tr><th>event_id</th><th>event_type</th><th>source</th><th>observed_at_utc</th></tr></thead>
+          <tbody>
+            <tr><td>linkedin-zerobus-post-001</td><td>page_view</td><td>docs</td><td>2026-08-26<br>10:34:29 UTC</td></tr>
+            <tr><td>linkedin-zerobus-post-002</td><td>example_run</td><td>cli</td><td>2026-08-26<br>10:34:29 UTC</td></tr>
+          </tbody>
+        </table>
+        <div class="status"><span><b>✓</b> package LOADED</span><span><b>✓</b> 0 failed jobs</span><span><b>✓</b> one-table OAuth SP</span></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="flow"><span class="step">Python events</span><span class="chev">→</span><span class="step">dlt</span><span class="chev">→</span><span class="step">Zerobus · Arrow Flight</span><span class="chev">→</span><span class="step">Unity Catalog Delta</span></div>
+  <div class="foot">Append-only · at-least-once delivery · stable event IDs · least-privilege access</div>
+</body>
+</html>

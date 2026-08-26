@@ -24,12 +24,8 @@ _REPO_ROOT = _THIS_FILE.parents[1]
 load_dotenv(_REPO_ROOT / ".env")
 os.environ.setdefault("DLT_PROJECT_DIR", str(_THIS_FILE.parent))
 
-# dlt 1.30+ maps this setting to spark.sql.session.timeZone. Environment values loaded above win;
-# UTC is the deterministic default for the SQL example's timestamp cursor.
 _CATALOG_ENV = "DESTINATION__DATABRICKS__CREDENTIALS__CATALOG"
-_SESSION_TIMEZONE_ENV = "DESTINATION__DATABRICKS__CREDENTIALS__SESSION_TIMEZONE"
 os.environ.setdefault(_CATALOG_ENV, "workspace")
-os.environ.setdefault(_SESSION_TIMEZONE_ENV, "UTC")
 
 
 def import_dlt():

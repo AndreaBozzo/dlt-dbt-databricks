@@ -8,9 +8,12 @@ All notable changes to this project will be documented here.
   compatible Databricks SDK 0.117.0; raised project and Asset Bundle dependency floors to the
   versions this repository now validates; refreshed dbt_utils to 1.4.1 and dbt_date to 0.21.0.
 - Added a per-resource Databricks Zerobus append example with stable event IDs, offline contract
-  tests, configuration docs, and a `make dlt-zerobus` target.
-- Set dlt's Databricks catalog/timezone defaults through its environment provider (`workspace` /
-  `UTC`) for deterministic timestamp cursors and compatibility with 1.30's secret-value validation.
+  tests, exact target-table/least-privilege setup, configuration docs, and a `make dlt-zerobus`
+  target. Live AWS validation covers an S3-backed catalog and documents the unsupported default-
+  storage and `_dlt_*` nullability failure modes.
+- Set dlt's Databricks catalog default through its environment provider (`workspace`) for
+  compatibility with 1.30's secret-value validation, while leaving the session timezone unset for
+  serverless SQL warehouse compatibility.
 - Anchored dlt's settings root to `ingestion/` and routed every example through the shared import
   helper, so `.dlt/config.toml`, local secrets, and the Databricks Runtime import workaround apply
   consistently when commands are launched from the repository root.
