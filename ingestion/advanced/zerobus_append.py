@@ -92,8 +92,7 @@ def require_zerobus_configuration() -> None:
 
     dedicated_credentials = zerobus.credentials if zerobus else None
     if not (
-        _has_oauth_credentials(dedicated_credentials)
-        or _has_oauth_credentials(config.credentials)
+        _has_oauth_credentials(dedicated_credentials) or _has_oauth_credentials(config.credentials)
     ):
         missing.append("OAuth client ID/client secret")
 
