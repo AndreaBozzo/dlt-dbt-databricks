@@ -20,7 +20,8 @@ ingestion/
 └── advanced/
     ├── merge_incremental.py   # write_disposition="merge" + incremental cursor (upsert/CDC)
     ├── iceberg_table_format.py# table_format="iceberg" on Unity Catalog
-    └── data_contracts.py      # schema contracts (freeze) + PK/FK hints → UC constraints
+    ├── data_contracts.py      # schema contracts (freeze) + PK/FK hints → UC constraints
+    └── zerobus_append.py      # push-based, append-only ingestion without object staging
 ```
 
 ## Run
@@ -30,6 +31,7 @@ make dlt-rest        # or: uv run python ingestion/pipelines/rest_api_to_databri
 make dlt-merge       # run twice to see idempotent upsert
 make dlt-iceberg
 make dlt-contracts
+make dlt-zerobus     # requires a Zerobus-enabled region + OAuth service principal
 ```
 
 `rest_api_to_databricks.py` uses a public no-auth API, so it's the best first smoke test once your
@@ -48,8 +50,31 @@ make dlt-contracts
 DLT_DESTINATION=duckdb uv run python ingestion/pipelines/rest_api_to_databricks.py
 ```
 
-The two Databricks-specific examples (`iceberg_table_format.py`, `data_contracts.py`) configure the
-Databricks destination explicitly and stay workspace-only.
+The three Databricks-specific examples (`iceberg_table_format.py`, `data_contracts.py`, and
+`zerobus_append.py`) configure Databricks-only features and stay workspace-only.
+
+## Zerobus append ingestion
+
+`advanced/zerobus_append.py` uses dlt 1.30's per-resource `databricks_adapter(...,
+insert_api="zerobus")` path to send a small event batch directly to a Unity Catalog Delta table.
+It deliberately does not enable Zerobus destination-wide: the per-resource override is easier to
+adopt incrementally and avoids an open dlt reliability issue in the global setting. System tables
+continue to use `COPY INTO` as required by dlt.
+
+Zerobus is available only in supported regions, on Linux and Windows, and requires OAuth service-
+principal credentials. Add these to `.env` (the endpoint format is documented in the Databricks
+Zerobus guide):
+
+```dotenv
+DESTINATION__DATABRICKS__ZEROBUS__ENDPOINT_URL=https://<your-zerobus-endpoint>
+DESTINATION__DATABRICKS__ZEROBUS__CREDENTIALS__CLIENT_ID=<client-id>
+DESTINATION__DATABRICKS__ZEROBUS__CREDENTIALS__CLIENT_SECRET=<client-secret>
+```
+
+Delivery is at least once. The example emits a stable `event_id` and accepts `--run-id` so
+downstream consumers can demonstrate de-duplication. Zerobus currently supports only `append`;
+keep the existing merge examples on the default `COPY INTO` path. The command preflights the
+endpoint and OAuth settings before extraction, avoiding dlt's current late-configuration failure.
 
 ## Credentials
 

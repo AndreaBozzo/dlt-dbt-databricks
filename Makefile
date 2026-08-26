@@ -11,7 +11,7 @@ DBT := uv run dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
 
 .PHONY: help setup doctor doctor-online lint fmt \
         agent-gate \
-        dlt-rest dlt-sql dlt-merge dlt-iceberg dlt-contracts \
+        dlt-rest dlt-sql dlt-merge dlt-iceberg dlt-contracts dlt-zerobus \
         dbt-deps dbt-parse dbt-build dbt-test e2e e2e-duckdb
 
 help: ## Show this help
@@ -48,6 +48,8 @@ dlt-iceberg: ## Run the Iceberg table_format advanced example
 	uv run python ingestion/advanced/iceberg_table_format.py
 dlt-contracts: ## Run the schema-contracts advanced example
 	uv run python ingestion/advanced/data_contracts.py
+dlt-zerobus: ## Append events with Databricks Zerobus (workspace + service principal required)
+	uv run python ingestion/advanced/zerobus_append.py
 
 # --- dbt transformation ---
 dbt-deps: ## Install dbt packages

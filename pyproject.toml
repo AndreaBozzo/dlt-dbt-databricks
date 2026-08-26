@@ -8,13 +8,13 @@ authors = [{ name = "Andrea Bozzo", email = "andreabozzo92@gmail.com" }]
 
 dependencies = [
     # dlt with the Databricks destination extra (pulls databricks-sql-connector etc.)
-    "dlt[databricks]>=1.6.0",
+    "dlt[databricks]>=1.30.0,<2",
     # dlt verified sources used by the examples
-    "dlt[sql_database]>=1.6.0",
+    "dlt[sql_database]>=1.30.0,<2",
     # dbt + the Databricks adapter (pins dbt-core transitively)
-    "dbt-databricks>=1.11,<2",
+    "dbt-databricks>=1.12.4,<2",
     # Used by examples/orchestration that talk to the workspace directly
-    "databricks-sdk>=0.40",
+    "databricks-sdk>=0.117.0",
     # Load .env into the process so dlt/dbt env vars resolve in local runs
     "python-dotenv>=1.0",
 ]
@@ -51,5 +51,5 @@ package = false
 
 [tool.pytest.ini_options]
 # The example scripts aren't a package; expose them on sys.path for import in tests.
-pythonpath = ["ingestion/pipelines", "orchestration"]
+pythonpath = ["ingestion/pipelines", "ingestion/advanced", "orchestration"]
 testpaths = ["tests"]

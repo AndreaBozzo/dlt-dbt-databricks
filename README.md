@@ -23,7 +23,7 @@ DuckDB) in CI on every PR: `make e2e-duckdb`.
 
 | Area | Path | Highlights |
 | --- | --- | --- |
-| Ingestion (dlt) | [`ingestion/`](ingestion/) | REST API + **real Postgres** → Databricks; merge/incremental, Iceberg, data contracts |
+| Ingestion (dlt) | [`ingestion/`](ingestion/) | REST API + **real Postgres** → Databricks; merge/incremental, Iceberg, data contracts, Zerobus |
 | Transformation (dbt) | [`transformation/dbt_databricks/`](transformation/dbt_databricks/) | staging→marts on dlt output **and** a real **insurance-claims** analytics layer |
 | Orchestration | [`orchestration/`](orchestration/) | local dlt→dbt runner with a **warehouse-free DuckDB lane** (what CI runs) + a validated **Databricks Asset Bundle** ([`databricks.yml`](databricks.yml), [deploy guide](docs/deploy-databricks-bundle.md)) |
 | Notebooks | [`notebooks/`](notebooks/) | Databricks notebook: dlt **zero-config** ingestion + claims-mart exploration |
@@ -79,7 +79,8 @@ No `make` on Windows? Each target is a `uv run …` command — see the [`Makefi
 - `rest_api_to_databricks.py` — declarative REST API source, parent→child, merge.
 - `sql_database_to_databricks.py` — replicate a **real public Postgres** table (incremental + merge),
   via a custom SQL resource that works even against locked-down read replicas.
-- `advanced/` — `merge` upserts, **Iceberg** `table_format`, schema **contracts** + PK/FK hints.
+- `advanced/` — `merge` upserts, **Iceberg** `table_format`, schema **contracts** + PK/FK hints,
+  and append-only **Zerobus** ingestion without object-storage staging.
 
 **dbt** ([`transformation/dbt_databricks/`](transformation/dbt_databricks/))
 - `stg_/int_/mart_` on the dlt output, with an **incremental merge** mart and tests.

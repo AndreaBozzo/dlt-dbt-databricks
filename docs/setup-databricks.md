@@ -55,6 +55,12 @@ cp transformation/dbt_databricks/profiles.yml.example transformation/dbt_databri
 The Python scripts call `load_dotenv()`, so `.env` is picked up automatically under `uv run`.
 dlt also accepts the same values from `ingestion/.dlt/secrets.toml` (copy from the `.example`).
 
+The shared dlt bootstrap sets `session_timezone = "UTC"` (dlt 1.30+) so SQL warehouse sessions
+interpret the timestamp cursor consistently. Override it with
+`DESTINATION__DATABRICKS__CREDENTIALS__SESSION_TIMEZONE` when a source contract requires another
+IANA timezone. dlt 1.30 treats its entire credentials section as secret-bearing, so these values
+belong in environment variables or `secrets.toml`, not `config.toml`.
+
 ### Which schema does what
 | Layer | Schema (default) | Created by | Set via |
 | --- | --- | --- | --- |
@@ -95,6 +101,10 @@ For the full deploy path, see [deploy-databricks-bundle.md](deploy-databricks-bu
 For file or bulk loads dlt stages data before `COPY INTO`. On Databricks the simplest staging is a
 **Unity Catalog Volume**. Create one (`CREATE VOLUME <catalog>.<schema>.dlt_staging;`) and reference
 it from `ingestion/.dlt/config.toml`. The REST/SQL examples here are small enough to load directly.
+
+For push-based append workloads, `ingestion/advanced/zerobus_append.py` demonstrates Databricks
+Zerobus instead of object staging. It needs a supported region plus OAuth service-principal
+credentials and a Zerobus endpoint; see [../ingestion/README.md](../ingestion/README.md#zerobus-append-ingestion).
 
 ## Troubleshooting
 

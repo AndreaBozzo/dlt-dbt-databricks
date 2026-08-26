@@ -8,12 +8,15 @@ log_level = "INFO"
 [destination.databricks]
 # Default table format. The advanced/iceberg_table_format.py example overrides this to "iceberg".
 # table_format = "delta"
-
-[destination.databricks.credentials]
-# The Unity Catalog catalog dlt writes into. Overridden by env var
-# DESTINATION__DATABRICKS__CREDENTIALS__CATALOG when set.
-catalog = "workspace"
+# Credential fields cannot live in config.toml under dlt 1.30's secret-value validation. The
+# shared _common.py bootstrap defaults catalog=workspace and session_timezone=UTC; override either
+# through .env or put credentials in secrets.toml.
 
 # Optional: staging via a Unity Catalog Volume for bulk/file loads (see docs/setup-databricks.md).
 # [destination.databricks]
 # staging_volume_name = "main.raw.dlt_staging"
+
+# Optional: required by advanced/zerobus_append.py. Environment variables are preferable when
+# sharing this file; see .env.example and ingestion/README.md.
+# [destination.databricks.zerobus]
+# endpoint_url = "https://<workspace-id>.zerobus.<region>.cloud.databricks.com"
