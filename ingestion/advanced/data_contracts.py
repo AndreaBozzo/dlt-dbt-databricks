@@ -27,8 +27,7 @@ from pathlib import Path
 _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_filename)).resolve()
 sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
 
-import dlt  # noqa: E402
-from _common import DATASET_NAME  # noqa: E402
+from _common import DATASET_NAME, dlt  # noqa: E402
 
 
 @dlt.resource(name="dim_product", primary_key="product_id", write_disposition="merge")

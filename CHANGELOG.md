@@ -4,6 +4,16 @@ All notable changes to this project will be documented here.
 
 ## Unreleased
 
+- Refreshed the lockfile to dlt 1.30.0, dbt-databricks 1.12.4, dbt-core 1.12.0, and the adapter-
+  compatible Databricks SDK 0.117.0; raised project and Asset Bundle dependency floors to the
+  versions this repository now validates; refreshed dbt_utils to 1.4.1 and dbt_date to 0.21.0.
+- Added a per-resource Databricks Zerobus append example with stable event IDs, offline contract
+  tests, configuration docs, and a `make dlt-zerobus` target.
+- Set dlt's Databricks catalog/timezone defaults through its environment provider (`workspace` /
+  `UTC`) for deterministic timestamp cursors and compatibility with 1.30's secret-value validation.
+- Anchored dlt's settings root to `ingestion/` and routed every example through the shared import
+  helper, so `.dlt/config.toml`, local secrets, and the Databricks Runtime import workaround apply
+  consistently when commands are launched from the repository root.
 - Added a **warehouse-free DuckDB lane**: `DLT_DESTINATION=duckdb` routes the same dlt pipelines to
   a local DuckDB file, a `duckdb` dbt profile target builds the same models on it (with
   `samples.healthverity` resolved from a checked-in sample CSV via dbt-duckdb `external_location`),

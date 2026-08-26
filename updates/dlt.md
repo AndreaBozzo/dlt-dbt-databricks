@@ -4,6 +4,23 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-08-26 — repo adopts 1.30.0 and adds per-resource Zerobus
+
+- Re-locked the project from dlt 1.28.0 to **1.30.0** and raised the dependency floor so fresh
+  environments cannot silently install a pre-session-timezone/pre-current Databricks integration.
+- Set Databricks `session_timezone` to **UTC** for deterministic handling of the SQL example's
+  timestamp cursor.
+- Added `ingestion/advanced/zerobus_append.py` using the supported per-resource
+  `databricks_adapter(..., insert_api="zerobus")` route. This is append-only and at-least-once; the
+  example includes stable event IDs for downstream de-duplication. It avoids dlt's still-open
+  destination-wide Zerobus reliability issue and the prior Unity Catalog Volume staging failure.
+
+Sources:
+- https://dlthub.com/docs/dlt-ecosystem/destinations/databricks
+- https://github.com/dlt-hub/dlt/issues/3936
+
+---
+
 ## 2026-08-12 — dlt 1.30.0 new minor; Databricks CREATE TABLE now atomic
 
 - **dlt 1.30.0** shipped **2026-08-11** — first minor release since 1.29.0.
