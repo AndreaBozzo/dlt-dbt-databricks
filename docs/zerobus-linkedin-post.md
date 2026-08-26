@@ -26,7 +26,9 @@ streams.
 
 ## Publishing notes
 
-- Attach `docs/assets/zerobus-linkedin-live.png`.
+- Publish as a two-image carousel:
+  1. `docs/assets/zerobus-linkedin-live.png` — the concise visual hook.
+  2. `docs/assets/zerobus-databricks-table.png` — the real Catalog Explorer result as proof.
 - Add the repository/example link in the first comment if the post itself should stay compact.
-- The screenshot contains live query results but no workspace URL, workspace ID, warehouse ID, or
-  credentials.
+- Both images contain live query results but no workspace URL, workspace ID, warehouse ID, email,
+  or credentials.
