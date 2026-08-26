@@ -66,6 +66,8 @@ principal credentials. Add these to `.env` (the endpoint format is documented in
 Zerobus guide):
 
 ```dotenv
+ZEROBUS_CATALOG=<managed-storage-catalog>
+ZEROBUS_DATASET_NAME=<schema>
 DESTINATION__DATABRICKS__ZEROBUS__ENDPOINT_URL=https://<your-zerobus-endpoint>
 DESTINATION__DATABRICKS__ZEROBUS__CREDENTIALS__CLIENT_ID=<client-id>
 DESTINATION__DATABRICKS__ZEROBUS__CREDENTIALS__CLIENT_SECRET=<client-secret>
@@ -103,6 +105,10 @@ uv run python ingestion/advanced/zerobus_append.py \
   --dataset-name <schema> \
   --run-id zerobus-demo-001
 ```
+
+When `ZEROBUS_CATALOG` and `ZEROBUS_DATASET_NAME` are set, `make dlt-zerobus` uses those
+example-specific values automatically without changing the catalog/schema used by the other dlt
+pipelines.
 
 Delivery is at least once. The example emits a stable `event_id` and accepts `--run-id` so
 downstream consumers can demonstrate de-duplication. Zerobus currently supports only `append`;

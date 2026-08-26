@@ -107,8 +107,16 @@ def require_zerobus_configuration() -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Append a demo event batch through Zerobus.")
-    parser.add_argument("--catalog", help="Override the Unity Catalog destination catalog.")
-    parser.add_argument("--dataset-name", default="raw", help="Target Unity Catalog schema.")
+    parser.add_argument(
+        "--catalog",
+        default=os.getenv("ZEROBUS_CATALOG"),
+        help="Target Unity Catalog catalog (defaults to ZEROBUS_CATALOG when set).",
+    )
+    parser.add_argument(
+        "--dataset-name",
+        default=os.getenv("ZEROBUS_DATASET_NAME", "raw"),
+        help="Target Unity Catalog schema (defaults to ZEROBUS_DATASET_NAME or raw).",
+    )
     parser.add_argument(
         "--run-id",
         help="Stable batch id for replay/de-duplication demos (defaults to a random UUID).",

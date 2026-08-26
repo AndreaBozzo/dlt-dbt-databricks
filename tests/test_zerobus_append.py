@@ -1,8 +1,9 @@
 """Offline contract tests for the Databricks Zerobus example."""
 
+import sys
 from datetime import UTC, datetime
 
-from zerobus_append import build_zerobus_events, event_rows
+from zerobus_append import build_zerobus_events, event_rows, parse_args
 
 
 def test_event_rows_have_stable_deduplication_keys():
@@ -26,3 +27,14 @@ def test_resource_is_append_only_and_selects_zerobus():
     assert schema["name"] == "zerobus_events"
     assert schema["write_disposition"] == "append"
     assert schema["x-insert-api"] == "zerobus"
+
+
+def test_cli_uses_example_specific_catalog_and_schema(monkeypatch):
+    monkeypatch.setenv("ZEROBUS_CATALOG", "managed_events")
+    monkeypatch.setenv("ZEROBUS_DATASET_NAME", "dlt_events")
+    monkeypatch.setattr(sys, "argv", ["zerobus_append.py"])
+
+    args = parse_args()
+
+    assert args.catalog == "managed_events"
+    assert args.dataset_name == "dlt_events"

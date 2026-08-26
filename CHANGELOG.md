@@ -10,7 +10,8 @@ All notable changes to this project will be documented here.
 - Added a per-resource Databricks Zerobus append example with stable event IDs, offline contract
   tests, exact target-table/least-privilege setup, configuration docs, and a `make dlt-zerobus`
   target. Live AWS validation covers an S3-backed catalog and documents the unsupported default-
-  storage and `_dlt_*` nullability failure modes.
+  storage and `_dlt_*` nullability failure modes. Example-specific catalog/schema variables keep
+  the Zerobus target independent from the project's normal raw-data destination.
 - Set dlt's Databricks catalog default through its environment provider (`workspace`) for
   compatibility with 1.30's secret-value validation, while leaving the session timezone unset for
   serverless SQL warehouse compatibility.
