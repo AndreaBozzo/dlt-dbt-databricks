@@ -21,9 +21,10 @@ Ads and Marketo connector options (0.130.0); bundle deployments `create_operatio
 Next SDK gate: whenever dbt-databricks raises the cap past 0.133.0. → [databricks.md](databricks.md)
 
 **Repo follow-through** — dependency drift was corrected: the lock now resolves dlt 1.30.0,
-dbt-databricks 1.12.4, dbt-core 1.12.0, and the adapter-compatible SDK 0.117.0. The Databricks SQL
-session timezone is explicitly UTC, and a per-resource Zerobus append example now bypasses the
-old Volume staging path while the destination-wide dlt Zerobus reliability issue remains open.
+dbt-databricks 1.12.4, dbt-core 1.12.0, and the adapter-compatible SDK 0.117.0. Serverless SQL
+sessions keep their warehouse-managed timezone configuration, and a per-resource Zerobus append
+example now bypasses the old Volume staging path while the destination-wide dlt Zerobus
+reliability issue remains open.
 Next SDK gate: whenever dbt-databricks raises the cap past 0.133.0.
 
 ---

@@ -8,11 +8,13 @@ This example intentionally selects Zerobus per resource with ``databricks_adapte
 destination-wide dlt setting still has an open reliability issue; the per-resource route is the
 documented, working path and lets other resources in the same pipeline keep using COPY INTO.
 
-Prerequisites: a Zerobus-supported Databricks region and an OAuth service principal with access to
-the target table. Set DESTINATION__DATABRICKS__ZEROBUS__ENDPOINT_URL plus the nested Zerobus
-CLIENT_ID/CLIENT_SECRET variables shown in .env.example.
+Prerequisites: a Zerobus-supported Databricks region, a managed Delta target backed by your cloud
+object storage (Databricks default storage is unsupported), and an OAuth service principal with
+access to the pre-created target table. Set DESTINATION__DATABRICKS__ZEROBUS__ENDPOINT_URL plus the
+nested Zerobus CLIENT_ID/CLIENT_SECRET variables shown in .env.example. The exact target DDL and
+least-privilege grants are documented in ingestion/README.md.
 
-Run:  uv run python ingestion/advanced/zerobus_append.py
+Run:  uv run python ingestion/advanced/zerobus_append.py --catalog <catalog> --dataset-name <schema>
 """
 
 from __future__ import annotations

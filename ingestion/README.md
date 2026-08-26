@@ -71,6 +71,39 @@ DESTINATION__DATABRICKS__ZEROBUS__CREDENTIALS__CLIENT_ID=<client-id>
 DESTINATION__DATABRICKS__ZEROBUS__CREDENTIALS__CLIENT_SECRET=<client-secret>
 ```
 
+The target must be a managed Delta table backed by your own cloud object storage; Databricks
+**default storage is not supported**. Create the table once before opening a stream (Zerobus does
+not support recreating a target table), keeping dlt's two internal columns required:
+
+```sql
+CREATE SCHEMA IF NOT EXISTS <catalog>.<schema>;
+
+CREATE TABLE IF NOT EXISTS <catalog>.<schema>.zerobus_events (
+  event_id STRING,
+  run_id STRING,
+  event_type STRING,
+  user_id BIGINT,
+  source STRING,
+  observed_at TIMESTAMP,
+  _dlt_load_id STRING NOT NULL,
+  _dlt_id STRING NOT NULL
+) USING DELTA;
+
+GRANT USE CATALOG ON CATALOG <catalog> TO `<service-principal-application-id>`;
+GRANT USE SCHEMA ON SCHEMA <catalog>.<schema> TO `<service-principal-application-id>`;
+GRANT MODIFY, SELECT ON TABLE <catalog>.<schema>.zerobus_events
+  TO `<service-principal-application-id>`;
+```
+
+Then run the example against that catalog and schema:
+
+```bash
+uv run python ingestion/advanced/zerobus_append.py \
+  --catalog <catalog> \
+  --dataset-name <schema> \
+  --run-id zerobus-demo-001
+```
+
 Delivery is at least once. The example emits a stable `event_id` and accepts `--run-id` so
 downstream consumers can demonstrate de-duplication. Zerobus currently supports only `append`;
 keep the existing merge examples on the default `COPY INTO` path. The command preflights the
