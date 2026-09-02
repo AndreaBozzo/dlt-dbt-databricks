@@ -4,6 +4,28 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-02 — dbt-databricks 1.12.5 patch; dlt and SDK unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release; no Databricks-specific changes;
+no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** released **2026-09-01** — patch on top of 1.12.4.
+SDK cap **unchanged** (`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**.
+Key fixes: metric view backup-and-create logic replaces broken `CREATE OR REPLACE VIEW ... WITH METRICS`
+path; lazy SQL-log interpolation improvement. dbt-core upper bound raised to `<1.12.4`. No impact
+on this repo — no metric views used, and the SDK gate stays the same. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk 0.133.0** (2026-08-19) unchanged. All releases above 0.117.0
+still exceed the adapter's `<0.118.0` cap — repo stays on **0.117.0**. Next SDK gate: whenever
+dbt-databricks raises the cap past 0.133.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v1.12.5's metric-view fix does not apply
+(this repo's marts use standard table materializations, no metric views). The Zerobus append
+example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged from the 2026-08-26 entry.
+
+---
+
 ## 2026-08-26 — SDK 0.128.0–0.133.0 new; dlt and dbt-databricks unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No Databricks-specific changes; no example
