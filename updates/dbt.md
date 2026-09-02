@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-02 — dbt-databricks 1.12.5 patch; SDK cap unchanged
+
+- **dbt-databricks 1.12.5** released **2026-09-01**. Patch release on top of 1.12.4.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **Bug fixes:**
+  - Metric view replacement now uses backup-and-create instead of `CREATE OR REPLACE VIEW ... WITH METRICS`,
+    fixing failures when the backing table already exists (#1640).
+  - `databricks.sql` log records are now lazily interpolated into dbt logs, improving log
+    formatting and reducing unnecessary string-building overhead (#1642).
+- **Dependency updates:**
+  - `dbt-core` upper bound raised to `<1.12.4` — includes dbt-core 1.12.3 (#1656).
+- **Impact on this repo:** no source-code change needed. This repo has no metric views
+  (all marts use standard table materializations), so neither bug fix is exercised here.
+  The dbt-core upper bound raise is a drop-in improvement.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.5
+- https://pypi.org/pypi/dbt-databricks/1.12.5/json
+
+---
+
 ## 2026-08-12 — dbt-databricks 1.12.4 patch; SDK cap unchanged, CVE fix
 
 - **dbt-databricks 1.12.4** released **2026-08-12**. Patch release on top of 1.12.3.
