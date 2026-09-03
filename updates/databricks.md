@@ -4,6 +4,35 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-03 — databricks-sdk v1.0.0 first major release (adapter cap still binds)
+
+- **Databricks SDK for Python v1.0.0** shipped **2026-09-03** — the first stable major version.
+- **Breaking changes:**
+  - Pipelines: `TableSpec.source_table` and `SchemaSpec.source_schema` are now optional (previously
+    required); absence is valid for streaming/message-bus connectors that do not use these fields.
+  - `disabled` field removed from `InferenceTableConfig`.
+  - `owner` removed from `McpService`, `ModelProviderService`, and `ModelService`.
+  - Multiple ML feature-engineering fields removed (`Feature`, `Function`, `KafkaSource`,
+    `MaterializedFeature`).
+  - `traffic_splitting` removed from model-service routing configuration.
+- **New services:** `aifunctions` and `sandbox` workspace-level packages; Workspace AI Functions
+  service; Workspace Sandbox service.
+- **New methods:** `update_deployment()` (Bundle Deployments); `genie_cancel_response()` (Genie);
+  external group/user/service-principal retrieval (Account IAM); feature backfill, operation
+  cancellation, and monitoring (Feature Engineering); Postgres snapshot management and scheduling.
+- **Notable field additions:** GPU acceleration types (H100, B300), RabbitMQ connector options,
+  provisioned-capacity management across Catalog/ML/Jobs.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`, so the resolved
+  environment stays on **0.117.0**. v1.0.0 far exceeds the cap; the next gate is whenever
+  dbt-databricks raises the cap past v1.0.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v1.0.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-08-26 — databricks-sdk 0.128.0–0.133.0 (six releases; adapter cap still binds)
 
 Six new SDK releases since the 2026-08-12 entry. All remain out of reach under the
