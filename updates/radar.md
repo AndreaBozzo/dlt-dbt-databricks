@@ -4,6 +4,31 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-03 — databricks-sdk v1.0.0 first major release; dlt and dbt-databricks unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-02 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** (2026-09-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v1.0.0** released **2026-09-03** — the first stable major
+version of the Python SDK. Breaking: `TableSpec.source_table` and `SchemaSpec.source_schema`
+now optional; `disabled` removed from `InferenceTableConfig`; `owner` removed from MCP/model
+service types; ML feature-engineering fields pruned; `traffic_splitting` removed from
+model-service routing. New: `aifunctions` and `sandbox` workspace services,
+`update_deployment()`, `genie_cancel_response()`, external IAM retrieval, and GPU/RabbitMQ/
+provisioned-capacity additions across Catalog/ML/Jobs. Still out of reach: dbt-databricks 1.12.5
+caps `<0.118.0` — repo stays on **0.117.0**. Next SDK gate: whenever dbt-databricks raises
+the cap to v1.0.0 or beyond. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v1.0.0's new AI Functions and Sandbox
+services have no dlt/dbt overlap. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
+issue remain unchanged.
+
+---
+
 ## 2026-09-02 — dbt-databricks 1.12.5 patch; dlt and SDK unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release; no Databricks-specific changes;
