@@ -4,6 +4,31 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-04 — databricks-sdk v0.135.0 new; prior "v1.0.0" entry corrected to v0.134.0
+
+- **Prior entry correction:** The 2026-09-03 entry described a "v1.0.0" release, but the tag
+  `v1.0.0` does not exist on `databricks/databricks-sdk-py` (returns HTTP 404). The content of
+  that entry matches **v0.134.0** (released 2026-09-03) exactly. Future entries use the correct
+  version label.
+- **databricks-sdk v0.135.0** shipped **2026-09-04**:
+  - **New:** `execute_command_sync()` method for the `w.sandbox` workspace-level service.
+  - **New fields (ML):** `mode` on `CronSchedule`; `time_window` on `Feature`; `full_feature_name`
+    on `PublishSpec`.
+  - **Breaking:** `first_token_timeout` removed from `ModelServiceConfigRoutingConfig`;
+    `request_tag_key` and `request_tag_value` removed from `RateLimit`; `rate_limit_key_request_tag`
+    enum value removed from `RateLimitRateLimitKey`.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; both v0.134.0
+  and v0.135.0 exceed the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks
+  raises the cap past v0.135.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.135.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.134.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-03 — databricks-sdk v1.0.0 first major release (adapter cap still binds)
 
 - **Databricks SDK for Python v1.0.0** shipped **2026-09-03** — the first stable major version.
