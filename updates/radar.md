@@ -4,6 +4,30 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-07 — databricks-sdk v0.136.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-04 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** (2026-09-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.136.0** released **2026-09-07**. New: `w.domains` workspace
+service for domain management; ML feature-engineering additions (`entity_columns`,
+`timeseries_column` on `DeltaTableSource`; `filter_condition`/`inputs` on `Feature`;
+`extra_parameters`/`function_type` on `Function`; `entity_column_identifiers`/
+`timeseries_column_identifier` on `KafkaSource`; `cron_schedule` on `MaterializedFeature`;
+`continuous` on `TimeWindow`). No breaking changes. v0.136.0 still exceeds the adapter cap;
+repo stays on **0.117.0**. Next SDK gate: whenever dbt-databricks raises the cap
+past v0.136.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.136.0's additions (domains service,
+ML feature-engineering fields) have no dlt/dbt overlap. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
+issue remain unchanged.
+
+---
+
 ## 2026-09-04 — databricks-sdk v0.135.0 new; prior "v1.0.0" entry corrected; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-03 entry; no

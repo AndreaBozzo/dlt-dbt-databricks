@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-07 — databricks-sdk v0.136.0 new; dlt and dbt-databricks unchanged
+
+- **databricks-sdk v0.136.0** shipped **2026-09-07**:
+  - **New package:** `databricks.sdk.service.domains` — workspace-level `w.domains` service for
+    domain management.
+  - **New fields (ML feature engineering):** `entity_columns` and `timeseries_column` on
+    `DeltaTableSource`; `filter_condition` and `inputs` on `Feature`; `extra_parameters` and
+    `function_type` on `Function`; `entity_column_identifiers` and `timeseries_column_identifier`
+    on `KafkaSource`; `cron_schedule` on `MaterializedFeature`; `continuous` on `TimeWindow`.
+  - **Breaking changes:** none documented in this release.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; v0.136.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.136.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.136.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-04 — databricks-sdk v0.135.0 new; prior "v1.0.0" entry corrected to v0.134.0
 
 - **Prior entry correction:** The 2026-09-03 entry described a "v1.0.0" release, but the tag
