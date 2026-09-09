@@ -4,6 +4,27 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-09 — databricks-sdk v0.137.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-12 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** (2026-09-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.137.0** released **2026-09-09**. New: `purge_feature_entities()`
+on `w.feature_engineering`; `deny` field and `policy_type_deny` enum value on catalog policy types;
+`budget_policy_id` and `tags` on ML `IngestionConfig` and `MaterializedFeature`. No breaking changes.
+v0.137.0 still exceeds the adapter cap; repo stays on **0.117.0**. Next SDK gate: whenever
+dbt-databricks raises the cap past v0.137.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.137.0's additions (feature engineering
+purge, catalog policy deny type, ML budget/tags fields) have no dlt/dbt overlap. The Zerobus append
+example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-09-07 — databricks-sdk v0.136.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-04 entry; no
