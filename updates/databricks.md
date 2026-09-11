@@ -4,6 +4,25 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-11 — databricks-sdk v0.138.0 new
+
+- **databricks-sdk v0.138.0** shipped **2026-09-11**:
+  - **New field:** `unity_catalog_image_path` on `AiRuntimeTask` (Jobs).
+  - **New field:** `feature_view_source` on data-source types (ML feature engineering).
+  - **New fields (ML):** `budget_policy_id` and `tags` on `PublishSpec`.
+  - **New field:** `development` on pipeline start-update operations.
+  - **Breaking changes:** none documented in this release.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; v0.138.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.138.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.138.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-09 — databricks-sdk v0.137.0 new; dlt and dbt-databricks unchanged
 
 - **databricks-sdk v0.137.0** shipped **2026-09-09**:
