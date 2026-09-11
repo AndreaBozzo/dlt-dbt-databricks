@@ -4,6 +4,27 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-11 — databricks-sdk v0.138.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-09 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** (2026-09-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.138.0** released **2026-09-11**. New: `unity_catalog_image_path`
+on `AiRuntimeTask`; `feature_view_source` on data-source types; `budget_policy_id` and `tags` on
+`PublishSpec`; `development` on pipeline start updates. No breaking changes. v0.138.0 still exceeds
+the adapter cap; repo stays on **0.117.0**. Next SDK gate: whenever dbt-databricks raises the cap
+past v0.138.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.138.0's additions (AI runtime image path,
+feature view source, pipeline development flag) have no dlt/dbt overlap. The Zerobus append
+example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-09-09 — databricks-sdk v0.137.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-12 entry; no
