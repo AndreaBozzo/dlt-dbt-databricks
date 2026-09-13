@@ -4,6 +4,30 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-13 — databricks-sdk v0.139.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-11 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** (2026-09-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.139.0** released **2026-09-13**. New: `priority_class`
+on `AiRuntimeTask` (Jobs); `gpu_8x_b300` GPU accelerator type on `ComputeSpecAcceleratorType`;
+`uc_service_credential_name` on `AmazonBedrockConfig` (Serving); `excluded_scopes` on network
+policy workspace API destination (Settings); `effective_workspace_label` and `workspace_label`
+on `Setting` (Settings v2). No breaking changes. v0.139.0 still exceeds the adapter cap; repo
+stays on **0.117.0**. Next SDK gate: whenever dbt-databricks raises the cap past v0.139.0.
+→ [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.139.0's additions (AI runtime task
+priority class, GPU accelerator type, Bedrock credential naming, network policy scopes, workspace
+labels) have no dlt/dbt overlap. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
+issue remain unchanged.
+
+---
+
 ## 2026-09-11 — databricks-sdk v0.138.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-09-09 entry; no

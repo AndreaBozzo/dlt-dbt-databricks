@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-13 — databricks-sdk v0.139.0 new
+
+- **databricks-sdk v0.139.0** shipped **2026-09-13**:
+  - **New field:** `priority_class` on `AiRuntimeTask` (Jobs).
+  - **New enum value:** `gpu_8x_b300` added to `ComputeSpecAcceleratorType` (Jobs).
+  - **New field:** `uc_service_credential_name` on `AmazonBedrockConfig` (Serving).
+  - **New field:** `excluded_scopes` on `CustomerFacingIngressNetworkPolicyWorkspaceApiDestination`
+    (Settings).
+  - **New fields:** `effective_workspace_label` and `workspace_label` on `Setting` (Settings v2).
+  - **Breaking changes:** none documented in this release.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; v0.139.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.139.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.139.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-11 — databricks-sdk v0.138.0 new
 
 - **databricks-sdk v0.138.0** shipped **2026-09-11**:
