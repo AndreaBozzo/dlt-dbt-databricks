@@ -4,6 +4,36 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-19 — databricks-sdk v0.140.0 new
+
+- **databricks-sdk v0.140.0** shipped **2026-09-19**:
+  - **New methods (AI Gateway):** `create_mcp_service_user_mapped_credential()`,
+    `delete_mcp_service_user_mapped_credential()`, and `get_mcp_service_user_mapped_credential()`
+    on `w.ai_gateway`.
+  - **New field:** `telemetry_export_destinations` on the Apps service update config.
+  - **New field:** `options` on MCP service config source connections.
+  - **New field:** `header_auth` on custom provider direct config (Serving).
+  - **New fields (Jobs):** `on_maintenance_complete` and `on_maintenance_start` on job/task email
+    and webhook notification configs.
+  - **New fields (ML):** `budget_policy_id` and `tags` on feature backfill and purge requests.
+  - **New field:** `timezone_id` on `CronSchedule`.
+  - **New field:** `group_name` on pipeline run-as specification.
+  - **New fields (Pipelines):** `avro_options` and `protobuf_options` on transformer config.
+  - **New enum values:** `tiktok_ads` connection type; `agent_service` and `skill` securable
+    types; `tiktok_ads` and `smartsheet` ingestion sources; `avro` and `protobuf` transformer
+    formats.
+  - **Breaking changes:** none documented in this release.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; v0.140.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.140.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.140.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-13 — databricks-sdk v0.139.0 new
 
 - **databricks-sdk v0.139.0** shipped **2026-09-13**:
