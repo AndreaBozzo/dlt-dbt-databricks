@@ -4,6 +4,24 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-25 — databricks-sdk v0.142.0 new
+
+- **databricks-sdk v0.142.0** shipped **2026-09-25**:
+  - **New methods (AI Gateway):** Full skill management CRUD on `w.ai_gateway`:
+    `create_skill()`, `delete_skill()`, `finalize_skill()`, `get_skill()`,
+    `list_skills()`, and `update_skill()`.
+  - **Breaking changes:** none documented in this release.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; v0.142.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.142.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.142.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-23 — databricks-sdk v0.141.0 new
 
 - **databricks-sdk v0.141.0** shipped **2026-09-23**:
