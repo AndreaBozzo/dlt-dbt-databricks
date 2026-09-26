@@ -4,6 +4,30 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-09-26 — databricks-sdk v0.142.0 + v0.143.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.5** (2026-09-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases since the 2026-09-23 check. **databricks-sdk v0.142.0**
+(2026-09-25): six new skill-management methods on `w.ai_gateway` (`create_skill`,
+`delete_skill`, `finalize_skill`, `get_skill`, `list_skills`, `update_skill`). **v0.143.0**
+(2026-09-26): `job_id` and `pipeline_id` fields on `MaterializedFeature` (ML); root-logger
+init bug fix — `databricks.sdk.runtime` import no longer installs handlers on the root logger,
+unblocking `logging.basicConfig()` in notebook and script contexts. No breaking changes in
+either release. Both still exceed the adapter cap; repo stays on **0.117.0**. Next SDK gate:
+whenever dbt-databricks raises the cap past v0.143.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.142.0's AI Gateway skill methods
+and v0.143.0's ML feature fields / logging fix have no dlt/dbt overlap. The Zerobus append
+example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume
+serverless staging issue remain unchanged.
+
+---
+
 ## 2026-09-23 — databricks-sdk v0.141.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
