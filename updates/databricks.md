@@ -4,6 +4,34 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-09-26 — databricks-sdk v0.142.0 + v0.143.0 new
+
+- **databricks-sdk v0.143.0** shipped **2026-09-26**:
+  - **New fields (ML):** `job_id` and `pipeline_id` on `MaterializedFeature`
+    (`databricks.sdk.service.ml`).
+  - **Bug fix:** Root logger no longer configured on `databricks.sdk.runtime` import. Previously,
+    import-time notebook-globals initialization used root-level logging helpers that installed
+    handlers on the root logger when none existed (affecting `WorkspaceClient` and `dbutils`
+    import paths as well, blocking subsequent `logging.basicConfig()` calls). Messages now route
+    through the dedicated `databricks.sdk` logger instead.
+  - **Breaking changes:** none.
+- **databricks-sdk v0.142.0** shipped **2026-09-25**:
+  - **New methods (AI Gateway):** `create_skill()`, `delete_skill()`, `finalize_skill()`,
+    `get_skill()`, `list_skills()`, and `update_skill()` on `w.ai_gateway` — programmatic
+    management of AI Gateway skills.
+  - **Breaking changes:** none.
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; both v0.142.0
+  and v0.143.0 exceed the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks
+  raises the cap past v0.143.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.143.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.142.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-23 — databricks-sdk v0.141.0 new
 
 - **databricks-sdk v0.141.0** shipped **2026-09-23**:
