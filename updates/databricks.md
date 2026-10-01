@@ -4,6 +4,29 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-01 — databricks-sdk v0.144.0 + v0.145.0 new
+
+- **databricks-sdk v0.145.0** shipped **2026-10-01**:
+  - **New method:** `list_commands()` added to the `w.sandbox` workspace-level service.
+  - **Breaking changes:** none documented in this release.
+- **databricks-sdk v0.144.0** shipped **2026-09-30**:
+  - **New method:** `ai_decide()` added to the AI Functions workspace service.
+  - **New field:** `environment_variables` added to `BaseRun`, `CreateJob`, and `JobSettings`
+    in the Jobs service — allows environment variables to be set directly on job definitions.
+  - **Breaking:** `command_path` on `DeploymentSpec` is no longer required (now optional).
+  - **Breaking:** `api_secret_ref` on `SchemaRegistryConfig` is no longer required (now optional).
+- **No repo change:** `dbt-databricks 1.12.5` still pins `databricks-sdk<0.118.0`; both v0.144.0
+  and v0.145.0 exceed the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks
+  raises the cap past v0.145.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.145.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.144.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-09-26 — databricks-sdk v0.142.0 + v0.143.0 new
 
 - **databricks-sdk v0.143.0** shipped **2026-09-26**:
