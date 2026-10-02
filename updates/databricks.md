@@ -4,6 +4,28 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-02 — databricks-sdk v0.146.0 new
+
+- **databricks-sdk v0.146.0** shipped **2026-10-02**:
+  - **New field:** `environment` added to `SandboxSpec` in `databricks.sdk.service.sandbox` —
+    allows specifying an environment when defining sandbox workloads.
+  - **New enum value:** `table_foreign_delta_deltasharing` added to `SecurableKind` in
+    `databricks.sdk.service.catalog` — new catalog securable type for foreign Delta tables
+    shared via Delta Sharing.
+  - **Breaking change:** `environment_variables_key` in `JobEnvironmentVariables`
+    (`databricks.sdk.service.jobs`) is now required (was previously optional). Code that creates
+    `JobEnvironmentVariables` objects without this field will fail after upgrading.
+- **No repo change:** `dbt-databricks 1.12.6` still pins `databricks-sdk<0.118.0`; v0.146.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.146.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.146.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-01 — databricks-sdk v0.144.0 + v0.145.0 new
 
 - **databricks-sdk v0.145.0** shipped **2026-10-01**:

@@ -4,6 +4,34 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-02 — dbt-databricks 1.12.6 patch; SDK cap unchanged
+
+- **dbt-databricks 1.12.6** released **2026-10-01**. Patch release on top of 1.12.5.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **New feature:** OIDC workload identity federation authentication — two new auth types
+  (`auth_type: env-oidc` and `auth_type: file-oidc`) and a new `oidc_token_filepath` profile
+  config option for token-file-based OIDC flows. Useful for CI/CD and cloud-native deployments
+  that issue short-lived OIDC tokens instead of static secrets.
+- **Bug fixes:**
+  - Grant reconciliation now handles `SHOW GRANTS` result columns case-insensitively, fixing
+    crashes from connectors returning lowercase column names.
+  - V1 view models that fail to build now preserve existing tables, matching V2 behavior.
+  - Ordinary view replacement now uses in-place `ALTER` only when the current relation is also
+    an ordinary view (was incorrectly applied to other relation types).
+  - Databricks tags applied to materialized views and streaming tables are now handled
+    selectively during replacements; existing tags are preserved and views without automatic
+    schedules refresh correctly when configuration changes.
+- **Dependency updates:**
+  - `dbt-core` upper bound raised to `<1.12.6` — includes dbt-core 1.12.4 and 1.12.5.
+- **Impact on this repo:** no source-code change needed; 1.12.6 is a drop-in patch. The OIDC
+  auth feature is informational — useful if this repo's bundle moves to token-file auth in CI.
+  No metric views or streaming tables in this repo, so the tag/view fixes are not exercised.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.6
+
+---
+
 ## 2026-09-02 — dbt-databricks 1.12.5 patch; SDK cap unchanged
 
 - **dbt-databricks 1.12.5** released **2026-09-01**. Patch release on top of 1.12.4.
