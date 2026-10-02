@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-02 — dbt-databricks 1.12.6 + databricks-sdk v0.146.0 new; dlt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.6** released **2026-10-01**. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. Key addition: OIDC workload
+identity federation (`auth_type: env-oidc` / `file-oidc`, `oidc_token_filepath`) for CI/CD
+token-based auth. Bug fixes: case-insensitive `SHOW GRANTS` handling, V1 view failure
+preservation, ordinary-view `ALTER` guard, Databricks tag handling on materialized/streaming
+views. No impact on this repo's examples. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.146.0** released **2026-10-02**. New: `environment` on
+`SandboxSpec`; `table_foreign_delta_deltasharing` enum value on `SecurableKind` (catalog).
+Breaking: `environment_variables_key` on `JobEnvironmentVariables` is now required. v0.146.0
+exceeds the adapter cap; repo stays on **0.117.0**. Next SDK gate: whenever dbt-databricks
+raises the cap past v0.146.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v1.12.6's OIDC auth feature and tag
+fixes have no overlap with this repo's ingestion or dbt models. v0.146.0's sandbox/catalog
+additions and the `JobEnvironmentVariables` breaking change have no dlt/dbt overlap. The Zerobus
+append example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume
+serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-01 — databricks-sdk v0.144.0 + v0.145.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
