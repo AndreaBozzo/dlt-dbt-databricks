@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-06 — databricks-sdk v0.147.0 new
+
+- **databricks-sdk v0.147.0** shipped **2026-10-06**:
+  - **New account-level service:** `a.private_network_gateways` — account-level CRUD for
+    private network gateways.
+  - **New field:** `project_environment` added to `databricks.sdk.service.compute.Environment` —
+    allows associating a compute environment with a specific project environment.
+  - **New field:** `dataframe_schema` added to `databricks.sdk.service.ml.RequestSource` —
+    allows specifying a schema for dataframe-based ML request sources.
+  - **Breaking changes:** none documented in this release.
+- **No repo change:** `dbt-databricks 1.12.6` still pins `databricks-sdk<0.118.0`; v0.147.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+  past v0.147.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.147.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-02 — databricks-sdk v0.146.0 new
 
 - **databricks-sdk v0.146.0** shipped **2026-10-02**:
