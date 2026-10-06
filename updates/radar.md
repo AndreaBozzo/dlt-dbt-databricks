@@ -4,6 +4,27 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-06 — databricks-sdk v0.147.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.6** (2026-10-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.147.0** released **2026-10-06**. New: `a.private_network_gateways`
+account-level service for private network gateway management; `project_environment` on
+`compute.Environment`; `dataframe_schema` on `ml.RequestSource`. No breaking changes. v0.147.0
+exceeds the adapter cap; repo stays on **0.117.0**. Next SDK gate: whenever dbt-databricks raises
+the cap past v0.147.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.147.0's additions (private network
+gateways, compute environment field, ML request source schema) have no dlt/dbt overlap. The Zerobus
+append example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume
+serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-02 — dbt-databricks 1.12.6 + databricks-sdk v0.146.0 new; dlt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
