@@ -4,6 +4,26 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-07 — databricks-sdk v0.148.0 new; dlt and dbt unchanged
+
+**dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
+Databricks-specific changes; no example updates needed. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.6** (2026-10-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.148.0** released **2026-10-07**. New: `health_check` field
+on app deployment configuration. No breaking changes. v0.148.0 exceeds the adapter cap; repo
+stays on **0.117.0**. Next SDK gate: whenever dbt-databricks raises the cap past v0.148.0.
+→ [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.148.0's addition (app deployment
+health check) has no dlt/dbt overlap. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
+issue remain unchanged.
+
+---
+
 ## 2026-10-06 — databricks-sdk v0.147.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no
