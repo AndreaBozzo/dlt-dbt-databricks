@@ -4,6 +4,41 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-08 — dlt 1.31.0 new minor; CDC merge strategy lands on Databricks
+
+- **dlt 1.31.0** shipped **2026-10-07** — new minor release since 1.30.0.
+- **`cdc` merge strategy (Databricks-supported):** Loads a full snapshot as an upsert and
+  deletes destination rows missing from it. Supported on Databricks alongside BigQuery,
+  Postgres, Snowflake, and others. Useful for CDC-style pipelines where the source emits
+  full snapshots rather than change events.
+- **`skip_unchanged_rows`:** For `cdc` and `upsert` strategies, updates only changed rows;
+  unchanged rows keep their existing `_dlt_load_id`. Reduces write amplification on wide tables.
+- **Merge conditions:** New `source_filter` (selects which loaded rows participate in the merge)
+  and `destination_scope` (limits which destination rows can be deleted or retired).
+- **Stateful `Relation.incremental()`:** SQL-pushdown incremental now advances pipeline state.
+- **Context timezone (process-wide, UTC default):** Controls how timezone-naive timestamps are
+  stored. UTC by default — aligns with this repo's existing explicit-UTC pattern.
+- **Breaking changes (impact on this repo: none):**
+  - `pendulum` helpers removed from `dlt.common.time`; `pendulum>=3` now required as a
+    dependency. This repo's examples use stdlib `datetime` throughout — no change needed.
+  - `Incremental.last_value` now reflects the current cursor position (was the previous
+    committed value). The `sql_database_to_databricks.py` guard `if cursor.last_value`
+    still works correctly — `initial_value=datetime(1970, 1, 1)` is always truthy.
+  - JSON datetimes now serialize with `+00:00` instead of `Z` suffix.
+  - `@job` / `@pipeline_run` args `allow_external_schedulers` and `refresh` deprecated.
+- **Databricks-specific:** `cdc` strategy added to the Databricks destination's supported
+  merge strategies. No other Databricks destination behavior changes in this release.
+- **Example proposal:** A `cdc_snapshot.py` example using `write_disposition="cdc"` against a
+  mock full-snapshot source would demonstrate the new strategy on Databricks. Flagged as a
+  **PROPOSAL** — requires real or simulated snapshot source + Databricks infrastructure; not
+  built blind.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.31.0
+- https://dlthub.com/docs/dlt-ecosystem/destinations/databricks
+
+---
+
 ## 2026-08-26 — repo adopts 1.30.0 and adds per-resource Zerobus
 
 - Re-locked the project from dlt 1.28.0 to **1.30.0** and raised the dependency floor so fresh

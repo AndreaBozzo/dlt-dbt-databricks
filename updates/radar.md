@@ -4,6 +4,35 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-08 — dlt 1.31.0 new minor; databricks-sdk v0.148.0 + v0.149.0 new; dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) new minor. Key additions: `cdc` merge strategy now supported
+on Databricks (full-snapshot upsert+delete), `skip_unchanged_rows` for `cdc`/`upsert`, merge
+conditions (`source_filter`, `destination_scope`), stateful `Relation.incremental()`, and a
+process-wide context timezone (UTC default). Breaking: pendulum helpers removed from
+`dlt.common.time`; `Incremental.last_value` semantics changed (now reflects current cursor
+position); JSON datetimes use `+00:00` instead of `Z`. Repo examples are unaffected by all
+breaking changes (no pendulum use; `last_value` guard logic unchanged in effect). → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.6** (2026-10-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases since the 2026-10-06 check. **databricks-sdk v0.148.0**
+(2026-10-07): `health_check` field on `apps.AppDeployment`; no breaking changes. **v0.149.0**
+(2026-10-08): new `agentkit` package with `w.agent_kit` workspace service; `statement_timeout`
+on SQL warehouses; `parent_path` on pipelines. Breaking: `mason` package and `w.mason` service
+removed (added in v0.141.0). Both exceed the adapter cap; repo stays on **0.117.0**. Next SDK
+gate: whenever dbt-databricks raises the cap past v0.149.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — dlt 1.31.0's `cdc` merge strategy is a new Databricks-supported write
+disposition worth a future example (full-snapshot CDC ingestion → Databricks Delta with
+auto-delete). Flagged as a **PROPOSAL** in dlt.md — requires real or simulated snapshot source
+plus Databricks infrastructure; not built blind. Existing examples unaffected. The Zerobus
+append example (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume
+serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-06 — databricks-sdk v0.147.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no

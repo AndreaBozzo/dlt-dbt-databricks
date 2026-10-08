@@ -4,6 +4,32 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-08 — databricks-sdk v0.148.0 + v0.149.0 new
+
+- **databricks-sdk v0.148.0** shipped **2026-10-07**:
+  - **New field:** `health_check` added to `apps.AppDeployment` — allows specifying a health
+    check configuration for app deployments.
+  - **Breaking changes:** none documented in this release.
+- **databricks-sdk v0.149.0** shipped **2026-10-08**:
+  - **New package:** `databricks.sdk.service.agentkit` with workspace-level `w.agent_kit`
+    service for agent management.
+  - **New fields:** `statement_timeout` on SQL warehouse configs; `parent_path` on pipeline
+    objects.
+  - **Identity visibility filter methods** added to `a.account_iam_v2`.
+  - **Breaking change:** `mason` package (`databricks.sdk.service.mason`) and `w.mason`
+    workspace service **removed**. Any code that referenced `w.mason` (added in v0.141.0)
+    must be updated before upgrading to v0.149.0.
+- **No repo change:** `dbt-databricks 1.12.6` still pins `databricks-sdk<0.118.0`; both
+  v0.148.0 and v0.149.0 exceed the cap. Repo stays on **0.117.0**. Next gate: whenever
+  dbt-databricks raises the cap past v0.149.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.148.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.149.0
+
+---
+
 ## 2026-10-06 — databricks-sdk v0.147.0 new
 
 - **databricks-sdk v0.147.0** shipped **2026-10-06**:
