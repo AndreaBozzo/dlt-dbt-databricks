@@ -4,6 +4,34 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-09 — dlt 1.31.0 new minor; SDK v0.148.0–v0.150.0 new; dbt unchanged
+
+**dlt** — **1.31.0** released **2026-10-07** — new minor. Key addition for this repo: the `cdc`
+merge strategy (full-snapshot upsert + delete of absent rows) now supports Databricks. Delta
+`upsert` + `hard_delete` also now honored (avoid with nested tables). Breaking changes in 1.31.0
+(pendulum≥3 required, JSON timestamps use `+00:00`, `Incremental.last_value` semantics tightened)
+do not affect this repo's examples. **Proposal:** add `ingestion/advanced/cdc_merge.py` to
+demonstrate the `cdc` strategy on Databricks. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.6** (2026-10-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Three new SDK releases. **v0.148.0** (2026-10-07): `health_check` on
+`apps.AppDeployment`; no breaking changes. **v0.149.0** (2026-10-08): `w.agent_kit` workspace
+service + `agentkit` package; IAM v2 identity visibility filter methods; `parent_path` on pipeline
+specs; `statement_timeout` on SQL warehouses; ML/catalog additions. Breaking: `w.mason` service
+removed. **v0.150.0** (2026-10-09): `bedrock_mantle`/`pricing` on `ModelProviderServiceConfig`;
+no breaking changes. All three exceed the adapter cap; repo stays on **0.117.0**. Next gate:
+whenever dbt-databricks raises the cap past v0.150.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes needed today. The `cdc_merge.py` proposal (dlt
+1.31.0 `cdc` strategy on Databricks) is flagged in dlt.md; it needs no special infrastructure
+and is a good candidate for the next deliberate example session. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
+issue remain unchanged.
+
+---
+
 ## 2026-10-06 — databricks-sdk v0.147.0 new; dlt and dbt unchanged
 
 **dlt** — **1.30.0** (2026-08-11) unchanged. No new release since the 2026-08-26 entry; no

@@ -4,6 +4,46 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-09 — databricks-sdk v0.148.0 + v0.149.0 + v0.150.0 new
+
+- **databricks-sdk v0.150.0** shipped **2026-10-09**:
+  - **New fields:** `bedrock_mantle` and `pricing` added to `ModelProviderServiceConfig` (catalog).
+  - **New enum value:** `external_model_provider_type_bedrock_mantle` added to
+    `ModelProviderServiceConfigExternalModelProviderType` (catalog).
+  - **Breaking changes:** none.
+- **databricks-sdk v0.149.0** shipped **2026-10-08**:
+  - **New package:** `databricks.sdk.service.agentkit` added; `w.agent_kit` workspace-level
+    service for agent kit management.
+  - **New methods:** four identity visibility filter methods added to `a.account_iam_v2`
+    (create, delete, get, list).
+  - **New field:** `endpoint_route` added to `ModelProviderServiceConfigModelTargetConfig`
+    (catalog).
+  - **New fields:** `notifications` added to `ml.MaterializedFeature`;
+    `shuffle_partitions` added to `ml.StreamingMode`.
+  - **New field:** `parent_path` added to `ClonePipelineRequest`, `CreatePipeline`,
+    `EditPipeline`, and `PipelineSpec` (pipelines) — allows pipelines to be nested under a
+    parent path in the workspace browser.
+  - **New field:** `custom_template_format` added to `sql.AlertV2`.
+  - **New field:** `statement_timeout` added to `CreateWarehouseRequest`,
+    `EditWarehouseRequest`, `EndpointInfo`, and `GetWarehouseResponse` (sql).
+  - **Breaking:** `databricks.sdk.service.mason` package removed; `w.mason` workspace-level
+    service removed (was added in v0.141.0, lived for 8 releases).
+- **databricks-sdk v0.148.0** shipped **2026-10-07**:
+  - **New field:** `health_check` added to `apps.AppDeployment`.
+  - **Breaking changes:** none.
+- **No repo change:** `dbt-databricks 1.12.6` still pins `databricks-sdk<0.118.0`; all three
+  releases exceed the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+  the cap past v0.150.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.150.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.149.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.148.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-06 — databricks-sdk v0.147.0 new
 
 - **databricks-sdk v0.147.0** shipped **2026-10-06**:
