@@ -4,6 +4,47 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-09 — dlt 1.31.0 new minor; `cdc` merge strategy adds Databricks support
+
+- **dlt 1.31.0** shipped **2026-10-07** — new minor release.
+- **Databricks-specific addition:** `cdc` merge strategy now supported on Databricks (alongside
+  DuckDB, MotherDuck, DuckLake, Snowflake, Postgres, BigQuery, MSSQL, Fabric, Athena/Iceberg,
+  and Delta). `cdc` upserts a full snapshot and deletes destination rows that are absent from the
+  incoming batch — useful for syncing tables that arrive as complete snapshots rather than diffs.
+- **Delta `upsert` + `hard_delete`:** Delta `upsert` now honors `hard_delete`. Important caveat:
+  nested tables with `upsert` + `hard_delete` raise `SchemaCorruptedException`; use flat tables or
+  the `cdc` strategy with nested data.
+- **`skip_unchanged_rows`:** New option for `cdc` and `upsert` strategies — only writes rows that
+  changed. `row_version_column_name` enables single-column hash comparison. Reduces write
+  amplification on large stable tables.
+- **Breaking changes (review required for this repo's examples):**
+  - `pendulum>=3` is now a hard requirement; `pendulum` helpers removed from `dlt.common.time`.
+    None of this repo's ingestion examples use pendulum — no change needed.
+  - JSON datetimes now serialized with `+00:00` offset instead of `Z`. The `merge_incremental.py`
+    example passes `initial_value="2026-01-01T00:00:00Z"` as an input string — still accepted
+    by dlt; no change needed.
+  - `Incremental.last_value` now reflects the current cursor position (was previously the
+    last-committed position). `sql_database_to_databricks.py` uses `cursor.last_value` for
+    query filtering — behavior is compatible; no change needed.
+  - `auto_abort_on_terminal_error` already defaulted to `False` since 1.30.0; no additional
+    impact.
+- **Other additions:** `source_filter` / `destination_scope` for merge row scoping;
+  stateful `Relation.incremental()` for SQL push-down; `with_cursor()`, `get_current_range()`,
+  `advance()` helpers on `Incremental`; `TTimeInterval` is now a `NamedTuple`; `croniter` added
+  as a core dependency.
+- **Example proposal — `cdc` merge strategy:** A new `ingestion/advanced/cdc_merge.py` example
+  demonstrating the `cdc` write disposition on Databricks would be a useful addition. The example
+  could use an in-memory generator (like `merge_incremental.py`) to emit a snapshot that includes
+  updates and a deletion, showing that the destination row is removed. **Flagged as a proposal** —
+  no infrastructure beyond a Databricks workspace is needed, but it should be reviewed alongside
+  the `hard_delete` + nested-table caveat before building.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.31.0
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-08-26 — repo adopts 1.30.0 and adds per-resource Zerobus
 
 - Re-locked the project from dlt 1.28.0 to **1.30.0** and raised the dependency floor so fresh
