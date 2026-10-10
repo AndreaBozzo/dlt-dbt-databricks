@@ -4,6 +4,30 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-10 — databricks-sdk v0.151.0 new; dlt and dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.6** (2026-10-01) unchanged. SDK cap still
+`databricks-sdk>=0.68.0,<0.118.0`; repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.151.0** released **2026-10-10**. Minimal change:
+`model_service` enum value added to two Apps UC securable types
+(`AppManifestAppResourceUcSecurableSpecUcSecurableType` and
+`AppResourceUcSecurableUcSecurableType`), allowing Apps to reference model-serving endpoints
+as UC securables. No breaking changes. v0.151.0 exceeds the adapter cap; repo stays on
+**0.117.0**. Next gate: whenever dbt-databricks raises the cap past v0.151.0.
+→ [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.151.0's UC securable-type addition
+is an App service concern with no dlt/dbt overlap. The `cdc_merge.py` proposal (dlt 1.31.0
+`cdc` strategy on Databricks) remains flagged in dlt.md. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-10-09 — dlt 1.31.0 new minor; SDK v0.148.0–v0.150.0 new; dbt unchanged
 
 **dlt** — **1.31.0** released **2026-10-07** — new minor. Key addition for this repo: the `cdc`

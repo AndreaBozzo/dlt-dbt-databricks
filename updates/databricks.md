@@ -4,6 +4,25 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-10 — databricks-sdk v0.151.0 new; no repo change
+
+- **databricks-sdk v0.151.0** shipped **2026-10-10**:
+  - **New enum values:** `model_service` added to
+    `apps.AppManifestAppResourceUcSecurableSpecUcSecurableType` and
+    `apps.AppResourceUcSecurableUcSecurableType` — allows Databricks Apps to reference
+    model-serving endpoints as UC securable resources.
+  - **Breaking changes:** none.
+- **No repo change:** `dbt-databricks 1.12.6` still pins `databricks-sdk<0.118.0`; v0.151.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.151.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.151.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-09 — databricks-sdk v0.148.0 + v0.149.0 + v0.150.0 new
 
 - **databricks-sdk v0.150.0** shipped **2026-10-09**:
