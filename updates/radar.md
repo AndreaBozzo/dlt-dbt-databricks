@@ -4,6 +4,35 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-13 — dbt-databricks 1.12.7 + databricks-sdk v0.152.0 new; dlt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.7** released **2026-10-12**. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. Key fixes: deterministic
+FK/PK constraint naming stops churn on incremental runs; session lock fix prevents stalls during
+slow cluster shutdown; Hive metastore view replacement fixed on AWS. Breaking (custom macro
+overrides only): snapshots drop `create_indexes`/`adapter.commit()` calls; seeds drop
+`use_materialization_v2` branching. No impact on this repo — no column-level constraints and
+no custom macro overrides affected. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.152.0** released **2026-10-13**. New: `view` field on
+agentkit managed-memory requests; `show_deleted` on app deployment listing; `scopes` on OAuth2
+SP secrets; Slack/Teams notification destination settings. Breaking: `read_mask` removed from
+agentkit managed-memory requests. v0.152.0 exceeds the adapter cap; repo stays on **0.117.0**.
+Next gate: whenever dbt-databricks raises the cap past v0.152.0.
+→ [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v1.12.7's constraint fixes are
+informational (no column-level constraints in the dbt models). v0.152.0's agentkit/settings
+additions have no dlt/dbt overlap. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy
+on Databricks) remains flagged in dlt.md. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-10-10 — databricks-sdk v0.151.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.

@@ -4,6 +4,39 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-13 — dbt-databricks 1.12.7 patch; SDK cap unchanged
+
+- **dbt-databricks 1.12.7** released **2026-10-12**. Patch release on top of 1.12.6.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **Bug fixes:**
+  - Unnamed primary and foreign keys now receive deterministic dbt-generated names, stopping
+    constraint churn on incremental runs and fixing failures with multiple unnamed foreign keys
+    to the same parent table. Existing unnamed constraints switch to generated names on the next
+    incremental run (#1561; resolves #1091, #1333, #1344).
+  - Constraint `ALTER` statements now run in a stable order across incremental runs (#1698).
+  - A `custom` constraint declaring a primary key is no longer dropped and re-added on every
+    incremental run, which also prevents cascading foreign-key drops (#1700; resolves #1699).
+  - Replacing a Hive metastore table with a view no longer requires a rename, fixing
+    `DELTA_ALTER_TABLE_RENAME_NOT_ALLOWED` on AWS (#1701).
+  - Session close no longer holds the connection manager lock, preventing stalls when a slow
+    close blocks other threads or allows cluster auto-termination mid-run (#1706).
+  - Post-hooks and subsequent run steps can now see the correct relation type after a view,
+    materialized view, streaming table, or metric view replaces an existing relation (#1704).
+- **Breaking changes (custom macro overrides only):**
+  - Snapshots no longer call `create_indexes` or `adapter.commit()` (both were no-ops on
+    Databricks). Custom overrides of these macros are no longer invoked for first-run
+    snapshots (#1691).
+  - Seeds no longer branch on `use_materialization_v2`. Custom overrides of `create_seed_v1`,
+    `create_seed_v2`, and `create_indexes` for seeds are no longer called (#1690).
+- **Impact on this repo:** no source-code change needed. The `snap_customers.sql` snapshot
+  uses standard config (no custom `create_indexes` or `adapter.commit()` overrides). No
+  column-level constraints exist in the dbt models, so the FK/PK naming fix is informational.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.7
+
+---
+
 ## 2026-10-02 — dbt-databricks 1.12.6 patch; SDK cap unchanged
 
 - **dbt-databricks 1.12.6** released **2026-10-01**. Patch release on top of 1.12.5.
