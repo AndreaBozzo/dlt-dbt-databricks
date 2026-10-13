@@ -4,6 +4,32 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-13 — databricks-sdk v0.152.0 new; no repo change
+
+- **databricks-sdk v0.152.0** shipped **2026-10-13**:
+  - **New fields:** `view` added to `agentkit.ManagedMemoryAddRequest`,
+    `agentkit.ManagedMemoryGetRequest`, and `agentkit.ManagedMemoryReplaceRequest` —
+    allows read-back of the current managed-memory view.
+  - **New field:** `show_deleted` added to `apps.ListDeploymentRequest` — allows listing
+    deleted app deployments.
+  - **New field:** `scopes` added to `iam.CreateServicePrincipalSecretRequest` and
+    `iam.ServicePrincipalSecret` (OAuth2 SP secrets) — enables scope-constrained secrets.
+  - **New fields:** `slack_destination` and `teams_destination` added to
+    `settings.DefaultNotificationDestinationSettings` — Slack and Teams notification
+    routing for platform settings.
+  - **Breaking:** `read_mask` removed from `agentkit.ManagedMemoryAddRequest`,
+    `agentkit.ManagedMemoryGetRequest`, and `agentkit.ManagedMemoryReplaceRequest`.
+- **No repo change:** `dbt-databricks 1.12.7` still pins `databricks-sdk<0.118.0`; v0.152.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.152.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.152.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-10 — databricks-sdk v0.151.0 new; no repo change
 
 - **databricks-sdk v0.151.0** shipped **2026-10-10**:
