@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-16 — databricks-sdk v0.153.0 new; dlt and dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.7** (2026-10-12) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.153.0** released **2026-10-15**. New: issue management
+methods (`create_issue`, `get_issue`, `search_issues`, `update_issue`) on `w.experiments`;
+`reveal_role_password()` on `w.postgres`; `attachment` on `jobs.Subscription`;
+`replication_config` on `sharing.CreateShare` and `sharing.ShareInfo`; `realtime` enum value
+on five warehouse-type enums. Breaking: `effective_serverless_compute_id` removed from
+`jobs.RunTask`. Bug fix: protobuf 7.x now accepted. v0.153.0 exceeds the adapter cap; repo
+stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap past v0.153.0.
+→ [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.153.0's additions (experiments issue
+methods, Postgres password reveal, job subscription attachment, sharing replication config,
+realtime warehouse type) have no dlt/dbt overlap. The `cdc_merge.py` proposal (dlt 1.31.0
+`cdc` strategy on Databricks) remains flagged in dlt.md. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-10-13 — dbt-databricks 1.12.7 + databricks-sdk v0.152.0 new; dlt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.

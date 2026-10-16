@@ -4,6 +4,31 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-16 — databricks-sdk v0.153.0 new; no repo change
+
+- **databricks-sdk v0.153.0** shipped **2026-10-15**:
+  - **New:** `create_issue()`, `get_issue()`, `search_issues()`, and `update_issue()` on the
+    workspace-level `w.experiments` service.
+  - **New:** `reveal_role_password()` on the workspace-level `w.postgres` service.
+  - **New field:** `attachment` on `jobs.Subscription`.
+  - **New field:** `replication_config` on `sharing.CreateShare` and `sharing.ShareInfo`.
+  - **New enum value:** `realtime` added to five warehouse-type enums —
+    `CreateWarehouseRequestWarehouseType`, `EditWarehouseRequestWarehouseType`,
+    `EndpointInfoWarehouseType`, `GetWarehouseResponseWarehouseType`, and
+    `WarehouseTypePairWarehouseType`.
+  - **Breaking:** `effective_serverless_compute_id` removed from `jobs.RunTask`.
+  - **Bug fix:** SDK and sandbox extra now accept protobuf 7.x.
+- **No repo change:** `dbt-databricks 1.12.7` still pins `databricks-sdk<0.118.0`; v0.153.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.153.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.153.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-13 — databricks-sdk v0.152.0 new; no repo change
 
 - **databricks-sdk v0.152.0** shipped **2026-10-13**:
