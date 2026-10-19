@@ -4,6 +4,29 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-19 — databricks-sdk v0.154.0 new; no repo change
+
+- **databricks-sdk v0.154.0** shipped **2026-10-19**:
+  - **New methods:** `create_directory()`, `delete_path()`, `get_metadata()`,
+    `list_directory_contents()`, and `rename_path()` on the workspace-level `w.sandbox` service.
+  - **New fields (Catalog):** `secrets` on `ConnectionInfo`, `CreateConnection`, and
+    `UpdateConnection`; `governed_tags` on `PolicyInfo`.
+  - **New fields (Disaster recovery):** `has_replication_point_blocking_errors` and
+    `initial_replication_progress` on `FailoverGroup`.
+  - **New fields (Jobs):** `duration_target` on `BaseRun`, `CreateJob`, `JobSettings`,
+    `RepairRun`, `Run`, `RunNow`, and `SubmitRun`.
+  - No breaking changes.
+- **No repo change:** `dbt-databricks 1.12.7` still pins `databricks-sdk<0.118.0`; v0.154.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.154.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.154.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-16 — databricks-sdk v0.153.0 new; no repo change
 
 - **databricks-sdk v0.153.0** shipped **2026-10-15**:
