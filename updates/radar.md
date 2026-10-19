@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-19 — databricks-sdk v0.154.0 new; dlt and dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.7** (2026-10-12) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.154.0** released **2026-10-19**. New: sandbox service gains
+five filesystem methods (`create_directory`, `delete_path`, `get_metadata`,
+`list_directory_contents`, `rename_path`); catalog connections gain `secrets` field; `governed_tags`
+on `PolicyInfo`; disaster recovery `FailoverGroup` gains `has_replication_point_blocking_errors`
+and `initial_replication_progress`; Jobs gains `duration_target` across `BaseRun`, `CreateJob`,
+`JobSettings`, `RepairRun`, `Run`, `RunNow`, and `SubmitRun`. No breaking changes. v0.154.0
+exceeds the adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+the cap past v0.154.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.154.0's additions (sandbox filesystem
+methods, catalog connection secrets, policy governed tags, disaster recovery progress, job duration
+target) have no dlt/dbt overlap. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on
+Databricks) remains flagged in dlt.md. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-10-16 — databricks-sdk v0.153.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
