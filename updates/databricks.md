@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-21 — databricks-sdk v0.155.0 new; no repo change
+
+- **databricks-sdk v0.155.0** shipped **2026-10-21**:
+  - **New fields (ML):** `sdp_source` on `ml.DataSource`.
+  - **New fields (SQL Warehouses):** `customer_version_label`, `max_dbu`, and
+    `reyden_cluster_size_multiplier` on `sql.CreateWarehouseRequest`,
+    `sql.EditWarehouseRequest`, `sql.EndpointInfo`, and `sql.GetWarehouseResponse`.
+  - **Breaking:** `replication_config` removed from `sharing.CreateShare` and
+    `sharing.ShareInfo` (added in v0.153.0; now removed). Code setting or reading
+    that field will need updating.
+- **No repo change:** `dbt-databricks 1.12.7` still pins `databricks-sdk<0.118.0`; v0.155.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.155.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.155.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-19 — databricks-sdk v0.154.0 new; no repo change
 
 - **databricks-sdk v0.154.0** shipped **2026-10-19**:

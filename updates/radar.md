@@ -4,6 +4,31 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-21 — databricks-sdk v0.155.0 new; dlt and dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.7** (2026-10-12) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.155.0** released **2026-10-21**. New: `sdp_source` on
+`ml.DataSource`; `customer_version_label`, `max_dbu`, and `reyden_cluster_size_multiplier` on
+four SQL warehouse request/response types (`CreateWarehouseRequest`, `EditWarehouseRequest`,
+`EndpointInfo`, `GetWarehouseResponse`). Breaking: `replication_config` removed from
+`sharing.CreateShare` and `sharing.ShareInfo` (the field was added in v0.153.0). v0.155.0
+exceeds the adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+the cap past v0.155.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.155.0's SQL warehouse additions
+(customer version label, DBU cap, cluster-size multiplier) and the `sharing.replication_config`
+removal have no dlt/dbt overlap. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on
+Databricks) remains flagged in dlt.md. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless
+staging issue remain unchanged.
+
+---
+
 ## 2026-10-19 — databricks-sdk v0.154.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
