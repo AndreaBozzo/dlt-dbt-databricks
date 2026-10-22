@@ -4,6 +4,45 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-22 — databricks-sdk v0.156.0 new; no repo change
+
+- **databricks-sdk v0.156.0** shipped **2026-10-22**:
+  - **New methods:** `start_endpoint()` and `stop_endpoint()` on the vector-search
+    `w.vector_search_endpoints` workspace service.
+  - **New field:** `include_external_spend` on billing budget configurations.
+  - **New states:** `starting` and `stopping` added to AI Search and Vector Search endpoint
+    state enums.
+  - **New ingestion source:** `onedrive` added as a pipeline ingestion connector source type.
+  - No breaking changes.
+- **No repo change:** `dbt-databricks 1.12.7` still pins `databricks-sdk<0.118.0`; v0.156.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.156.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.156.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
+## 2026-10-21 — databricks-sdk v0.155.0 new; no repo change
+
+- **databricks-sdk v0.155.0** shipped **2026-10-21**:
+  - **New fields:** `customer_version_label`, `max_dbu`, and `cluster_size_multiplier` added to
+    SQL warehouse create/edit/get request and response types.
+  - **Breaking:** `replication_config` removed from `sharing.CreateShare` and `sharing.ShareInfo`
+    (this field was added in v0.153.0 and has been reverted).
+- **No repo change:** `dbt-databricks 1.12.7` still pins `databricks-sdk<0.118.0`; v0.155.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.155.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.155.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-19 — databricks-sdk v0.154.0 new; no repo change
 
 - **databricks-sdk v0.154.0** shipped **2026-10-19**:
