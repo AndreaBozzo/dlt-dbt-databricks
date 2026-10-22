@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-22 — databricks-sdk v0.155.0 + v0.156.0 new; dlt and dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.7** (2026-10-12) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases. **v0.155.0** (2026-10-21): SQL warehouse requests and
+responses gain `customer_version_label`, `max_dbu`, and `cluster_size_multiplier`. Breaking:
+`replication_config` removed from `sharing.CreateShare` and `sharing.ShareInfo` (the field was
+added in v0.153.0 and reverted). **v0.156.0** (2026-10-22): vector search endpoints gain
+`start_endpoint()` and `stop_endpoint()` methods; `include_external_spend` added to billing
+budget configs; `starting`/`stopping` states added to AI Search and Vector Search endpoint
+enums; `onedrive` ingestion source added for Pipelines. No breaking changes in v0.156.0. Both
+releases exceed the adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks
+raises the cap past v0.156.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.155.0/v0.156.0's additions (SQL
+warehouse sizing fields, vector search endpoint controls, OneDrive pipeline source) have no
+dlt/dbt overlap. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on Databricks) remains
+flagged in dlt.md. The Zerobus append example (`ingestion/advanced/zerobus_append.py`) and the
+pending Unity Catalog Volume serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-19 — databricks-sdk v0.154.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
