@@ -4,6 +4,34 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-25 — dbt-databricks 1.12.8 + databricks-sdk v0.157.0 new; dlt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.8** released **2026-10-24**. Minimal patch: `certifi` floor
+raised to `>=2026.10.23` for a CA bundle security update. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.157.0** released **2026-10-24**: 8 new agentkit
+store-permission methods (memory and session stores), 4 new feature-engineering
+materialization-set methods (`create/get/update/delete_materialization_set`), new
+data-quality notification fields (`notification_settings`, `on_unhealthy_table`), pipeline
+path-based refresh selection fields (`full_refresh_selection_by_path`,
+`refresh_selection_by_path` on `StartUpdate`/`UpdateInfo`), `file_output` on `jobs.SqlOutput`,
+and a `certifi>=2026.10.19` security requirement. No breaking changes. v0.157.0 exceeds the
+adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+past v0.157.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v1.12.8's certifi bump is a drop-in.
+v0.157.0's additions (agentkit permissions, feature-engineering materialization sets,
+data-quality notifications, pipeline path-based refresh) have no dlt/dbt overlap in this repo.
+The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on Databricks) remains flagged in
+dlt.md. The Zerobus append example (`ingestion/advanced/zerobus_append.py`) and the pending
+Unity Catalog Volume serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-22 — databricks-sdk v0.155.0 + v0.156.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.

@@ -4,6 +4,40 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-25 — databricks-sdk v0.157.0 new; no repo change
+
+- **databricks-sdk v0.157.0** shipped **2026-10-24**:
+  - **New methods (Agent Kit):** 8 new store-permission methods on `w.agent_kit`:
+    - Memory store: `get_memory_store_permission()`, `grant_memory_store_permission()`,
+      `list_memory_store_permissions()`, `revoke_memory_store_permission()`
+    - Session store: `get_session_store_permission()`, `grant_session_store_permission()`,
+      `list_session_store_permissions()`, `revoke_session_store_permission()`
+  - **New methods (Feature Engineering):** `create_materialization_set()`,
+    `get_materialization_set()`, `update_materialization_set()`, `delete_materialization_set()`
+    on `w.feature_engineering`.
+  - **New fields (Data Quality):** `notification_settings` on `dataquality.AnomalyDetectionConfig`;
+    `destination_ids` and `destination_user_ids` on `dataquality.NotificationDestination`;
+    `on_unhealthy_table` on `dataquality.NotificationSettings`.
+  - **New field (Jobs):** `file_output` on `jobs.SqlOutput`.
+  - **New fields (ML):** `materialization_set_id` on `ml.MaterializedFeature`; `delete_rows` on
+    `ml.PurgeFeatureEntitiesRequest`.
+  - **New fields (Pipelines):** `full_refresh_selection_by_path` and `refresh_selection_by_path`
+    on `pipelines.StartUpdate` and `pipelines.UpdateInfo` — allows path-based selection of tables
+    to refresh in a pipeline update.
+  - **New field (Sandbox):** `metadata` on `sandbox.Sandbox`.
+  - **Security:** `certifi>=2026.10.19` now required.
+  - **Breaking changes:** none.
+- **No repo change:** `dbt-databricks 1.12.8` still pins `databricks-sdk<0.118.0`; v0.157.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.157.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.157.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-22 — databricks-sdk v0.156.0 new; no repo change
 
 - **databricks-sdk v0.156.0** shipped **2026-10-22**:

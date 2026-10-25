@@ -4,6 +4,21 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-25 — dbt-databricks 1.12.8 patch; SDK cap unchanged
+
+- **dbt-databricks 1.12.8** released **2026-10-24**. Patch release on top of 1.12.7.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **Bug fix / security:**
+  - `certifi` dependency floor raised to `>=2026.10.23`, picking up an updated CA certificate
+    bundle. No code change required; the bump takes effect automatically on re-lock.
+- **Impact on this repo:** no source-code change needed; 1.12.8 is a minimal drop-in patch.
+  No new features, no behavioral changes for SQL models.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.8
+
+---
+
 ## 2026-10-13 — dbt-databricks 1.12.7 patch; SDK cap unchanged
 
 - **dbt-databricks 1.12.7** released **2026-10-12**. Patch release on top of 1.12.6.
