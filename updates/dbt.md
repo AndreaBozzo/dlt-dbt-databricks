@@ -4,6 +4,22 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-26 — dbt-databricks 1.12.8 patch; certifi security bump; SDK cap unchanged
+
+- **dbt-databricks 1.12.8** released **2026-10-24**. Patch release on top of 1.12.7.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **Single fix:** Raises the minimum `certifi` version to `>=2026.10.23` to pull in a CA
+  certificate security fix (#1740). No logic changes.
+- **Breaking changes:** None.
+- **Impact on this repo:** no source-code change needed. The certifi floor is a transitive
+  dependency concern; the dlt+dbt environment already satisfies this via its own dependency
+  resolution.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.12.8
+
+---
+
 ## 2026-10-13 — dbt-databricks 1.12.7 patch; SDK cap unchanged
 
 - **dbt-databricks 1.12.7** released **2026-10-12**. Patch release on top of 1.12.6.
