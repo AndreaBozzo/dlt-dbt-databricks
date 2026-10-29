@@ -4,6 +4,35 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-29 — databricks-sdk v0.158.0 new; no repo change
+
+- **databricks-sdk v0.158.0** shipped **2026-10-29**:
+  - **New methods — `a.budgets`:** `get_budget_spend_status()` and
+    `list_budget_spend_statuses()` — account-level methods to query current
+    spend status against configured budget policies.
+  - **Bug fixes (parallel file downloads):** `WorkspaceClient.files.download_to`
+    with `use_parallel=True` now correctly fetches byte ranges from presigned URLs
+    or the storage proxy for files above the parallel threshold (was incorrectly
+    falling back to the Files API). Failed ranges now raise after another range
+    succeeds. Expired GCP presigned URLs are refreshed (aligning with AWS/Azure
+    behavior). Filenames containing `#`, `?`, or `%` no longer request the wrong
+    Files API path.
+  - **Bug fix (CLI auth):** Databricks CLI auth no longer wrongly rejects small
+    wrapper scripts or version-manager shims as the legacy Python CLI — only the
+    pip-installed entry point is rejected.
+  - **No breaking changes.**
+- **No repo change:** `dbt-databricks 1.12.8` still pins `databricks-sdk<0.118.0`;
+  v0.158.0 exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever
+  dbt-databricks raises the cap past v0.158.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently
+  returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.158.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-26 — databricks-sdk v0.157.0 new; no repo change
 
 - **databricks-sdk v0.157.0** shipped **2026-10-24**:
