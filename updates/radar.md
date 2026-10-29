@@ -4,6 +4,29 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-29 — databricks-sdk v0.158.0 new; dlt and dbt unchanged
+
+**dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.12.8** (2026-10-24) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.158.0** released **2026-10-29**. New: two
+account-level budget methods (`get_budget_spend_status()`, `list_budget_spend_statuses()`)
+on `a.budgets`. Bug fixes: parallel file download correctness (presigned-URL fallback,
+GCP URL refresh, special-character path handling), CLI auth shim detection. No breaking
+changes. v0.158.0 exceeds the adapter cap; repo stays on **0.117.0**. Next gate: whenever
+dbt-databricks raises the cap past v0.158.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.158.0's additions (account
+budget spend status methods, file-download bug fixes, CLI auth fix) have no dlt/dbt
+overlap. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on Databricks) remains
+flagged in dlt.md. The Zerobus append example (`ingestion/advanced/zerobus_append.py`)
+and the pending Unity Catalog Volume serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-26 — dbt-databricks 1.12.8 + databricks-sdk v0.157.0 new; dlt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
