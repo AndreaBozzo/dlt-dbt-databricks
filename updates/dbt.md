@@ -4,6 +4,37 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-30 — dbt-databricks v1.13.0 new minor; SDK cap unchanged
+
+- **dbt-databricks v1.13.0** released **2026-10-29** — new minor on top of 1.12.8.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **New feature:** Additive `tblproperties` merging — property values now merge across config
+  hierarchy levels (project → profile → model config) instead of replacing parent values. Allows
+  finer-grained per-model `tblproperties` overrides without repeating inherited keys.
+- **New feature:** Opt-in invocation telemetry — enabled with
+  `connection_parameters.enable_dbt_telemetry`. Reports aggregate model stats (POST_PARSE
+  configuration) and run outcomes (POST_RUN) to Databricks when the workspace server flag
+  allows it, or unconditionally with `force_enable_dbt_telemetry`. Off by default; no impact.
+- **Breaking (view models only):** With `use_materialization_v2: false`, `view_update_via_alter`
+  now alters Unity Catalog views in place instead of recreating them, and **fails** on Hive
+  metastore views. This repo's dbt models use table materializations with no
+  `use_materialization_v2` config — not affected.
+- **Other fixes:** Multiple view, materialized view, and constraint fixes (full list in release
+  notes). Grants now apply after tags during view replacement.
+- **Dependency changes:**
+  - `dbt-core` upper bound raised to `<1.12.7` (from `<1.12.4` in v1.12.8).
+  - `databricks-sql-connector` floor raised to `>=4.2.2`.
+  - `databricks-sdk` cap **unchanged** at `<0.118.0`.
+- **Impact on this repo:** no source-code change needed. Additive `tblproperties` merging is
+  informational; no existing `tblproperties` overrides in this repo clash with this change.
+  The view breaking change does not apply (table-only materializations).
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0
+- https://raw.githubusercontent.com/databricks/dbt-databricks/v1.13.0/pyproject.toml
+
+---
+
 ## 2026-10-26 — dbt-databricks 1.12.8 patch; certifi security bump; SDK cap unchanged
 
 - **dbt-databricks 1.12.8** released **2026-10-24**. Patch release on top of 1.12.7.

@@ -4,6 +4,44 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-30 — dlt 1.32.0 new minor; no Databricks-specific changes
+
+- **dlt 1.32.0** shipped **2026-10-29** — new minor release.
+- **Databricks-specific changes:** None. No destination-level changes for Databricks.
+- **Breaking changes (assessed for this repo's examples):**
+  - **Naive SCD2 timestamps:** Naive `scd2` boundary timestamps are no longer read as UTC;
+    they now go to the database session timezone. No SCD2 examples in this repo — informational
+    only.
+  - **Broader drop scope:** `refresh="drop_resources"`, `pipeline.drop()`, and
+    `dlt pipeline drop` now drop all destination tables for the affected resources (not only
+    those that had data). Behavioral change; no code update needed.
+  - **Shared arrow schema contract:** Resources with differing `schema_contract` settings that
+    write the same table now share the contract resolved for the first resource. No
+    multi-contract resources in this repo's examples.
+  - **`boundary_timestamp` scope:** Now applies only to the declaring load; the
+    `x-boundary-timestamp` schema hint is ignored. No SCD2 examples — not applicable.
+  - **Trace format:** `nested_hints` is now a list with path entries rather than a dict;
+    traces written by 1.32 cannot be read by older dlt. No trace-reading code in this repo.
+- **Key new features (non-Databricks):**
+  - Merge and partition placeholders in `source_filter`/`destination_scope` (date parts,
+    `{load_id}`, etc.).
+  - `trace metrics` CLI command — per-step file/row/size statistics.
+  - Arrow extract up to ~3× faster for small items; normalize splits by file size.
+  - `replace` disposition preserves incremental cursors when using the dict form
+    (`{"disposition": "replace"}`).
+  - dbt runner supports microbatch `interval`, passes `load_id` as a variable, returns row
+    counts.
+  - jira and salesforce verified sources rewritten (not used in this repo).
+- **Example assessment:** No changes needed. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc`
+  strategy on Databricks) remains flagged; 1.32.0 adds no new Databricks-specific reason to
+  accelerate or block it.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.32.0
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-10-09 — dlt 1.31.0 new minor; `cdc` merge strategy adds Databricks support
 
 - **dlt 1.31.0** shipped **2026-10-07** — new minor release.
