@@ -13,6 +13,11 @@ Newest on top. Each entry dated + sourced.
   and explicit empty-snapshot deletion; each behavior guard was checked against a reverted part.
 - `skip_unchanged_rows` preserves old row load IDs, so the example documents using load metadata
   for ingestion freshness. The existing REST freshness contract stays unchanged.
+- Review follow-up: empty first snapshots now use a typed Arrow batch and declared customer/
+  bookkeeping columns. Type hints alone still hit dlt 1.32's JSON normalizer hashing an empty
+  synthetic row without its primary key. An upstream fix could add normalizer columns for empty
+  CDC tables without hashing that synthetic row. Empty Parquet batches must also carry the
+  non-nullable bookkeeping columns for Databricks COPY INTO, which the example now provides.
 
 Sources:
 - https://github.com/dlt-hub/dlt/releases/tag/1.31.0

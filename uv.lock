@@ -702,6 +702,7 @@ dependencies = [
     { name = "databricks-sdk" },
     { name = "dbt-databricks" },
     { name = "dlt", extra = ["databricks", "sql-database"] },
+    { name = "pyarrow" },
     { name = "python-dotenv" },
 ]
 
@@ -731,6 +732,7 @@ requires-dist = [
     { name = "dlt", extras = ["databricks"], specifier = ">=1.32.0,<2" },
     { name = "dlt", extras = ["sql-database"], specifier = ">=1.32.0,<2" },
     { name = "psycopg2-binary", marker = "extra == 'postgres'", specifier = ">=2.9" },
+    { name = "pyarrow", specifier = ">=18" },
     { name = "python-dotenv", specifier = ">=1.0" },
 ]
 provides-extras = ["postgres", "duckdb", "llm"]

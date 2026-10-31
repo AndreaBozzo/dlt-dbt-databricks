@@ -71,12 +71,18 @@ On PowerShell, set `$env:DLT_DESTINATION = 'duckdb'` before running the Python c
 Use `DLT_DATASET_NAME` and `DUCKDB_PATH` to select a different schema or DuckDB file.
 CDC needs dlt 1.31 or newer; this project uses 1.32.0.
 CDC behavior is covered in DuckDB CI and was validated against a live Databricks SQL warehouse
-on 2026-10-31 with dlt 1.32.0.
+on 2026-10-31 with dlt 1.32.0, including empty initialization, a later populated snapshot and
+deletion back to an empty table.
 
 Every batch must be a **complete snapshot with unique primary keys**. Do not filter it with an
 incremental cursor: an absent key means a deletion. Calling `customers_snapshot([])` explicitly
-clears the table, using `dlt.mark.materialize_table_schema()` to create an empty load job.
+clears the table using a typed empty Arrow batch. The declared customer and bookkeeping columns
+also let an empty first snapshot create the table before a later nonempty snapshot arrives.
 Only pass an empty list when the source has successfully returned a complete empty snapshot.
+
+dlt 1.32's JSON empty-table materialization attempts to hash a missing primary key on a fresh
+CDC table. The Arrow batch avoids that path; the bookkeeping hints also avoid adding non-nullable
+columns to an existing DuckDB table on the next JSON load.
 
 The example enables `skip_unchanged_rows`, so an identical row keeps its previous `_dlt_load_id`.
 Use load metadata to measure ingestion freshness on such tables. The existing REST sources and

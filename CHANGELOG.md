@@ -4,6 +4,8 @@ All notable changes to this project will be documented here.
 
 ## Unreleased
 
+- Fixed empty first CDC snapshots by declaring the full schema and emitting a typed empty Arrow
+  batch; a database-backed guard also verifies that a later nonempty snapshot can populate it.
 - Added a complete-snapshot CDC example for Databricks and DuckDB, with insert/update/delete
   behavior, unchanged-row detection, explicit empty-snapshot handling, and `make dlt-cdc`.
   The DuckDB end-to-end lane runs it, and CI executes its database-backed behavior tests.

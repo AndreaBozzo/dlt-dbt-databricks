@@ -15,6 +15,8 @@ dependencies = [
     "dbt-databricks>=1.13.0,<2",
     # Used by examples/orchestration that talk to the workspace directly
     "databricks-sdk>=0.117.0",
+    # Typed empty batches let snapshot CDC initialize a table before any rows arrive.
+    "pyarrow>=18",
     # Load .env into the process so dlt/dbt env vars resolve in local runs
     "python-dotenv>=1.0",
 ]
