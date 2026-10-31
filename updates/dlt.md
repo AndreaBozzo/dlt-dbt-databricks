@@ -4,6 +4,36 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-31 — dlt 1.32.0 new minor; no Databricks-specific changes
+
+- **dlt 1.32.0** shipped **2026-10-29** — new minor release.
+- **Databricks-specific changes:** None. Release notes do not mention Databricks.
+- **Breaking changes (review for this repo):**
+  - **Naive scd2 timestamps no longer read as UTC.** Naive `boundary_timestamp` and
+    `active_record_timestamp` values are now passed through as-is; the database session
+    timezone interprets them. No impact on this repo — no scd2 resources are defined.
+  - **Drop operations now try every table.** `refresh="drop_resources"`, `pipeline.drop()`,
+    and `dlt pipeline drop` now attempt to drop every table belonging to the dropped resource
+    in the destination, not only tables that had data. Informational for this repo.
+  - **Arrow extract contracts:** Resources writing the same table now share the schema
+    contract resolved for the first one. No impact — this repo's examples don't share tables
+    across resources.
+  - **Traces incompatible with older dlt.** Traces written by 1.32 can't be read by older
+    dlt versions. No impact for this repo.
+- **Other additions:** Merge conditions and destination scopes accept value placeholders;
+  nested tables can be pruned by partition; extract is faster with more even worker
+  distribution; dict-form `replace` keeps resource state by default; dbt runner supports
+  microbatch intervals and passes `load_id` as a variable.
+- **Example proposal (carried forward):** `ingestion/advanced/cdc_merge.py` demonstrating
+  the `cdc` merge strategy on Databricks (flagged since 1.31.0) — still valid; 1.32.0 adds
+  no blockers.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.32.0
+- https://github.com/dlt-hub/dlt/releases
+
+---
+
 ## 2026-10-09 — dlt 1.31.0 new minor; `cdc` merge strategy adds Databricks support
 
 - **dlt 1.31.0** shipped **2026-10-07** — new minor release.

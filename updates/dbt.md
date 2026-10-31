@@ -4,6 +4,40 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-31 — dbt-databricks 1.13.0 new minor; SDK cap unchanged
+
+- **dbt-databricks 1.13.0** released **2026-10-29**. New minor on top of 1.12.8.
+- **SDK cap unchanged:** still `databricks-sdk>=0.68.0,<0.118.0`; repo resolves to **0.117.0**.
+- **New features:**
+  - `tblproperties` now merge additively across config hierarchy levels rather than replacing
+    parent values (#1353). Useful when models inherit table properties from `dbt_project.yml`
+    and need to add per-model properties without losing parent settings.
+  - Opt-in invocation telemetry (`connection_parameters.enable_dbt_telemetry`): reports
+    aggregate POST_PARSE model configuration and POST_RUN outcome statistics to Databricks,
+    subject to a workspace server flag or `force_enable_dbt_telemetry` override (#1647,
+    #1682). Off by default.
+- **Breaking change:**
+  - `view_update_via_alter` now alters Unity Catalog views in place when
+    `use_materialization_v2` is off. On Hive metastore, this path fails. Grants also now
+    apply after tags; `get_create_view_as_sql` overrides are called during view replacement
+    (#1737). No impact on this repo — no Hive metastore views and `use_materialization_v2`
+    is default (on).
+- **Dependency changes:** `dbt-core` upper bound raised to `<1.12.7`;
+  `databricks-sql-connector` floor raised to `>=4.2.2`.
+- **Fixes:** view-alter column and contract handling, `CREATE OR REPLACE VIEW` under
+  `use_safer_relation_operations`, `transaction: false` hooks now skipped by default, `*`
+  projections in views, Predictive Optimization for `auto_liquid_cluster`, materialized
+  view recreation on schema drift, documentation-column warnings. Table tags now fetched
+  through Unity Catalog Entity Tag Assignments API.
+- **Impact on this repo:** no source-code change needed. The `tblproperties` merge is
+  informational (no hierarchical `tblproperties` in current models). The view breaking
+  change does not apply (Unity Catalog, `use_materialization_v2` default).
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0
+
+---
+
 ## 2026-10-26 — dbt-databricks 1.12.8 patch; certifi security bump; SDK cap unchanged
 
 - **dbt-databricks 1.12.8** released **2026-10-24**. Patch release on top of 1.12.7.

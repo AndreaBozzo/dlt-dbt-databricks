@@ -4,6 +4,33 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-31 — dlt 1.32.0 + dbt-databricks 1.13.0 new minors; SDK unchanged
+
+**dlt** — **1.32.0** (2026-10-29) new minor. No Databricks-specific changes. Breaking: naive
+scd2 timestamps no longer auto-converted to UTC; drop operations now try every table belonging
+to a resource; traces written by 1.32 are unreadable by older dlt. None of these affect this
+repo's examples (no scd2, no multi-resource shared tables). The `cdc_merge.py` proposal (dlt
+1.31.0 `cdc` strategy on Databricks) remains open; 1.32.0 adds no blockers. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks 1.13.0** (2026-10-29) new minor. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo remains on **0.117.0**. New: `tblproperties` merge
+additively across config levels; opt-in invocation telemetry (off by default). Breaking:
+`view_update_via_alter` with `use_materialization_v2: false` now alters UC views in-place and
+fails on Hive metastore — no impact on this repo. No example changes needed.
+→ [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.158.0** (2026-10-29) still latest; no new release.
+SDK cap blocks upgrade; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+the cap past v0.158.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. dlt 1.32.0's breaking changes do not
+affect this repo's ingestion examples. dbt-databricks 1.13.0's view breaking change does not
+apply (Unity Catalog, default `use_materialization_v2`). The `cdc_merge.py` proposal remains
+flagged. The Zerobus append example (`ingestion/advanced/zerobus_append.py`) and the pending
+Unity Catalog Volume serverless staging issue remain unchanged.
+
+---
+
 ## 2026-10-29 — databricks-sdk v0.158.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
