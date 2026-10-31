@@ -30,7 +30,7 @@ jobs:
         run: uv python install 3.12
 
       - name: Install dependencies
-        run: uv sync --extra postgres
+        run: uv sync --extra postgres --extra duckdb
 
       - name: Ruff lint
         run: uv run ruff check .

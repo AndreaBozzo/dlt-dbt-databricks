@@ -39,10 +39,11 @@ def run_step(title: str, command: list[str], env: dict[str, str] | None = None) 
 
 
 def run_dlt(lane: str, env: dict[str, str]) -> None:
-    """Load raw tables: REST API always; the merge example too on DuckDB (exercises upserts)."""
+    """Load REST tables; also exercise incremental merge and snapshot CDC on DuckDB."""
     scripts = ["pipelines/rest_api_to_databricks.py"]
     if lane == "duckdb":
         scripts.append("advanced/merge_incremental.py")
+        scripts.append("advanced/cdc_merge.py")
     for index, script in enumerate(scripts, start=1):
         run_step(
             f"[dlt {index}/{len(scripts)}] {Path(script).name}",

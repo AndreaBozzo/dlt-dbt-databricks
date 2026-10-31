@@ -4,6 +4,25 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-31: repo adopts the new minors and implements snapshot CDC
+
+**Adopted versions:** dlt 1.32.0 and dbt-databricks 1.13.0 are now in the lockfile and the
+project/Asset Bundle minimum versions. dbt-core stays on 1.12.0 and the SDK on 0.117.0.
+
+**Proposal delivered:** `ingestion/advanced/cdc_merge.py` demonstrates complete-snapshot CDC
+with deletions, change detection and explicit empty snapshots. It runs in the DuckDB end-to-end
+lane and has been validated on a real Databricks SQL warehouse. → [dlt.md](dlt.md)
+
+**Compatibility checked:** staging/intermediate models are views, correcting the previous
+table-only assessment. Both claims views created and rebuilt successfully on Databricks with
+adapter 1.13.0. The certifi floor is now adopted in the lockfile. → [dbt.md](dbt.md)
+
+**Serverless experiment:** reproduced the Volume `PUT` connection refusal on the live AWS
+workspace. Files API upload plus byte and `COPY INTO` row verification succeeded from the same
+serverless task. The new probe records the upstream opening in dlt #4606. → [databricks.md](databricks.md)
+
+---
+
 ## 2026-10-30 — dlt 1.32.0 + dbt-databricks v1.13.0 new minors; SDK unchanged
 
 **dlt** — **1.32.0** (2026-10-29) new minor. No Databricks-specific destination changes.
@@ -18,9 +37,9 @@ strategy on Databricks) remains flagged. → [dlt.md](dlt.md)
 (`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. Key additions: additive
 `tblproperties` merging across config hierarchy levels; opt-in invocation telemetry. Breaking:
 view `use_materialization_v2` behavior tightened — with the flag off, Unity Catalog views are
-now altered in place; Hive metastore views fail. Not applicable here (table materializations
-only). `dbt-core` cap raised to `<1.12.7`; `databricks-sql-connector` floor raised to `>=4.2.2`.
-No code changes needed. → [dbt.md](dbt.md)
+now altered in place; Hive metastore views fail. This repo has staging/intermediate views, so
+view rebuilds need an upgrade check. `dbt-core` cap raised to `<1.12.7`;
+`databricks-sql-connector` floor raised to `>=4.2.2`. → [dbt.md](dbt.md)
 
 **Databricks** — **databricks-sdk v0.158.0** (2026-10-29) unchanged; already logged yesterday.
 Repo stays on **0.117.0** (adapter cap `<0.118.0`). No new SDK release today. Next gate:
@@ -28,7 +47,7 @@ whenever dbt-databricks raises the cap past v0.158.0. → [databricks.md](databr
 
 **Repo follow-through** — no example changes warranted. dlt 1.32.0 has no Databricks-specific
 additions; its breaking changes don't affect this repo's examples. dbt-databricks v1.13.0's view
-breaking change doesn't apply. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on
+changes need validation against the actual view models. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on
 Databricks) remains flagged in dlt.md. The Zerobus append example
 (`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
 issue remain unchanged.

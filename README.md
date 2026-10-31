@@ -8,9 +8,9 @@ Advanced, **runnable** examples of [**dlt** (dlthub)](https://dlthub.com) ingest
 [**dbt**](https://www.getdbt.com) transformation on **Databricks** (Unity Catalog + a SQL warehouse),
 plus an on-demand **update radar** that tracks new releases across all three tools.
 
-Every example here is validated against a real Databricks workspace — no dead demos. And the whole
+The examples include validation against a real Databricks workspace. The whole
 dlt → dbt → quality-gate flow **also runs warehouse-free** (same pipelines and models, against
-DuckDB) in CI on every PR: `make e2e-duckdb`.
+DuckDB) in CI on every PR: `make e2e-duckdb`. Individual guides record pending live checks.
 
 ![Project logo](docs/assets/dlt-dbt-databricks-logo.png)
 
@@ -80,7 +80,8 @@ No `make` on Windows? Each target is a `uv run …` command — see the [`Makefi
 - `sql_database_to_databricks.py` — replicate a **real public Postgres** table (incremental + merge),
   via a custom SQL resource that works even against locked-down read replicas.
 - `advanced/` — `merge` upserts, **Iceberg** `table_format`, schema **contracts** + PK/FK hints,
-  and append-only **Zerobus** ingestion without object-storage staging.
+  **snapshot CDC** with deletions and change detection (`make dlt-cdc`), and append-only
+  **Zerobus** ingestion without object-storage staging.
 
 **dbt** ([`transformation/dbt_databricks/`](transformation/dbt_databricks/))
 - `stg_/int_/mart_` on the dlt output, with an **incremental merge** mart and tests.

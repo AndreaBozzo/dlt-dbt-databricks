@@ -18,7 +18,8 @@ ingestion/
 │   ├── rest_api_to_databricks.py     # declarative rest_api source, parent→child, merge
 │   └── sql_database_to_databricks.py # real public Postgres → custom SQL resource, incremental + merge
 └── advanced/
-    ├── merge_incremental.py   # write_disposition="merge" + incremental cursor (upsert/CDC)
+    ├── merge_incremental.py   # write_disposition="merge" + incremental cursor
+    ├── cdc_merge.py           # complete snapshots: insert, update, delete, skip unchanged rows
     ├── iceberg_table_format.py# table_format="iceberg" on Unity Catalog
     ├── data_contracts.py      # schema contracts (freeze) + PK/FK hints → UC constraints
     └── zerobus_append.py      # push-based, append-only ingestion without object staging
@@ -29,6 +30,7 @@ ingestion/
 ```bash
 make dlt-rest        # or: uv run python ingestion/pipelines/rest_api_to_databricks.py
 make dlt-merge       # run twice to see idempotent upsert
+make dlt-cdc         # two full snapshots, including a deletion
 make dlt-iceberg
 make dlt-contracts
 make dlt-zerobus     # requires a Zerobus-enabled region + OAuth service principal
@@ -52,6 +54,34 @@ DLT_DESTINATION=duckdb uv run python ingestion/pipelines/rest_api_to_databricks.
 
 The three Databricks-specific examples (`iceberg_table_format.py`, `data_contracts.py`, and
 `zerobus_append.py`) configure Databricks-only features and stay workspace-only.
+
+## Snapshot CDC
+
+`advanced/cdc_merge.py` mirrors a complete customer snapshot using dlt's `cdc` merge strategy.
+It loads two batches into `raw.cdc_customers`: the second changes Ada's tier, removes Alan,
+keeps Grace unchanged and inserts Katherine. Each load prints the resulting rows.
+
+```bash
+make dlt-cdc
+# Warehouse-free, with the same resource and merge strategy:
+DLT_DESTINATION=duckdb uv run python ingestion/advanced/cdc_merge.py
+```
+
+On PowerShell, set `$env:DLT_DESTINATION = 'duckdb'` before running the Python command.
+Use `DLT_DATASET_NAME` and `DUCKDB_PATH` to select a different schema or DuckDB file.
+CDC needs dlt 1.31 or newer; this project uses 1.32.0.
+CDC behavior is covered in DuckDB CI and was validated against a live Databricks SQL warehouse
+on 2026-10-31 with dlt 1.32.0.
+
+Every batch must be a **complete snapshot with unique primary keys**. Do not filter it with an
+incremental cursor: an absent key means a deletion. Calling `customers_snapshot([])` explicitly
+clears the table, using `dlt.mark.materialize_table_schema()` to create an empty load job.
+Only pass an empty list when the source has successfully returned a complete empty snapshot.
+
+The example enables `skip_unchanged_rows`, so an identical row keeps its previous `_dlt_load_id`.
+Use load metadata to measure ingestion freshness on such tables. The existing REST sources and
+quality gate keep their current freshness behavior; this demo uses a separate table.
+See [dlt's CDC documentation](https://dlthub.com/docs/general-usage/merge-loading#cdc-strategy).
 
 ## Zerobus append ingestion
 

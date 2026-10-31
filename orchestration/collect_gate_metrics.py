@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 from pathlib import Path
 
@@ -53,7 +54,7 @@ def main() -> int:
     parser.add_argument(
         "--duckdb-path",
         type=Path,
-        default=DEFAULT_DUCKDB_PATH,
+        default=Path(os.getenv("DUCKDB_PATH", str(DEFAULT_DUCKDB_PATH))),
         help="DuckDB file written by the dlt pipelines and dbt (DLT_DESTINATION=duckdb).",
     )
     parser.add_argument("--output", type=Path, help="Write the metrics JSON to this path.")

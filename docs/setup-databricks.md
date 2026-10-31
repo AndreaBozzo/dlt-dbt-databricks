@@ -108,8 +108,16 @@ credentials, a Zerobus endpoint, and a managed Delta table outside Databricks de
 [../ingestion/README.md](../ingestion/README.md#zerobus-append-ingestion) for the exact target DDL
 and least-privilege grants.
 
+For a serverless staging investigation, [compare SQL PUT and Files API uploads](serverless-volume-upload.md)
+with the included probe before changing the loader.
+
 ## Troubleshooting
 
+- **Windows `uv sync` fails on `ruff.exe` with OS error 5**: an editor's Ruff server can keep
+  `.venv/Scripts/ruff.exe` open, preventing its replacement. This workspace uses
+  `ruff.importStrategy: useBundled` so VS Code runs the extension's server instead. If the old
+  server is still running, restart Ruff from the Command Palette, then retry `uv sync`.
+  Command-line lint and formatting continue to use the project's locked Ruff version.
 - **403 / permission denied** → your principal lacks `USE CATALOG` / `CREATE SCHEMA` / `CREATE TABLE`.
 - **Zerobus “default storage” error** → choose a catalog whose managed location is your own S3
   storage. Zerobus cannot write to Databricks default storage.
