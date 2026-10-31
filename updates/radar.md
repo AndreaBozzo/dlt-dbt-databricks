@@ -4,6 +4,37 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-10-30 — dlt 1.32.0 + dbt-databricks v1.13.0 new minors; SDK unchanged
+
+**dlt** — **1.32.0** (2026-10-29) new minor. No Databricks-specific destination changes.
+Breaking: naive SCD2 timestamps no longer read as UTC (no SCD2 examples in this repo —
+informational); drop operations now remove all destination tables for affected resources
+(behavioral, no code change); jira/salesforce verified sources rewritten (not used here). Notable
+non-Databricks additions: merge/partition placeholders, `trace metrics` command, ~3× faster Arrow
+extract, `replace` preserves incremental state. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc`
+strategy on Databricks) remains flagged. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.0** (2026-10-29) new minor. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. Key additions: additive
+`tblproperties` merging across config hierarchy levels; opt-in invocation telemetry. Breaking:
+view `use_materialization_v2` behavior tightened — with the flag off, Unity Catalog views are
+now altered in place; Hive metastore views fail. Not applicable here (table materializations
+only). `dbt-core` cap raised to `<1.12.7`; `databricks-sql-connector` floor raised to `>=4.2.2`.
+No code changes needed. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.158.0** (2026-10-29) unchanged; already logged yesterday.
+Repo stays on **0.117.0** (adapter cap `<0.118.0`). No new SDK release today. Next gate:
+whenever dbt-databricks raises the cap past v0.158.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. dlt 1.32.0 has no Databricks-specific
+additions; its breaking changes don't affect this repo's examples. dbt-databricks v1.13.0's view
+breaking change doesn't apply. The `cdc_merge.py` proposal (dlt 1.31.0 `cdc` strategy on
+Databricks) remains flagged in dlt.md. The Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) and the pending Unity Catalog Volume serverless staging
+issue remain unchanged.
+
+---
+
 ## 2026-10-29 — databricks-sdk v0.158.0 new; dlt and dbt unchanged
 
 **dlt** — **1.31.0** (2026-10-07) unchanged. No new release; no example updates needed.
