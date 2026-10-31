@@ -11,7 +11,7 @@ DBT := uv run dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
 
 .PHONY: help setup doctor doctor-online lint fmt \
         agent-gate \
-        dlt-rest dlt-sql dlt-merge dlt-iceberg dlt-contracts dlt-zerobus \
+        dlt-rest dlt-sql dlt-merge dlt-cdc dlt-iceberg dlt-contracts dlt-zerobus \
         dbt-deps dbt-parse dbt-build dbt-test e2e e2e-duckdb
 
 help: ## Show this help
@@ -44,6 +44,9 @@ dlt-sql: ## Run the SQL database -> Databricks example
 	uv run python ingestion/pipelines/sql_database_to_databricks.py
 dlt-merge: ## Run the merge/incremental advanced example
 	uv run python ingestion/advanced/merge_incremental.py
+
+dlt-cdc: ## Mirror two complete snapshots, including deletions (Databricks or DuckDB)
+	uv run python ingestion/advanced/cdc_merge.py
 dlt-iceberg: ## Run the Iceberg table_format advanced example
 	uv run python ingestion/advanced/iceberg_table_format.py
 dlt-contracts: ## Run the schema-contracts advanced example

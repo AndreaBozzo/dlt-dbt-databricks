@@ -4,6 +4,21 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-31: repo adopts dbt-databricks 1.13.0
+
+- Updated the lockfile and project/Asset Bundle floor to 1.13.0. dbt-core remains 1.12.0,
+  and the adapter-compatible Databricks SDK remains 0.117.0. certifi now resolves to 2026.10.23.
+- Corrected the prior compatibility assessment: staging and intermediate models are views.
+  Created and rebuilt `stg_claims` and `int_claims` in a temporary Unity Catalog schema with
+  adapter 1.13.0; both runs succeeded. Removed the temporary schema afterward.
+- The complete DuckDB build and Databricks-target parse pass with the updated dependencies.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0
+- https://raw.githubusercontent.com/databricks/dbt-databricks/v1.13.0/pyproject.toml
+
+---
+
 ## 2026-10-30 — dbt-databricks v1.13.0 new minor; SDK cap unchanged
 
 - **dbt-databricks v1.13.0** released **2026-10-29** — new minor on top of 1.12.8.
@@ -17,8 +32,8 @@ Newest on top. Each entry dated + sourced.
   allows it, or unconditionally with `force_enable_dbt_telemetry`. Off by default; no impact.
 - **Breaking (view models only):** With `use_materialization_v2: false`, `view_update_via_alter`
   now alters Unity Catalog views in place instead of recreating them, and **fails** on Hive
-  metastore views. This repo's dbt models use table materializations with no
-  `use_materialization_v2` config — not affected.
+  metastore views. This repo uses Unity Catalog, with view materializations for staging and
+  intermediate models and tables for marts. Validate view rebuilds when adopting this release.
 - **Other fixes:** Multiple view, materialized view, and constraint fixes (full list in release
   notes). Grants now apply after tags during view replacement.
 - **Dependency changes:**
@@ -27,7 +42,7 @@ Newest on top. Each entry dated + sourced.
   - `databricks-sdk` cap **unchanged** at `<0.118.0`.
 - **Impact on this repo:** no source-code change needed. Additive `tblproperties` merging is
   informational; no existing `tblproperties` overrides in this repo clash with this change.
-  The view breaking change does not apply (table-only materializations).
+  The view materialization changes require an upgrade check; the models are not table-only.
 
 Sources:
 - https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0
@@ -42,9 +57,9 @@ Sources:
 - **Single fix:** Raises the minimum `certifi` version to `>=2026.10.23` to pull in a CA
   certificate security fix (#1740). No logic changes.
 - **Breaking changes:** None.
-- **Impact on this repo:** no source-code change needed. The certifi floor is a transitive
-  dependency concern; the dlt+dbt environment already satisfies this via its own dependency
-  resolution.
+- **Impact on this repo:** no source-code change needed, but adoption requires a lockfile update.
+  The lockfile still had certifi 2026.7.22 at this entry's date; the October 31 adapter upgrade
+  adopts the new floor.
 
 Sources:
 - https://github.com/databricks/dbt-databricks/releases/tag/v1.12.8

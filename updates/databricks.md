@@ -4,6 +4,21 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-31: serverless Volume staging failure reproduced; Files API path verified
+
+- A serverless Python job reproduced SQL connector `PUT` failing with connection refused at
+  `us-east-2.storage.cloud.databricks.com`, with SDK 0.117.0 and SQL connector 4.4.0.
+- From the same task, SDK Files API upload, exact-byte download and `COPY INTO` row verification
+  succeeded. The temporary schema and workspace file were removed.
+- Added `orchestration/probe_volume_upload.py` and a [reproduction guide](../docs/serverless-volume-upload.md).
+  This supplies local evidence for dlt #4606; a supported upload option or extension hook is
+  still needed before replacing the Asset Bundle's Spark landing fallback.
+
+Sources:
+- https://github.com/dlt-hub/dlt/issues/4606
+
+---
+
 ## 2026-10-29 — databricks-sdk v0.158.0 new; no repo change
 
 - **databricks-sdk v0.158.0** shipped **2026-10-29**:

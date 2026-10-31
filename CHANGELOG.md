@@ -4,6 +4,20 @@ All notable changes to this project will be documented here.
 
 ## Unreleased
 
+- Fixed empty first CDC snapshots by declaring the full schema and emitting a typed empty Arrow
+  batch; a database-backed guard also verifies that a later nonempty snapshot can populate it.
+- Added a complete-snapshot CDC example for Databricks and DuckDB, with insert/update/delete
+  behavior, unchanged-row detection, explicit empty-snapshot handling, and `make dlt-cdc`.
+  The DuckDB end-to-end lane runs it, and CI executes its database-backed behavior tests.
+- Adopted dlt 1.32.0 and dbt-databricks 1.13.0 in the lockfile and project/Asset Bundle minimum
+  versions, retaining dbt-core 1.12.0 and the adapter-compatible SDK 0.117.0. The adapter upgrade
+  also raises certifi to 2026.10.23. Corrected the radar's table-only and certifi adoption claims.
+- Made quality-gate metric collection honor `DUCKDB_PATH`, while retaining the explicit
+  `--duckdb-path` override, so custom-path end-to-end runs evaluate the warehouse they built.
+- Configured VS Code to use its bundled Ruff server, avoiding Windows executable locks during
+  `uv sync`, and documented recovery for editors still holding the project executable open.
+- Added a reproducible serverless Volume upload probe comparing SQL PUT with the SDK Files API,
+  including byte and loaded-row verification, temporary-schema cleanup and a usage guide.
 - Refreshed the lockfile to dlt 1.30.0, dbt-databricks 1.12.4, dbt-core 1.12.0, and the adapter-
   compatible Databricks SDK 0.117.0; raised project and Asset Bundle dependency floors to the
   versions this repository now validates; refreshed dbt_utils to 1.4.1 and dbt_date to 0.21.0.

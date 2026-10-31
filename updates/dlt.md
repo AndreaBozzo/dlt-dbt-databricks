@@ -4,6 +4,27 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-10-31: repo adopts 1.32.0 and implements the snapshot CDC proposal
+
+- Raised the project and Asset Bundle floors to dlt 1.32.0 and updated the lockfile.
+- Added `ingestion/advanced/cdc_merge.py` and `make dlt-cdc`: two complete snapshots demonstrate
+  inserts, updates, removal of absent keys and unchanged-row detection on a separate table.
+- Verified the example on DuckDB and a live Databricks SQL warehouse. Tests also exercise replay
+  and explicit empty-snapshot deletion; each behavior guard was checked against a reverted part.
+- `skip_unchanged_rows` preserves old row load IDs, so the example documents using load metadata
+  for ingestion freshness. The existing REST freshness contract stays unchanged.
+- Review follow-up: empty first snapshots now use a typed Arrow batch and declared customer/
+  bookkeeping columns. Type hints alone still hit dlt 1.32's JSON normalizer hashing an empty
+  synthetic row without its primary key. An upstream fix could add normalizer columns for empty
+  CDC tables without hashing that synthetic row. Empty Parquet batches must also carry the
+  non-nullable bookkeeping columns for Databricks COPY INTO, which the example now provides.
+
+Sources:
+- https://github.com/dlt-hub/dlt/releases/tag/1.31.0
+- https://dlthub.com/docs/general-usage/merge-loading#cdc-strategy
+
+---
+
 ## 2026-10-30 — dlt 1.32.0 new minor; no Databricks-specific changes
 
 - **dlt 1.32.0** shipped **2026-10-29** — new minor release.
