@@ -4,6 +4,29 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-02 — databricks-sdk v0.159.0 new; no repo change
+
+- **databricks-sdk v0.159.0** shipped **2026-11-02**:
+  - **New packages:** `computemigrations` and `genieagents` — with new workspace services
+    `w.compute_migrations` and `w.genie_agents`.
+  - **Sandbox:** gains file upload and download methods.
+  - **Network connectivity:** gains an `update` method.
+  - **Jobs:** job completion triggers and AI function tasks added across several job types.
+  - **Breaking (IAM v2):** `parent` and `name` fields added to many IAM v2 requests and
+    models; several `account_id`, `workspace_id`, and numeric ID fields removed; method
+    argument order and paths changed for `account_iam_v2` and `workspace_iam_v2` services.
+- **No repo change:** `dbt-databricks 1.13.0` still pins `databricks-sdk<0.118.0`;
+  v0.159.0 exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever
+  dbt-databricks raises the cap past v0.159.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently
+  returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.159.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-10-31: serverless Volume staging failure reproduced; Files API path verified
 
 - A serverless Python job reproduced SQL connector `PUT` failing with connection refused at
