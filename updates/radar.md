@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-11-04 — databricks-sdk v0.160.0 + v0.161.0 new; dlt and dbt unchanged
+
+**dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.0** (2026-10-29) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Two new SDK releases. **v0.160.0** (2026-11-03): `view_name` added to
+`IngestionDestination`; `notifications` added to `MaterializationSet`; no breaking changes.
+**v0.161.0** (2026-11-04): Files transfers gain retry fallback (presigned URLs → Files API)
+and temp-file writes on `download_to`; new `lakewatch` package and `w.lakewatch` workspace
+service; batch methods for `w.ai_functions`; feature spec methods for `w.feature_engineering`.
+Breaking: `critical` removed from `AiRuntimeTaskPriorityClass`. Both releases exceed the
+adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+past v0.161.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.160.0/v0.161.0's additions
+(ingestion destination view name, materialization set notifications, lakewatch service, AI
+functions batch methods, feature spec methods, file retry improvements) have no dlt/dbt
+overlap. The `ingestion/advanced/cdc_merge.py` example is live since 2026-10-31. The pending
+Unity Catalog Volume serverless staging issue and the Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) remain unchanged.
+
+---
+
 ## 2026-11-02 — databricks-sdk v0.159.0 new; dlt and dbt unchanged
 
 **dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
