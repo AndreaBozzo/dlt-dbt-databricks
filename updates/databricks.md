@@ -4,6 +4,35 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-04 — databricks-sdk v0.160.0 + v0.161.0 new; no repo change
+
+- **databricks-sdk v0.160.0** shipped **2026-11-03**:
+  - `view_name` field added to `IngestionDestination`.
+  - `notifications` field added to `MaterializationSet`.
+  - No breaking changes.
+- **databricks-sdk v0.161.0** shipped **2026-11-04**:
+  - **Files transfers:** `WorkspaceClient.files` retries failed transfers on the next endpoint
+    (presigned URLs → Files API) if no data was committed yet; `download_to` writes through a
+    temp file so failed downloads leave no partial file.
+  - **Experimental options:** `experimental_files_ext_enable_endpoints_api` makes the Files
+    client follow the endpoint list the workspace advertises;
+    `experimental_files_ext_enable_storage_proxy` is deprecated (no effect).
+  - **New services:** `lakewatch` package and `w.lakewatch` workspace service; batch methods
+    added to `w.ai_functions`; feature spec methods added to `w.feature_engineering`.
+  - **Breaking:** `critical` value removed from `AiRuntimeTaskPriorityClass`.
+- **No repo change:** `dbt-databricks 1.13.0` still pins `databricks-sdk<0.118.0`; both
+  releases exceed the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+  the cap past v0.161.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned
+  HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.160.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.161.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-11-02 — databricks-sdk v0.159.0 new; no repo change
 
 - **databricks-sdk v0.159.0** shipped **2026-11-02**:
