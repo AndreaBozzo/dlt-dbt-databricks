@@ -4,6 +4,25 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-11-05 — databricks-sdk v0.162.0 new; dlt and dbt unchanged
+
+**dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.0** (2026-10-29) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.162.0** released **2026-11-05**. Single addition:
+`undrop_metastore_by_id()` on `w.metastores`. No breaking changes. Exceeds the adapter
+cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap past
+v0.162.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.162.0's metastore undrop
+method has no dlt/dbt overlap. The pending Unity Catalog Volume serverless staging issue
+and the Zerobus append example (`ingestion/advanced/zerobus_append.py`) remain unchanged.
+
+---
+
 ## 2026-11-04 — databricks-sdk v0.160.0 + v0.161.0 new; dlt and dbt unchanged
 
 **dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
