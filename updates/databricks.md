@@ -4,6 +4,23 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-05 — databricks-sdk v0.162.0 new; no repo change
+
+- **databricks-sdk v0.162.0** shipped **2026-11-05**:
+  - `undrop_metastore_by_id()` added to the workspace-level `w.metastores` service.
+  - No other changes. No breaking changes.
+- **No repo change:** `dbt-databricks 1.13.0` still pins `databricks-sdk<0.118.0`;
+  v0.162.0 exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever
+  dbt-databricks raises the cap past v0.162.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently
+  returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.162.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-11-04 — databricks-sdk v0.160.0 + v0.161.0 new; no repo change
 
 - **databricks-sdk v0.160.0** shipped **2026-11-03**:
