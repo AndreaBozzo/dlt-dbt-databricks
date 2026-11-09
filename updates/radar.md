@@ -4,6 +4,32 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-11-09 — databricks-sdk v0.163.0 new; dlt and dbt unchanged
+
+**dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.0** (2026-10-29) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.163.0** released **2026-11-09**. Notable changes: files
+experimental endpoints now on by default (WorkspaceClient.files follows workspace-advertised
+endpoint order); new `softwareartifacts` package and two new workspace services
+(`serverless_compute_service`, `software_artifacts`); 11 postgres migration/assessment methods;
+`trigger_materialization_set()` on feature engineering; scaling-info fields on AI/vector search
+endpoints; `paused` on `ml.CronSchedule`/`TableTrigger`; POST retry behaviour fixed (no retry
+after read timeout). Breaking: `warehouse_id` on `lakewatch.Datasource` no longer required.
+Exceeds the adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+the cap past v0.163.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.163.0's additions (software
+artifacts service, postgres migration methods, feature engineering trigger, files endpoint
+default, AI/vector search scaling fields, ML schedule pause) have no dlt/dbt overlap. The
+pending Unity Catalog Volume serverless staging issue and the Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) remain unchanged.
+
+---
+
 ## 2026-11-05 — databricks-sdk v0.162.0 new; dlt and dbt unchanged
 
 **dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.

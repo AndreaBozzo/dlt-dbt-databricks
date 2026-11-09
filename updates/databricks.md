@@ -4,6 +4,26 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-09 — databricks-sdk v0.163.0 new; no repo change
+
+- **databricks-sdk v0.163.0** shipped **2026-11-09**:
+  - **Files client:** Experimental files-endpoints option is now **on by default**. `WorkspaceClient.files` follows the transfer-endpoint list the workspace advertises; set the option to `False` on `Config` before constructing the client to keep the built-in order. Cannot be passed to `Config.__init__`.
+  - **New packages / services:** `softwareartifacts` package; `w.serverless_compute_service` and `w.software_artifacts` workspace-level services.
+  - **Feature engineering:** `trigger_materialization_set()` added to `w.feature_engineering`.
+  - **Postgres:** 11 new migration/assessment methods — `acknowledge_assessment_warnings()`, `assess_migration()`, `create_migration()`, `delete_migration()`, `get_assessment()`, `get_migration()`, `list_assessments()`, `list_migrations()`, `start_migration()`, `undelete_migration()`, `update_migration()`.
+  - **New fields:** `aisearch.EndpointScalingInfo` and `vectorsearch.EndpointScalingInfo` gain five scaling-info fields each; `jobs.ResolvedValuesAiFunctionTaskResolvedValues` gains `delta_table`; `ml.CronSchedule` and `ml.TableTrigger` gain `paused`; `ml.MaterializedFeature` gains `external_trigger`; `settingsv2.Setting` gains `effective_workspace_dashboard_theme` and `workspace_dashboard_theme`.
+  - **Breaking:** `warehouse_id` on `lakewatch.Datasource` is no longer required.
+  - **Bug fix:** `POST` requests are no longer retried after a read timeout (the server may have already processed them); connect-timeout and other-method retries unchanged.
+- **No repo change:** `dbt-databricks 1.13.0` still pins `databricks-sdk<0.118.0`; v0.163.0 exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap past v0.163.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.163.0
+- https://raw.githubusercontent.com/databricks/databricks-sdk-py/main/CHANGELOG.md
+- https://pypi.org/pypi/databricks-sdk/0.163.0/json
+
+---
+
 ## 2026-11-05 — databricks-sdk v0.162.0 new; no repo change
 
 - **databricks-sdk v0.162.0** shipped **2026-11-05**:
