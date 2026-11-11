@@ -4,6 +4,28 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-11-11 — databricks-sdk v0.164.0 new; dlt and dbt unchanged
+
+**dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.0** (2026-10-29) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — **databricks-sdk v0.164.0** released **2026-11-10**. New fields: `output_type_text`
+on `ml.Feature`; `service_principal` on `postgres.CdfConfig`; `group_name` on
+`postgres.GenerateDatabaseCredentialRequest`. Breaking: `notebook_content` on
+`cleanrooms.CleanRoomAssetNotebook` is now optional. No new services or methods. Exceeds the adapter
+cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap past v0.164.0.
+→ [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. v0.164.0's additions (ML feature output
+type, Postgres credential/CDF service principal fields, clean room notebook content relaxation) have
+no dlt/dbt overlap. The pending Unity Catalog Volume serverless staging issue and the Zerobus append
+example (`ingestion/advanced/zerobus_append.py`) remain unchanged.
+
+---
+
 ## 2026-11-09 — databricks-sdk v0.163.0 new; dlt and dbt unchanged
 
 **dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
