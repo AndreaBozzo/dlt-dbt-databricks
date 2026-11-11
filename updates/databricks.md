@@ -4,6 +4,25 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-11 — databricks-sdk v0.164.0 new; no repo change
+
+- **databricks-sdk v0.164.0** shipped **2026-11-10**:
+  - **New fields:** `output_type_text` added to `ml.Feature`; `service_principal` added to
+    `postgres.CdfConfig`; `group_name` added to `postgres.GenerateDatabaseCredentialRequest`.
+  - **Breaking:** `notebook_content` on `cleanrooms.CleanRoomAssetNotebook` is now optional
+    (field relaxation — previously required).
+  - No new services or methods beyond these field-level changes.
+- **No repo change:** `dbt-databricks 1.13.0` still pins `databricks-sdk<0.118.0`; v0.164.0
+  exceeds the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the
+  cap past v0.164.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.164.0
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-11-09 — databricks-sdk v0.163.0 new; no repo change
 
 - **databricks-sdk v0.163.0** shipped **2026-11-09**:
