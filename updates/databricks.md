@@ -4,6 +4,50 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-16 — databricks-sdk v0.165.0 + v0.166.0 + v0.167.0 new; no repo change
+
+- **databricks-sdk v0.165.0** shipped **2026-11-11**:
+  - **New:** `pt_term` added to `serving.PtServedModel`.
+  - **Breaking:** `custom_content_pack_path` and `custom_presets_path` removed from
+    `lakewatch.CommonConfig`.
+
+- **databricks-sdk v0.166.0** shipped **2026-11-12**:
+  - **New:** `w.assume_group` workspace service for group-impersonation operations.
+  - **New:** `effective_resources` added to `apps.App`.
+  - **Breaking:** `output_ref` on `aifunctions.Batch` is now required.
+  - **Breaking:** `continuous` removed from `lakewatch.RuleSchedule`.
+  - **Breaking:** `expired` enum value removed from `aifunctions.BatchStatus`.
+  - **Bug fix:** `WorkspaceClient.files` now sends the SDK User-Agent on Files API requests
+    (endpoint discovery, multipart complete/abort, Files API 3.0 transfers).
+
+- **databricks-sdk v0.167.0** shipped **2026-11-16**:
+  - **New:** `http_adapter` config option for custom HTTP transports (mutual TLS; applies to
+    API and discovery requests).
+  - **New:** `statementexecutionv2` package and `w.statement_execution_v2` workspace service
+    (new SQL execution API).
+  - **New:** Three `w.apps` deployment scan methods: get, list, and update scan findings.
+  - **New:** Scan fields on `AppDeployment` (omitted-count lower-bound flag, omitted-findings
+    count, scan status).
+  - **New:** `image_uri` on compute `Environment`.
+  - **New:** `iceberg_table_source` on ML `DataSource`.
+  - **New:** `testing` mode on pipeline clone, create, edit, and spec types; `test_only` and
+    `test_options` on `StartUpdate`; `test_only` on `UpdateInfo`.
+  - **New:** `overwrite` on sandbox `UploadFileRequest`.
+  - **New:** `day` value on billing `AlertConfigurationTimePeriod`.
+
+- **No repo change:** `dbt-databricks 1.13.0` still pins `databricks-sdk<0.118.0`; all three
+  releases exceed the cap. Repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises
+  the cap past v0.167.0.
+- **SDP / platform release notes:** not checked this run (prior runs consistently returned HTTP 403).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.165.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.166.0
+- https://github.com/databricks/databricks-sdk-py/releases/tag/v0.167.0
+- https://raw.githubusercontent.com/databricks/databricks-sdk-py/main/CHANGELOG.md
+
+---
+
 ## 2026-11-11 — databricks-sdk v0.164.0 new; no repo change
 
 - **databricks-sdk v0.164.0** shipped **2026-11-10**:

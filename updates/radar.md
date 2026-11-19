@@ -4,6 +4,33 @@ Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool
 
 ---
 
+## 2026-11-16 — databricks-sdk v0.165.0–v0.167.0 new; dlt and dbt unchanged
+
+**dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
+→ [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.0** (2026-10-29) unchanged. SDK cap **unchanged**
+(`databricks-sdk>=0.68.0,<0.118.0`); repo stays on **0.117.0**. → [dbt.md](dbt.md)
+
+**Databricks** — Three new SDK releases since v0.164.0. **v0.165.0** (2026-11-11): `pt_term`
+on `serving.PtServedModel`; breaking: `custom_content_pack_path`/`custom_presets_path` removed
+from `lakewatch.CommonConfig`. **v0.166.0** (2026-11-12): new `w.assume_group` workspace
+service; `effective_resources` on `apps.App`; breaking: `output_ref` on `aifunctions.Batch`
+now required, `continuous` removed from `lakewatch.RuleSchedule`, `expired` removed from
+`aifunctions.BatchStatus`; Files API User-Agent bug fix. **v0.167.0** (2026-11-16): new
+`statementexecutionv2` package + `w.statement_execution_v2` service; `http_adapter` for custom
+HTTP transports; three Apps deployment scan methods; `iceberg_table_source` on ML `DataSource`;
+pipeline `testing` mode fields; `image_uri` on compute `Environment`. All three exceed the
+adapter cap; repo stays on **0.117.0**. Next gate: whenever dbt-databricks raises the cap
+past v0.167.0. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted. The new `statementexecutionv2` service
+and pipeline `testing` mode fields are SDK-level additions with no dlt/dbt ingestion overlap.
+The pending Unity Catalog Volume serverless staging issue and the Zerobus append example
+(`ingestion/advanced/zerobus_append.py`) remain unchanged.
+
+---
+
 ## 2026-11-11 — databricks-sdk v0.164.0 new; dlt and dbt unchanged
 
 **dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.
