@@ -22,7 +22,14 @@ from pathlib import Path
 from urllib.request import urlopen
 
 _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_filename)).resolve()
-sys.path.insert(0, str(_THIS_FILE.parents[1]))  # make ingestion/_common importable
+sys.path.insert(0, str(_THIS_FILE.parents[1]))
+
+from _ingestion_audit import (  # noqa: E402
+    AUDIT_TABLE,
+    REST_SOURCE,
+    audit_table_ddl,
+    record_dlt_load,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -33,8 +40,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--dataset-name",
-        default="raw",
-        help="Unity Catalog schema where dlt lands raw tables.",
+        help="Raw schema (defaults to DLT_DATASET_NAME or raw).",
     )
     parser.add_argument(
         "--load-mode",
@@ -137,25 +143,44 @@ def run_with_spark(catalog: str, dataset_name: str) -> None:
     posts = shape_posts(fetch_json("posts"), load_id)
     comments = shape_comments(fetch_json("comments"), load_id)
 
-    spark.sql(f"CREATE SCHEMA IF NOT EXISTS `{catalog}`.`{dataset_name}`")
-    for table_name, rows in (("rest_posts", posts), ("rest_comments", comments)):
+    raw = f"`{catalog}`.`{dataset_name}`"
+    spark.sql(f"CREATE SCHEMA IF NOT EXISTS {raw}")
+    # Explicit schemas also let a verified empty API response commit a table.
+    tables = (
+        ("rest_posts", posts, "id LONG, user_id LONG, title STRING, body STRING"),
         (
-            spark.createDataFrame(rows)
+            "rest_comments",
+            comments,
+            "id LONG, post_id LONG, name STRING, email STRING, body STRING",
+        ),
+    )
+    for table_name, rows, columns in tables:
+        (
+            spark.createDataFrame(rows, f"{columns}, _dlt_load_id STRING, _dlt_id STRING")
             .write.format("delta")
             .mode("overwrite")
             .option("overwriteSchema", "true")
-            .saveAsTable(f"`{catalog}`.`{dataset_name}`.`{table_name}`")
+            .saveAsTable(f"{raw}.`{table_name}`")
         )
         print(f"Wrote {len(rows)} rows to {catalog}.{dataset_name}.{table_name}")
 
+    # The Delta writes are separate transactions. Publish freshness only after both succeed.
+    audit = f"{raw}.{AUDIT_TABLE}"
+    spark.sql(audit_table_ddl(audit, "TIMESTAMP"))
+    spark.sql(
+        f"INSERT INTO {audit} (source_name, load_id, committed_at) "
+        f"VALUES ('{REST_SOURCE}', '{load_id}', current_timestamp())"
+    )
 
-def run_with_dlt(catalog: str | None, dataset_name: str) -> None:
-    from _common import demo_pipeline
+
+def run_with_dlt(catalog: str | None, dataset_name: str | None) -> None:
+    from _common import DATASET_NAME, demo_pipeline
 
     if catalog:
         os.environ["DESTINATION__DATABRICKS__CREDENTIALS__CATALOG"] = catalog
-    pipeline = demo_pipeline("rest_api_demo", dataset_name=dataset_name)
+    pipeline = demo_pipeline("rest_api_demo", dataset_name=dataset_name or DATASET_NAME)
     load_info = pipeline.run(build_source())
+    record_dlt_load(load_info, REST_SOURCE, {"rest_posts", "rest_comments"})
     print(load_info)
 
 
@@ -164,7 +189,7 @@ def main() -> None:
     if args.load_mode == "spark":
         if not args.catalog:
             raise ValueError("--catalog is required when --load-mode spark")
-        run_with_spark(args.catalog, args.dataset_name)
+        run_with_spark(args.catalog, args.dataset_name or os.getenv("DLT_DATASET_NAME", "raw"))
     else:
         run_with_dlt(args.catalog, args.dataset_name)
 
