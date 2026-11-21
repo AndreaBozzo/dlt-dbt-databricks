@@ -34,6 +34,22 @@ everywhere else.
 Use `make doctor` before the first run to check the local environment, dbt parse readiness, dbt Power
 User manifest generation, Databricks CLI availability, and bundle host/auth configuration.
 
+## REST ingestion freshness
+
+Both quality gates and `dbt source freshness --select source:raw` read the latest
+`committed_at` for `rest_api` from `raw.ingestion_audit`. Posts and comments share a
+timestamp because they land in the same ingestion run. Row-level `_dlt_load_id` still
+tracks row changes for the incremental mart.
+
+The dlt route records the destination's completion time for a successful package containing
+a REST data job. A no-op with no source data job leaves freshness unchanged. An explicitly
+materialized empty batch counts when it commits. The Spark route writes both Delta tables,
+including typed empty results, before appending its completion record. If a data write or the
+audit write fails, the run fails and the previous audit timestamp remains in effect.
+
+Run REST ingestion once when upgrading an existing warehouse to populate the audit before
+running freshness checks. The prior row timestamps cannot establish a successful run.
+
 ## Production: Databricks Workflows / Asset Bundles
 
 Don't ship the local script to prod. Instead model the two steps as a **Databricks Job (Lakeflow

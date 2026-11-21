@@ -32,11 +32,16 @@ def collect_metrics(spark, catalog: str, schema: str, raw_schema: str) -> dict[s
     max_ratio = spark.sql(
         f"select coalesce(max(allowed_ratio), 0) from `{catalog}`.`{schema}`.mart_claims_by_payer"
     ).first()[0]
-    last_load_id = spark.sql(
-        f"select max(_dlt_load_id) from `{catalog}`.`{raw_schema}`.rest_posts"
+    committed_at_us = spark.sql(
+        f"select unix_micros(max(committed_at)) from `{catalog}`.`{raw_schema}`.ingestion_audit "
+        "where source_name = 'rest_api'"
     ).first()[0]
 
-    freshness_minutes = (time.time() - float(last_load_id)) / 60 if last_load_id else float("inf")
+    freshness_minutes = (
+        (time.time() - committed_at_us / 1_000_000) / 60
+        if committed_at_us is not None
+        else float("inf")
+    )
     return {
         "claim_service_lines": int(claim_lines),
         "max_allowed_ratio": round(float(max_ratio), 4),

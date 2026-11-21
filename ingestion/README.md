@@ -85,8 +85,9 @@ CDC table. The Arrow batch avoids that path; the bookkeeping hints also avoid ad
 columns to an existing DuckDB table on the next JSON load.
 
 The example enables `skip_unchanged_rows`, so an identical row keeps its previous `_dlt_load_id`.
-Use load metadata to measure ingestion freshness on such tables. The existing REST sources and
-quality gate keep their current freshness behavior; this demo uses a separate table.
+The demo records its completion in `ingestion_audit` under `cdc_customers`. An identical replay
+or a committed typed empty snapshot advances its timestamp. The REST gate selects its own audit
+entries under `rest_api`.
 See [dlt's CDC documentation](https://dlthub.com/docs/general-usage/merge-loading#cdc-strategy).
 
 ## Zerobus append ingestion

@@ -16,8 +16,12 @@ def create_warehouse(path, claim_lines, now):
     con.execute("create table analytics.stg_claims as select * from range(?)", [claim_lines])
     con.execute("create table analytics.mart_claims_by_payer(allowed_ratio double)")
     con.execute("insert into analytics.mart_claims_by_payer values (0.5), (1.84), (null)")
-    con.execute("create table raw.rest_posts(_dlt_load_id varchar)")
-    con.execute("insert into raw.rest_posts values (?)", [f"{now - 120:.6f}"])
+    con.execute("create table raw.ingestion_audit(source_name varchar, committed_at timestamptz)")
+    con.execute(
+        "insert into raw.ingestion_audit values ('rest_api', to_timestamp(?)), "
+        "('cdc_customers', to_timestamp(?))",
+        [now - 120, now - 10],
+    )
     con.close()
 
 

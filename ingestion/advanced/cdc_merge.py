@@ -3,7 +3,7 @@
 Each batch must contain the entire source table with unique primary keys. Do not apply an
 incremental cursor: records missing from a snapshot are deleted from the destination.
 Unchanged rows retain their _dlt_load_id, so that column dates the last change, not the last
-successful ingestion. Use load metadata for ingestion freshness when enabling change skipping.
+successful ingestion. The ingestion audit records completion independently of row changes.
 
 The example loads two snapshots into raw.cdc_customers, separately from merge_incremental.py's
 customers table. The second snapshot updates Ada, removes Alan, keeps Grace and adds Katherine.
@@ -26,6 +26,7 @@ _THIS_FILE = Path(globals().get("__file__", inspect.currentframe().f_code.co_fil
 sys.path.insert(0, str(_THIS_FILE.parents[1]))
 
 from _common import demo_pipeline, dlt  # noqa: E402
+from _ingestion_audit import CDC_SOURCE, record_dlt_load  # noqa: E402
 
 
 @dlt.resource(
@@ -65,6 +66,12 @@ def customers_snapshot(rows: Sequence[dict[str, object]]):
         yield from rows
 
 
+def load_snapshot(pipeline, rows: Sequence[dict[str, object]]):
+    load_info = pipeline.run(customers_snapshot(rows))
+    record_dlt_load(load_info, CDC_SOURCE, {CDC_SOURCE})
+    return load_info
+
+
 def main() -> None:
     pipeline = demo_pipeline("cdc_merge_demo")
     snapshots = [
@@ -80,7 +87,7 @@ def main() -> None:
         ],
     ]
     for index, rows in enumerate(snapshots, start=1):
-        print(pipeline.run(customers_snapshot(rows)))
+        print(load_snapshot(pipeline, rows))
         with pipeline.sql_client() as client:
             table = client.make_qualified_table_name("cdc_customers")
             current = client.execute_sql(f"SELECT id, name, tier FROM {table} ORDER BY id")
