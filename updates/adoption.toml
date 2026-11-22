@@ -1,0 +1,101 @@
+# Radar evidence record: what upstream has released versus what this repo adopted and validated.
+#
+# Checked by `make radar-check` (orchestration/check_radar.py) against uv.lock, pyproject.toml,
+# databricks.yml and the dbt project. Rules for who edits what are in updates/README.md.
+#
+#   [dependency.observed]  Dated upstream observation. The daily radar refresh edits it.
+#   [dependency.adopted]   What uv.lock holds and the change and validation that exercised it.
+#                          Only a change that edits uv.lock edits this block.
+#   [[claim]]              A statement a radar entry relies on, checked against the repo state.
+#
+# Claims describe the present state. When a lockfile or dbt config change makes one stale, the
+# check fails and the claim is updated in the same change.
+
+[[dependency]]
+name = "dlt"
+
+[dependency.observed]
+version = "1.32.0"
+released = "2026-10-29"                  # upstream release date
+seen = "2026-10-30"                      # first radar entry that recorded it
+source = "https://github.com/dlt-hub/dlt/releases/tag/1.32.0"
+
+[dependency.adopted]
+version = "1.32.0"                       # must equal the uv.lock version
+date = "2026-10-31"
+change = "https://github.com/AndreaBozzo/dlt-dbt-databricks/pull/63"
+validation = [
+  "https://github.com/AndreaBozzo/dlt-dbt-databricks/pull/63",
+  "https://github.com/AndreaBozzo/dlt-dbt-databricks/actions/runs/41229523989",
+]
+
+[[dependency]]
+name = "dbt-databricks"
+
+[dependency.observed]
+version = "1.13.0"
+released = "2026-10-29"
+seen = "2026-10-30"
+source = "https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0"
+
+[dependency.adopted]
+version = "1.13.0"
+date = "2026-10-31"
+change = "https://github.com/AndreaBozzo/dlt-dbt-databricks/pull/63"
+validation = [
+  "https://github.com/AndreaBozzo/dlt-dbt-databricks/pull/63",
+  "https://github.com/AndreaBozzo/dlt-dbt-databricks/actions/runs/41229523989",
+]
+
+[[dependency]]
+name = "databricks-sdk"
+
+[dependency.observed]
+version = "0.167.0"
+released = "2026-11-16"
+seen = "2026-11-16"
+source = "https://github.com/databricks/databricks-sdk-py/releases/tag/v0.167.0"
+
+[dependency.adopted]
+version = "0.117.0"
+date = "2026-08-26"
+change = "https://github.com/AndreaBozzo/dlt-dbt-databricks/commit/b361a3e088cd3aa8cb74d3b76f18b9e18feddf9e"
+validation = []
+validation_note = "The stack refresh commit has no pull request and no retained CI run."
+# Required while observed is newer than adopted.
+adoption_note = "Held by the adapter: dbt-databricks 1.13.0 requires databricks-sdk<0.118.0."
+
+[[claim]]
+id = "certifi-floor-from-dbt-databricks-1.12.8"
+type = "floor_met"
+dependency = "certifi"
+floor = "2026.10.23"
+met = true
+statement = "The lockfile satisfies the certifi floor that dbt-databricks 1.12.8 introduced."
+source = "https://github.com/databricks/dbt-databricks/releases/tag/v1.12.8"
+
+[[claim]]
+id = "dbt-staging-and-intermediate-are-views"
+type = "materialization"
+materialized = "view"
+models = ["stg_claims", "stg_rest_comments", "stg_rest_posts", "int_claims", "int_post_comment_counts"]
+# Each model's deciding configuration file, relative to the repo root.
+cites = ["transformation/dbt_databricks/dbt_project.yml"]
+statement = "Staging and intermediate models are views, so dbt-databricks 1.13.0 view changes apply."
+source = "https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0"
+
+[[claim]]
+id = "dbt-marts-are-tables"
+type = "materialization"
+materialized = "table"
+models = ["mart_claims_by_payer", "mart_member_summary"]
+cites = ["transformation/dbt_databricks/dbt_project.yml"]
+statement = "These marts use the project default for marts, a table."
+
+[[claim]]
+id = "dbt-post-engagement-is-incremental"
+type = "materialization"
+materialized = "incremental"
+models = ["mart_post_engagement"]
+cites = ["transformation/dbt_databricks/models/marts/mart_post_engagement.sql"]
+statement = "This mart overrides the marts default in its own config block."

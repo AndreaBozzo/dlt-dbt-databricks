@@ -4,6 +4,10 @@ All notable changes to this project will be documented here.
 
 ## Unreleased
 
+- Added a radar evidence record (`updates/adoption.toml`) that keeps the newest observed upstream
+  release apart from the adopted, validated version, and `make radar-check`, which compares it with
+  `uv.lock`, the declared floors and the effective dbt materializations. The daily refresh runs it
+  and never edits dependencies.
 - Fixed empty first CDC snapshots by declaring the full schema and emitting a typed empty Arrow
   batch; a database-backed guard also verifies that a later nonempty snapshot can populate it.
 - Added a complete-snapshot CDC example for Databricks and DuckDB, with insert/update/delete

@@ -1,6 +1,8 @@
 # Radar — top of mind
 
 Rolling cross-tool summary. Newest snapshot on top. Details live in the per-tool files.
+Available releases and adopted versions are recorded separately in [adoption.toml](adoption.toml)
+and checked with `make radar-check`; see [README.md](README.md#available-versus-adopted).
 
 ---
 
