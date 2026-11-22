@@ -10,7 +10,7 @@ DBT := uv run dbt --project-dir $(DBT_DIR) --profiles-dir $(DBT_DIR)
 .DEFAULT_GOAL := help
 
 .PHONY: help setup doctor doctor-online lint fmt \
-        agent-gate \
+        agent-gate radar-check \
         dlt-rest dlt-sql dlt-merge dlt-cdc dlt-iceberg dlt-contracts dlt-zerobus \
         dbt-deps dbt-parse dbt-build dbt-test e2e e2e-duckdb
 
@@ -30,6 +30,9 @@ doctor-online: ## Run doctor plus authenticated Databricks bundle validation
 
 agent-gate: ## Build an agent-ready claims quality gate packet (offline sample by default)
 	uv run python orchestration/agentic_quality_gate.py --sample
+
+radar-check: ## Check updates/adoption.toml against uv.lock and the dbt config (offline, read-only)
+	uv run --frozen python orchestration/check_radar.py
 
 lint: ## Ruff lint
 	uv run ruff check .
