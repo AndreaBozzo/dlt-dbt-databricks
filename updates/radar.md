@@ -6,6 +6,24 @@ and checked with `make radar-check`; see [README.md](README.md#available-versus-
 
 ---
 
+## 2026-11-23 — dbt-databricks v1.13.1 and databricks-sdk v0.170.0 available; dlt unchanged
+
+**dlt** — **1.32.0** (2026-10-29) unchanged. → [dlt.md](dlt.md)
+
+**dbt** — **dbt-databricks v1.13.1** (2026-11-19) is available, not adopted (repo on 1.13.0):
+per-model `use_materialization_v2`, `dbt clone` and tagged-column fixes. It raises the SDK cap to
+`<0.158.0`. → [dbt.md](dbt.md)
+
+**Databricks** — databricks-sdk **v0.168.0–v0.170.0** available (latest 2026-11-23). All exceed even
+the new adapter cap (`<0.158.0`), so they cannot be adopted with dbt-databricks; the repo stays on
+**0.117.0**. → [databricks.md](databricks.md)
+
+**Repo follow-through** — no example changes warranted; no adoption done by this refresh. Adopting
+dbt-databricks 1.13.1 is a separate change with its own validation. Zerobus remains a proposal
+(`ingestion/advanced/zerobus_append.py` unchanged).
+
+---
+
 ## 2026-11-16 — databricks-sdk v0.165.0–v0.167.0 new; dlt and dbt unchanged
 
 **dlt** — **1.32.0** (2026-10-29) unchanged. No new release; no example updates needed.

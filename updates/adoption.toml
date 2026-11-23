@@ -33,10 +33,10 @@ validation = [
 name = "dbt-databricks"
 
 [dependency.observed]
-version = "1.13.0"
-released = "2026-10-29"
-seen = "2026-10-30"
-source = "https://github.com/databricks/dbt-databricks/releases/tag/v1.13.0"
+version = "1.13.1"
+released = "2026-11-19"
+seen = "2026-11-23"
+source = "https://github.com/databricks/dbt-databricks/releases/tag/v1.13.1"
 
 [dependency.adopted]
 version = "1.13.0"
@@ -46,15 +46,17 @@ validation = [
   "https://github.com/AndreaBozzo/dlt-dbt-databricks/pull/63",
   "https://github.com/AndreaBozzo/dlt-dbt-databricks/actions/runs/41229523989",
 ]
+# Required while observed is newer than adopted.
+adoption_note = "1.13.1 is available; adopting it is a separate change with its own validation."
 
 [[dependency]]
 name = "databricks-sdk"
 
 [dependency.observed]
-version = "0.167.0"
-released = "2026-11-16"
-seen = "2026-11-16"
-source = "https://github.com/databricks/databricks-sdk-py/releases/tag/v0.167.0"
+version = "0.170.0"
+released = "2026-11-23"
+seen = "2026-11-23"
+source = "https://github.com/databricks/databricks-sdk-py/releases/tag/v0.170.0"
 
 [dependency.adopted]
 version = "0.117.0"
@@ -63,7 +65,7 @@ change = "https://github.com/AndreaBozzo/dlt-dbt-databricks/commit/b361a3e088cd3
 validation = []
 validation_note = "The stack refresh commit has no pull request and no retained CI run."
 # Required while observed is newer than adopted.
-adoption_note = "Held by the adapter: dbt-databricks 1.13.0 requires databricks-sdk<0.118.0."
+adoption_note = "Held by the adapter: adopted dbt-databricks 1.13.0 requires databricks-sdk<0.118.0. Available 1.13.1 raises the cap to <0.158.0, still below 0.170.0."
 
 [[claim]]
 id = "certifi-floor-from-dbt-databricks-1.12.8"
