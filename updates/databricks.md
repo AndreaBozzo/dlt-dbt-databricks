@@ -4,6 +4,22 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-23 — databricks-sdk v0.168.0–v0.170.0 available; repo stays on 0.117.0
+
+- **v0.168.0** (2026-11-18): many `lakewatch` parser methods; **breaking:** `sql_query_id` optional in
+  SQL condition configs, a Postgres migration enum value removed.
+- **v0.169.0** (2026-11-19): delete methods for software artifacts/versions; **breaking:** `best_effort`
+  removed from AI runtime priority class, `high` added.
+- **v0.170.0** (2026-11-23): compute policy CRUD for serverless compute, data classification rescan;
+  **breaking:** `schedule` optional on a lakewatch Rule.
+- Available, not adopted. The newest adapter, dbt-databricks 1.13.1, caps `databricks-sdk<0.158.0`,
+  so v0.168.0+ cannot be installed alongside it; the repo stays on **0.117.0** (see `adoption.toml`).
+
+Sources:
+- https://github.com/databricks/databricks-sdk-py/releases
+
+---
+
 ## 2026-11-16 — databricks-sdk v0.165.0 + v0.166.0 + v0.167.0 new; no repo change
 
 - **databricks-sdk v0.165.0** shipped **2026-11-11**:

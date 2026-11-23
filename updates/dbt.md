@@ -4,6 +4,29 @@ Newest on top. Each entry dated + sourced.
 
 ---
 
+## 2026-11-23 — dbt-databricks v1.13.1 available; not adopted; SDK cap now <0.158.0
+
+- **dbt-databricks v1.13.1** released **2026-11-19** (the release page shows "19 Nov"; year inferred
+  from the release sequence). It is available, not adopted: the repo stays on 1.13.0 per `uv.lock`.
+- **New:** `use_materialization_v2` is now a per-model/project config choosing between atomic
+  `CREATE OR REPLACE TABLE AS SELECT` and create-then-insert for table and incremental models;
+  views ignore it. See the `dbt-marts-are-tables` and `dbt-post-engagement-is-incremental` claims in
+  `adoption.toml` for the repo's table and incremental marts.
+- **Fixes:** `dbt clone` on Unity Catalog tables/materialized views with row filters or column masks
+  and on views with changed contracts; `CANNOT_DROP_TAGGED_COLUMN` on replacement when a removed
+  column has a governed tag; faster wide-seed loads; `dbt docs generate` warning noise removed;
+  semicolon-terminated model SQL no longer breaks unit tests.
+- **Dependencies:** `databricks-sdk>=0.68.0,<0.158.0` (raised from `<0.118.0`),
+  `dbt-core>=1.11.2,<1.12.8`, `databricks-sql-connector<4.9.1`. The cap is above the locked SDK
+  0.117.0, but the SDK is not adopted by this entry.
+- **Repo impact:** none required. Marts use `data_tests` only, so no contract/constraint changes apply.
+
+Sources:
+- https://github.com/databricks/dbt-databricks/releases/tag/v1.13.1
+- https://raw.githubusercontent.com/databricks/dbt-databricks/v1.13.1/pyproject.toml
+
+---
+
 ## 2026-10-31: repo adopts dbt-databricks 1.13.0
 
 - Updated the lockfile and project/Asset Bundle floor to 1.13.0. dbt-core remains 1.12.0,
